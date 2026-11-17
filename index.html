@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Syllabus — Your Academic Progress Tracker</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Newsreader (Serif headings) & Inter (Clean UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bgBase: '#F7F6F2',
+            surface: '#FFFFFF',
+            surfaceWarm: '#FCFBF8',
+            charcoal: '#292B2B',
+            mutedGrey: '#858783',
+            sage: '#899889',
+            sageDark: '#6E7D6E',
+            dustyBlue: '#8797A3',
+            beige: '#C5B8A5',
+            borderSubtle: '#E6E4DD'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Newsreader', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F7F6F2;
+      color: #292B2B;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-serif-editorial {
+      font-family: 'Newsreader', serif;
+    }
+    /* Smooth custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F6F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D5D2C8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #858783;
+    }
+    /* Smooth progress bar transitions */
+    .progress-fill {
+      transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row selection:bg-[#899889]/20">
+
+  <!-- Toast / Notification Banner (No alert() used) -->
+  <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Desktop Sidebar -->
+  <aside class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-surface border-r border-borderSubtle z-30">
+    <div class="p-6 pb-4 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-sage/20 border border-sage/40 flex items-center justify-center text-charcoal">
+        <i data-lucide="book-open" class="w-4 h-4 text-sageDark"></i>
+      </div>
+      <div>
+        <h1 class="font-serif-editorial text-xl font-medium tracking-tight text-charcoal leading-none">Syllabus</h1>
+        <p class="text-[11px] text-mutedGrey mt-1 tracking-wide uppercase">Academic Tracker</p>
+      </div>
+    </div>
+
+    <div class="px-4 py-3">
+      <button onclick="openLogModal()" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Log Progress</span>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-2 space-y-1" id="desktop-nav">
+      <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 text-mutedGrey"></i>
+        Dashboard
+      </button>
+      <button data-nav="subjects" onclick="navigateTo('subjects')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="library" class="w-4 h-4"></i>
+        My Subjects
+      </button>
+      <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+        Daily Log
+      </button>
+      <button data-nav="statistics" onclick="navigateTo('statistics')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+        Statistics
+      </button>
+      <button data-nav="settings" onclick="navigateTo('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+        Settings
+      </button>
+    </nav>
+
+    <div class="p-4 m-3 rounded-xl bg-bgBase/80 border border-borderSubtle text-xs text-mutedGrey">
+      <div class="flex items-center justify-between mb-1">
+        <span class="font-medium text-charcoal">Study Consistency</span>
+        <span id="sidebar-streak" class="font-semibold text-sageDark">0 days</span>
+      </div>
+      <p class="leading-relaxed">Steady daily progress builds lasting mastery.</p>
+    </div>
+  </aside>
+
+  <!-- Mobile Top Header -->
+  <header class="md:hidden sticky top-0 z-30 bg-surface/95 backdrop-blur border-b border-borderSubtle px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5" onclick="navigateTo('dashboard')">
+      <div class="w-7 h-7 rounded-lg bg-sage/20 border border-sage/40 flex items-center justify-center">
+        <i data-lucide="book-open" class="w-3.5 h-3.5 text-sageDark"></i>
+      </div>
+      <span class="font-serif-editorial text-lg font-medium text-charcoal">Syllabus</span>
+    </div>
+    <button onclick="openLogModal()" class="py-1.5 px-3 bg-charcoal text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow-sm">
+      <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+      <span>Log Progress</span>
+    </button>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 md:pl-64 pb-24 md:pb-12">
+    <div id="app-content" class="max-w-5xl mx-auto px-4 sm:px-8 pt-6 md:pt-10">
+      <!-- Views are dynamically rendered here -->
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-borderSubtle z-30 flex justify-around items-center py-2 px-1" id="mobile-nav">
+    <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-charcoal">
+      <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+      <span>Home</span>
+    </button>
+    <button data-nav="subjects" onclick="navigateTo('subjects')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+      <i data-lucide="library" class="w-4 h-4"></i>
+      <span>Subjects</span>
+    </button>
+    <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+      <i data-lucide="calendar-check" class="w-4 h-4"></i>
+      <span>Log</span>
+    </button>
+    <button data-nav="statistics" onclick="navigateTo('statistics')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+      <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+      <span>Stats</span>
+    </button>
+    <button data-nav="settings" onclick="navigateTo('settings')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+      <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- MODAL: Log Study Progress (Create / Edit) -->
+  <div id="log-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden animate-fade-in">
+      <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
+        <h3 id="log-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Log Study Progress</h3>
+        <button onclick="closeLogModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form id="log-form" onsubmit="handleSaveLog(event)" class="p-6 space-y-4">
+        <input type="hidden" id="log-edit-id" value="" />
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Subject *</label>
+          <select id="log-subject" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></select>
+          <p id="log-subject-hint" class="text-[11px] text-mutedGrey mt-1"></p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Date *</label>
+            <input type="date" id="log-date" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Pages Completed *</label>
+            <input type="number" id="log-pages" min="1" step="1" required placeholder="e.g. 15" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Session Note (Optional)</label>
+          <input type="text" id="log-note" placeholder="e.g. Chapter 4: Differential Equations" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+        <p id="log-error" class="text-xs text-red-600 hidden"></p>
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeLogModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Add / Edit Subject -->
+  <div id="subject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden">
+      <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
+        <h3 id="subject-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Add Subject</h3>
+        <button onclick="closeSubjectModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form id="subject-form" onsubmit="handleSaveSubject(event)" class="p-6 space-y-4">
+        <input type="hidden" id="sub-edit-id" value="" />
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Subject Name *</label>
+          <input type="text" id="sub-name" required placeholder="e.g. Mathematics, Physics, History" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Total Pages *</label>
+            <input type="number" id="sub-total" min="1" step="1" required placeholder="e.g. 320" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          </div>
+          <div id="sub-initial-wrapper">
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Initial Completed</label>
+            <input type="number" id="sub-initial" min="0" step="1" value="0" placeholder="0" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Muted Accent Colour</label>
+          <div id="color-picker-grid" class="flex flex-wrap gap-2.5 pt-1"></div>
+          <input type="hidden" id="sub-color" value="#899889" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Syllabus Notes (Optional)</label>
+          <textarea id="sub-notes" rows="2" placeholder="Textbooks, units, or key exam chapters..." class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></textarea>
+        </div>
+        <p id="sub-error" class="text-xs text-red-600 hidden"></p>
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeSubjectModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Custom Confirmation Dialog (Replaces browser confirm()) -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-sm overflow-hidden p-6">
+      <div class="flex items-start gap-3.5">
+        <div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0 text-amber-700">
+          <i data-lucide="alert-circle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 id="confirm-title" class="font-serif-editorial text-lg font-medium text-charcoal">Confirm Action</h3>
+          <p id="confirm-message" class="text-sm text-mutedGrey mt-1 leading-relaxed">Are you sure you want to proceed?</p>
+        </div>
+      </div>
+      <div class="mt-6 flex items-center justify-end gap-2">
+        <button onclick="closeConfirmModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
+        <button id="confirm-action-btn" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * SYLLABUS — ACADEMIC PROGRESS TRACKER
+     * Clean, structured client-side architecture designed for easy future cloud sync migration.
+     */
+
+    const STORAGE_KEY = 'syllabus_tracker_v1';
+
+    const MUTED_PALETTE = [
+      { name: 'Sage Green', hex: '#899889' },
+      { name: 'Dusty Blue', hex: '#8797A3' },
+      { name: 'Warm Sand', hex: '#C5B8A5' },
+      { name: 'Muted Terracotta', hex: '#B88B7D' },
+      { name: 'Slate Olive', hex: '#7A8471' },
+      { name: 'Soft Lavender Grey', hex: '#9A94A6' },
+      { name: 'Ochre Clay', hex: '#B59E7A' },
+      { name: 'Charcoal Mist', hex: '#687076' }
+    ];
+
+    // Application State
+    let state = {
+      subjects: [], // { id, name, totalPages, color, notes, createdAt }
+      logs: [],     // { id, subjectId, date (YYYY-MM-DD), pages, note, isInitial, createdAt }
+      settings: {
+        dailyTarget: 20,
+        weeklyTarget: 120,
+        examDate: ''
+      }
+    };
+
+    // UI View State
+    let currentView = 'dashboard';
+    let selectedSubjectId = null;
+    let subjectSearchQuery = '';
+    let logFilterSubject = 'all';
+    let logFilterDate = '';
+    let statsRange = '7'; // '7', '30', 'custom'
+    let statsCustomStart = '';
+    let statsCustomEnd = '';
+    let statsSelectedDate = getLocalTodayStr();
+    let confirmCallback = null;
+
+    // --- DATE HELPERS (Strictly Local Calendar Dates) ---
+    function getLocalTodayStr() {
+      const d = new Date();
+      return formatDateYYYYMMDD(d);
+    }
+
+    function formatDateYYYYMMDD(dateObj) {
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function parseLocalDate(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function formatReadableDate(dateStr) {
+      if (!dateStr) return '';
+      const d = parseLocalDate(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatShortDate(dateStr) {
+      const d = parseLocalDate(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function getGreeting() {
+      const hour = new Date().getHours();
+      if (hour < 12) return 'Good morning.';
+      if (hour < 18) return 'Good afternoon.';
+      return 'Good evening.';
+    }
+
+    // --- PERSISTENCE LAYER ---
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.subjects = Array.isArray(parsed.subjects) ? parsed.subjects : [];
+          state.logs = Array.isArray(parsed.logs) ? parsed.logs : [];
+          state.settings = {
+            dailyTarget: Number(parsed.settings?.dailyTarget) || 0,
+            weeklyTarget: Number(parsed.settings?.weeklyTarget) || 0,
+            examDate: parsed.settings?.examDate || ''
+          };
+        }
+      } catch (err) {
+        console.error('Failed to load state:', err);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateSidebarStreak();
+      } catch (err) {
+        showToast('Unable to save changes to browser storage.', 'error');
+      }
+    }
+
+    // --- CORE CALCULATION ENGINE ---
+    function getSubjectStats(subjectId) {
+      const subject = state.subjects.find(s => s.id === subjectId);
+      if (!subject) return null;
+
+      const subjectLogs = state.logs.filter(l => l.subjectId === subjectId);
+      const completedPages = subjectLogs.reduce((sum, l) => sum + Number(l.pages), 0);
+      const totalPages = Number(subject.totalPages);
+      const remainingPages = Math.max(0, totalPages - completedPages);
+      const percentage = totalPages > 0 ? Math.min(100, Math.round((completedPages / totalPages) * 1000) / 10) : 0;
+
+      // Recent activity check
+      const regularLogs = subjectLogs.filter(l => !l.isInitial).sort((a, b) => b.date.localeCompare(a.date));
+      const lastStudiedDate = regularLogs.length > 0 ? regularLogs[0].date : null;
+
+      return {
+        ...subject,
+        completedPages,
+        remainingPages,
+        percentage,
+        lastStudiedDate,
+        logs: subjectLogs
+      };
+    }
+
+    function getOverallStats() {
+      const totalSubjects = state.subjects.length;
+      let totalSyllabusPages = 0;
+      let totalCompletedPages = 0;
+
+      state.subjects.forEach(sub => {
+        const stats = getSubjectStats(sub.id);
+        totalSyllabusPages += stats.totalPages;
+        totalCompletedPages += stats.completedPages;
+      });
+
+      const totalRemainingPages = Math.max(0, totalSyllabusPages - totalCompletedPages);
+      // Combined page totals calculation (not average of percentages)
+      const overallPercentage = totalSyllabusPages > 0
+        ? Math.min(100, Math.round((totalCompletedPages / totalSyllabusPages) * 1000) / 10)
+        : 0;
+
+      return {
+        totalSubjects,
+        totalSyllabusPages,
+        totalCompletedPages,
+        totalRemainingPages,
+        overallPercentage
+      };
+    }
+
+    function getTodayStats() {
+      const todayStr = getLocalTodayStr();
+      const todayLogs = state.logs.filter(l => l.date === todayStr && !l.isInitial);
+      const pagesToday = todayLogs.reduce((sum, l) => sum + Number(l.pages), 0);
+      const subjectsStudied = new Set(todayLogs.map(l => l.subjectId)).size;
+      const dailyTarget = Number(state.settings.dailyTarget) || 0;
+      const targetPercent = dailyTarget > 0 ? Math.min(100, Math.round((pagesToday / dailyTarget) * 100)) : 0;
+
+      return {
+        pagesToday,
+        subjectsStudied,
+        dailyTarget,
+        targetPercent,
+        logs: todayLogs
+      };
+    }
+
+    function getStudyStreak() {
+      const activeDates = new Set(
+        state.logs.filter(l => !l.isInitial && l.pages > 0).map(l => l.date)
+      );
+      if (activeDates.size === 0) return 0;
+
+      let streak = 0;
+      const cursor = new Date();
+      const todayStr = formatDateYYYYMMDD(cursor);
+
+      // If not studied today yet, check if streak is alive from yesterday
+      if (!activeDates.has(todayStr)) {
+        cursor.setDate(cursor.getDate() - 1);
+        if (!activeDates.has(formatDateYYYYMMDD(cursor))) {
+          return 0;
+        }
+      }
+
+      while (activeDates.has(formatDateYYYYMMDD(cursor))) {
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+      return streak;
+    }
+
+    function getExamCountdownStats(remainingPages) {
+      if (!state.settings.examDate) return null;
+      const today = parseLocalDate(getLocalTodayStr());
+      const exam = parseLocalDate(state.settings.examDate);
+      const diffTime = exam.getTime() - today.getTime();
+      const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (daysRemaining < 0) {
+        return { status: 'past', daysRemaining: 0, requiredDaily: 0 };
+      }
+      if (remainingPages <= 0) {
+        return { status: 'completed', daysRemaining, requiredDaily: 0 };
+      }
+      const effectiveDays = Math.max(1, daysRemaining);
+      const requiredDaily = Math.ceil((remainingPages / effectiveDays) * 10) / 10;
+      return {
+        status: 'active',
+        daysRemaining,
+        requiredDaily
+      };
+    }
+
+    function updateSidebarStreak() {
+      const streak = getStudyStreak();
+      const el = document.getElementById('sidebar-streak');
+      if (el) el.textContent = `${streak} ${streak === 1 ? 'day' : 'days'}`;
+    }
+
+    // --- TOAST NOTIFICATIONS ---
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const borderClass = type === 'error' ? 'border-red-300 bg-red-50 text-red-900' : 'border-borderSubtle bg-surface text-charcoal';
+      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-md text-xs font-medium flex items-center gap-2.5 transition-all duration-300 ${borderClass}`;
+      toast.innerHTML = `
+        <span class="w-2 h-2 rounded-full ${type === 'error' ? 'bg-red-500' : 'bg-sageDark'}"></span>
+        <span>${escapeHTML(message)}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(6px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // --- NAVIGATION ---
+    function navigateTo(view, subjectId = null) {
+      currentView = view;
+      if (subjectId) selectedSubjectId = subjectId;
+
+      // Update Desktop Nav styling
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const isMatch = btn.dataset.nav === view || (view === 'subject-detail' && btn.dataset.nav === 'subjects');
+        btn.className = isMatch
+          ? 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase'
+          : 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60';
+      });
+
+      // Update Mobile Nav styling
+      document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+        const isMatch = btn.dataset.nav === view || (view === 'subject-detail' && btn.dataset.nav === 'subjects');
+        btn.className = isMatch
+          ? 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-semibold text-charcoal'
+          : 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey';
+      });
+
+      renderCurrentView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderCurrentView() {
+      const container = document.getElementById('app-content');
+      switch (currentView) {
+        case 'dashboard':
+          container.innerHTML = renderDashboardView();
+          break;
+        case 'subjects':
+          container.innerHTML = renderSubjectsView();
+          break;
+        case 'subject-detail':
+          container.innerHTML = renderSubjectDetailView(selectedSubjectId);
+          break;
+        case 'daily-log':
+          container.innerHTML = renderDailyLogView();
+          break;
+        case 'statistics':
+          container.innerHTML = renderStatisticsView();
+          break;
+        case 'settings':
+          container.innerHTML = renderSettingsView();
+          break;
+      }
+      lucide.createIcons();
+    }
+
+    // --- VIEW 1: MAIN DASHBOARD ---
+    function renderDashboardView() {
+      const todayDateFormatted = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+      });
+
+      // Empty state when no subjects exist
+      if (state.subjects.length === 0) {
+        return `
+          <div class="mb-8">
+            <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
+            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-normal text-charcoal">${getGreeting()} Here's your progress.</h2>
+          </div>
+
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-8 sm:p-14 text-center shadow-xs">
+            <div class="w-14 h-14 rounded-2xl bg-sage/15 border border-sage/30 flex items-center justify-center mx-auto mb-5 text-sageDark">
+              <i data-lucide="book-open-check" class="w-7 h-7"></i>
+            </div>
+            <h3 class="font-serif-editorial text-2xl text-charcoal mb-2">Begin Your Annual Exam Preparation</h3>
+            <p class="text-sm text-mutedGrey max-w-md mx-auto leading-relaxed mb-7">
+              Add the subjects in your syllabus along with their total page counts. You can then record your daily reading progress and track your completion pace effortlessly.
+            </p>
+            <button onclick="openSubjectModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all cursor-pointer">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Add Your First Subject</span>
+            </button>
+          </div>
+        `;
+      }
+
+      const overall = getOverallStats();
+      const today = getTodayStats();
+      const examStats = getExamCountdownStats(overall.totalRemainingPages);
+      const recentLogs = [...state.logs]
+        .filter(l => !l.isInitial)
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
+        .slice(0, 5);
+
+      return `
+        <!-- Header Greeting -->
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
+            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-normal text-charcoal">${getGreeting()} Here's your progress.</h2>
+            <p class="text-sm text-mutedGrey mt-1.5">Consistency over intensity — every page brings clarity.</p>
+          </div>
+          ${examStats ? renderExamPill(examStats) : ''}
+        </div>
+
+        <!-- A. Overall Progress Overview -->
+        <section class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+            <div>
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Overall Syllabus Completion</h3>
+              <p class="text-sm text-charcoal mt-0.5">Combined across all ${overall.totalSubjects} ${overall.totalSubjects === 1 ? 'subject' : 'subjects'}</p>
+            </div>
+            <div class="text-left sm:text-right">
+              <span class="font-serif-editorial text-4xl font-medium text-charcoal">${overall.overallPercentage}%</span>
+            </div>
+          </div>
+
+          <!-- Large Elegant Overall Progress Bar -->
+          <div class="w-full h-3.5 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/70 mb-6">
+            <div class="h-full bg-sage rounded-full progress-fill" style="width: ${overall.overallPercentage}%"></div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-borderSubtle/80">
+            <div>
+              <p class="text-xs text-mutedGrey">Total Subjects</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalSubjects}</p>
+            </div>
+            <div>
+              <p class="text-xs text-mutedGrey">Total Syllabus Pages</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalSyllabusPages.toLocaleString()}</p>
+            </div>
+            <div>
+              <p class="text-xs text-mutedGrey">Pages Completed</p>
+              <p class="text-lg font-semibold text-sageDark mt-0.5">${overall.totalCompletedPages.toLocaleString()}</p>
+            </div>
+            <div>
+              <p class="text-xs text-mutedGrey">Pages Remaining</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalRemainingPages.toLocaleString()}</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- C. Today's Progress & Planning Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <section class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Today's Progress</h3>
+                <p class="text-xs text-mutedGrey mt-0.5">${formatReadableDate(getLocalTodayStr())}</p>
+              </div>
+              <button onclick="openLogModal()" class="text-xs font-medium text-sageDark hover:text-charcoal flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-bgBase hover:bg-borderSubtle/50 transition-colors cursor-pointer">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Record Today</span>
+              </button>
+            </div>
+
+            ${today.pagesToday === 0 ? `
+              <div class="py-5 px-4 rounded-xl bg-bgBase/70 border border-dashed border-borderSubtle text-center my-auto">
+                <p class="text-sm text-charcoal font-medium">No pages logged yet today</p>
+                <p class="text-xs text-mutedGrey mt-1">Record a study session whenever you finish reading a few pages.</p>
+              </div>
+            ` : `
+              <div class="grid grid-cols-3 gap-4 my-2">
+                <div>
+                  <p class="text-xs text-mutedGrey">Pages Today</p>
+                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.pagesToday}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-mutedGrey">Subjects Studied</p>
+                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.subjectsStudied}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-mutedGrey">Daily Target</p>
+                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.dailyTarget > 0 ? `${today.targetPercent}%` : '—'}</p>
+                </div>
+              </div>
+            `}
+
+            ${today.dailyTarget > 0 ? `
+              <div class="mt-4 pt-3 border-t border-borderSubtle/70">
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-mutedGrey">Daily Target: <strong class="text-charcoal font-medium">${today.pagesToday} / ${today.dailyTarget} pages</strong></span>
+                  <span class="font-medium text-sageDark">${today.targetPercent}%</span>
+                </div>
+                <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
+                  <div class="h-full bg-dustyBlue rounded-full progress-fill" style="width: ${today.targetPercent}%"></div>
+                </div>
+              </div>
+            ` : ''}
+          </section>
+
+          <!-- Recent Activity Card -->
+          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Recent Activity</h3>
+              <button onclick="navigateTo('daily-log')" class="text-xs text-mutedGrey hover:text-charcoal">View all</button>
+            </div>
+            ${recentLogs.length === 0 ? `
+              <div class="my-auto text-center py-6">
+                <p class="text-xs text-mutedGrey">Your logged study sessions will appear here.</p>
+              </div>
+            ` : `
+              <div class="space-y-3 divide-y divide-borderSubtle/60">
+                ${recentLogs.map(log => {
+                  const sub = state.subjects.find(s => s.id === log.subjectId);
+                  return `
+                    <div class="pt-2.5 first:pt-0 flex items-center justify-between gap-2">
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                          <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${sub ? sub.color : '#899889'}"></span>
+                          <p class="text-xs font-medium text-charcoal truncate">${sub ? escapeHTML(sub.name) : 'Subject'}</p>
+                        </div>
+                        <p class="text-[11px] text-mutedGrey pl-4">${formatShortDate(log.date)}</p>
+                      </div>
+                      <span class="text-xs font-semibold text-charcoal bg-bgBase px-2.5 py-1 rounded-lg shrink-0">+${log.pages}p</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            `}
+          </section>
+        </div>
+
+        <!-- B. Individual Subject Progress Cards -->
+        <section>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-serif-editorial text-2xl text-charcoal">Your Subjects</h3>
+            <button onclick="openSubjectModal()" class="text-xs font-medium text-charcoal hover:bg-surface px-3 py-1.5 rounded-xl border border-borderSubtle transition-colors flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Add Subject</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${state.subjects.map(sub => {
+              const st = getSubjectStats(sub.id);
+              return `
+                <div onclick="navigateTo('subject-detail', '${sub.id}')" class="group bg-surface hover:bg-surfaceWarm rounded-2xl border border-borderSubtle hover:border-charcoal/25 p-5 shadow-xs transition-all cursor-pointer flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                      <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                        <h4 class="font-medium text-base text-charcoal truncate group-hover:text-black">${escapeHTML(st.name)}</h4>
+                      </div>
+                      <span class="text-sm font-semibold text-charcoal shrink-0">${st.percentage}%</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-4">
+                      <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between text-xs text-mutedGrey pb-3 border-b border-borderSubtle/70">
+                      <span><strong class="text-charcoal font-medium">${st.completedPages}</strong> of ${st.totalPages} pages</span>
+                      <span>${st.remainingPages} left</span>
+                    </div>
+                    <div class="pt-2.5 flex items-center justify-between text-[11px] text-mutedGrey">
+                      <span>${st.lastStudiedDate ? `Last studied ${formatShortDate(st.lastStudiedDate)}` : 'No recent sessions'}</span>
+                      <span class="text-charcoal font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
+                        Details <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExamPill(examStats) {
+      if (examStats.status === 'past') {
+        return `
+          <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 text-xs">
+            <span class="text-mutedGrey">Examination Date:</span>
+            <span class="font-medium text-charcoal ml-1">${formatReadableDate(state.settings.examDate)} (Passed)</span>
+          </div>
+        `;
+      }
+      if (examStats.status === 'completed') {
+        return `
+          <div class="bg-sage/15 border border-sage/30 rounded-xl px-4 py-2.5 text-xs text-charcoal">
+            <span class="font-medium">Syllabus Complete</span> · ${examStats.daysRemaining} days until exam
+          </div>
+        `;
+      }
+      return `
+        <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 flex items-center gap-4 text-xs shadow-2xs">
+          <div>
+            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Exam Countdown</span>
+            <span class="font-semibold text-charcoal">${examStats.daysRemaining} ${examStats.daysRemaining === 1 ? 'day' : 'days'} left</span>
+          </div>
+          <div class="h-6 w-px bg-borderSubtle"></div>
+          <div>
+            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Required Pace</span>
+            <span class="font-semibold text-sageDark">${examStats.requiredDaily} pages/day</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- VIEW 2: MY SUBJECTS ---
+    function renderSubjectsView() {
+      const filtered = state.subjects.filter(s =>
+        s.name.toLowerCase().includes(subjectSearchQuery.toLowerCase())
+      );
+
+      return `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-serif-editorial text-3xl text-charcoal">My Subjects</h2>
+            <p class="text-sm text-mutedGrey mt-1">Organise your syllabus page counts and subject details.</p>
+          </div>
+          <button onclick="openSubjectModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Add New Subject</span>
+          </button>
+        </div>
+
+        <!-- Search Filter -->
+        ${state.subjects.length > 0 ? `
+          <div class="mb-6 relative max-w-sm">
+            <i data-lucide="search" class="w-4 h-4 text-mutedGrey absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" value="${escapeHTML(subjectSearchQuery)}" oninput="subjectSearchQuery = this.value; renderCurrentView();" placeholder="Search subjects..." class="w-full pl-10 pr-4 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          </div>
+        ` : ''}
+
+        ${state.subjects.length === 0 ? `
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-12 text-center">
+            <p class="font-serif-editorial text-xl text-charcoal mb-2">No subjects added yet</p>
+            <p class="text-sm text-mutedGrey mb-6">Create your first subject to start tracking syllabus pages.</p>
+            <button onclick="openSubjectModal()" class="px-5 py-2.5 bg-charcoal text-white text-sm font-medium rounded-xl">Add Subject</button>
+          </div>
+        ` : filtered.length === 0 ? `
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-10 text-center">
+            <p class="text-sm text-mutedGrey">No subjects match "${escapeHTML(subjectSearchQuery)}".</p>
+          </div>
+        ` : `
+          <div class="space-y-3">
+            ${filtered.map(sub => {
+              const st = getSubjectStats(sub.id);
+              return `
+                <div class="bg-surface rounded-2xl border border-borderSubtle p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-charcoal/20 transition-colors">
+                  <div class="flex-1 min-w-0 cursor-pointer" onclick="navigateTo('subject-detail', '${sub.id}')">
+                    <div class="flex items-center gap-3 mb-1.5">
+                      <span class="w-3.5 h-3.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                      <h3 class="font-medium text-base text-charcoal truncate">${escapeHTML(st.name)}</h3>
+                      <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-bgBase text-charcoal">${st.percentage}%</span>
+                    </div>
+                    ${st.notes ? `<p class="text-xs text-mutedGrey pl-6 mb-2.5 line-clamp-1">${escapeHTML(st.notes)}</p>` : ''}
+                    <div class="pl-6 max-w-md">
+                      <div class="w-full h-1.5 bg-bgBase rounded-full overflow-hidden mb-1.5">
+                        <div class="h-full rounded-full" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
+                      </div>
+                      <p class="text-xs text-mutedGrey">${st.completedPages} completed · ${st.remainingPages} remaining · ${st.totalPages} total pages</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-2 pl-6 sm:pl-0 shrink-0">
+                    <button onclick="navigateTo('subject-detail', '${sub.id}')" class="px-3 py-1.5 text-xs font-medium text-charcoal bg-bgBase hover:bg-borderSubtle/60 rounded-lg transition-colors">
+                      Open
+                    </button>
+                    <button onclick="openSubjectModal('${sub.id}')" title="Edit Subject" class="p-2 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase transition-colors">
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="confirmResetSubject('${sub.id}')" title="Reset Progress" class="p-2 text-mutedGrey hover:text-amber-700 rounded-lg hover:bg-bgBase transition-colors">
+                      <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="confirmDeleteSubject('${sub.id}')" title="Delete Subject" class="p-2 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase transition-colors">
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `}
+      `;
+    }
+
+    // --- VIEW 3: SUBJECT DETAIL PAGE ---
+    function renderSubjectDetailView(subjectId) {
+      const st = getSubjectStats(subjectId);
+      if (!st) {
+        navigateTo('subjects');
+        return '';
+      }
+
+      const regularLogs = st.logs
+        .filter(l => !l.isInitial)
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt);
+
+      const initialLog = st.logs.find(l => l.isInitial);
+
+      // Build last 7 days mini chart for this subject
+      const last7Days = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const dateStr = formatDateYYYYMMDD(d);
+        const pages = st.logs
+          .filter(l => l.date === dateStr && !l.isInitial)
+          .reduce((sum, l) => sum + Number(l.pages), 0);
+        last7Days.push({
+          dateStr,
+          label: d.toLocaleDateString('en-US', { weekday: 'short' }),
+          pages
+        });
+      }
+      const maxBar = Math.max(10, ...last7Days.map(d => d.pages));
+
+      return `
+        <div class="mb-6">
+          <button onclick="navigateTo('subjects')" class="inline-flex items-center gap-1.5 text-xs font-medium text-mutedGrey hover:text-charcoal mb-4 transition-colors">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Back to My Subjects</span>
+          </button>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <span class="w-4 h-4 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+              <h2 class="font-serif-editorial text-3xl text-charcoal">${escapeHTML(st.name)}</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openSubjectModal('${st.id}')" class="px-3.5 py-2 text-xs font-medium text-charcoal bg-surface border border-borderSubtle hover:bg-bgBase rounded-xl transition-colors">
+                Edit Subject
+              </button>
+              <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Log Pages</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subject Overview Card -->
+        <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
+          <div class="flex items-baseline justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Subject Completion</span>
+            <span class="font-serif-editorial text-3xl font-medium text-charcoal">${st.percentage}%</span>
+          </div>
+          <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden mb-6">
+            <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-borderSubtle/80">
+            <div>
+              <p class="text-xs text-mutedGrey">Total Pages</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.totalPages}</p>
+            </div>
+            <div>
+              <p class="text-xs text-mutedGrey">Completed</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.completedPages}</p>
+            </div>
+            <div>
+              <p class="text-xs text-mutedGrey">Remaining</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.remainingPages}</p>
+            </div>
+          </div>
+
+          ${st.notes ? `
+            <div class="mt-5 pt-4 border-t border-borderSubtle/80">
+              <p class="text-xs font-medium text-mutedGrey mb-1">Syllabus Notes</p>
+              <p class="text-sm text-charcoal leading-relaxed">${escapeHTML(st.notes)}</p>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Weekly Performance & Study Entries -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Last 7 Days Activity</h3>
+            <div class="h-40 flex items-end justify-between gap-2 pt-4">
+              ${last7Days.map(day => {
+                const heightPct = Math.round((day.pages / maxBar) * 100);
+                return `
+                  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                    <span class="text-[10px] font-medium text-charcoal">${day.pages > 0 ? day.pages : ''}</span>
+                    <div class="w-full max-w-[28px] bg-bgBase rounded-t-md h-24 flex items-end overflow-hidden">
+                      <div class="w-full rounded-t-md transition-all duration-500" style="height: ${heightPct}%; background-color: ${st.color}"></div>
+                    </div>
+                    <span class="text-[10px] text-mutedGrey">${day.label}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Recorded Study Entries</h3>
+              ${initialLog ? `<span class="text-[11px] text-mutedGrey">Includes ${initialLog.pages} initial pages</span>` : ''}
+            </div>
+
+            ${regularLogs.length === 0 ? `
+              <div class="py-10 text-center border border-dashed border-borderSubtle rounded-xl bg-bgBase/40">
+                <p class="text-sm text-charcoal font-medium">No daily entries logged yet</p>
+                <p class="text-xs text-mutedGrey mt-1 mb-4">Record your study sessions to build a history for ${escapeHTML(st.name)}.</p>
+                <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-charcoal text-white text-xs font-medium rounded-xl">Log First Session</button>
+              </div>
+            ` : `
+              <div class="divide-y divide-borderSubtle/70">
+                ${regularLogs.map(log => `
+                  <div class="py-3 first:pt-0 last:pb-0 flex items-center justify-between gap-3">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-charcoal">${formatReadableDate(log.date)}</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-bgBase text-charcoal">+${log.pages} pages</span>
+                      </div>
+                      ${log.note ? `<p class="text-xs text-mutedGrey mt-1">${escapeHTML(log.note)}</p>` : ''}
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <button onclick="openLogModal('${log.id}')" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase" title="Edit Entry">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button onclick="confirmDeleteLog('${log.id}')" class="p-1.5 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase" title="Delete Entry">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    // --- VIEW 4: DAILY PROGRESS LOGGER ---
+    function renderDailyLogView() {
+      const regularLogs = state.logs
+        .filter(l => !l.isInitial)
+        .filter(l => logFilterSubject === 'all' || l.subjectId === logFilterSubject)
+        .filter(l => !logFilterDate || l.date === logFilterDate)
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt);
+
+      return `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-serif-editorial text-3xl text-charcoal">Daily Progress Log</h2>
+            <p class="text-sm text-mutedGrey mt-1">Record and review your daily page completions across subjects.</p>
+          </div>
+          <button onclick="openLogModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Log Study Session</span>
+          </button>
+        </div>
+
+        <!-- Inline Quick Logger Card -->
+        ${state.subjects.length > 0 ? `
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-5 sm:p-6 shadow-xs mb-6">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Quick Record</h3>
+            <form onsubmit="handleInlineQuickLog(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+              <div class="sm:col-span-4">
+                <label class="block text-xs font-medium text-charcoal mb-1">Subject</label>
+                <select id="inline-log-subject" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+                  ${state.subjects.map(s => `<option value="${s.id}">${escapeHTML(s.name)}</option>`).join('')}
+                </select>
+              </div>
+              <div class="sm:col-span-3">
+                <label class="block text-xs font-medium text-charcoal mb-1">Date</label>
+                <input type="date" id="inline-log-date" value="${getLocalTodayStr()}" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-charcoal mb-1">Pages</label>
+                <input type="number" id="inline-log-pages" min="1" step="1" placeholder="15" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+              </div>
+              <div class="sm:col-span-3">
+                <button type="submit" class="w-full py-2 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl transition-colors cursor-pointer">
+                  Save Entry
+                </button>
+              </div>
+            </form>
+          </div>
+        ` : ''}
+
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <select onchange="logFilterSubject = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none">
+            <option value="all" ${logFilterSubject === 'all' ? 'selected' : ''}>All Subjects</option>
+            ${state.subjects.map(s => `<option value="${s.id}" ${logFilterSubject === s.id ? 'selected' : ''}>${escapeHTML(s.name)}</option>`).join('')}
+          </select>
+          <input type="date" value="${logFilterDate}" onchange="logFilterDate = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none" />
+          ${(logFilterSubject !== 'all' || logFilterDate) ? `
+            <button onclick="logFilterSubject = 'all'; logFilterDate = ''; renderCurrentView();" class="text-xs text-mutedGrey hover:text-charcoal underline">Clear filters</button>
+          ` : ''}
+        </div>
+
+        <!-- History List -->
+        <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xs overflow-hidden">
+          ${regularLogs.length === 0 ? `
+            <div class="p-12 text-center">
+              <p class="font-serif-editorial text-xl text-charcoal mb-1">No study entries found</p>
+              <p class="text-xs text-mutedGrey">Log your completed pages above to keep an accurate daily record.</p>
+            </div>
+          ` : `
+            <div class="divide-y divide-borderSubtle/80">
+              ${regularLogs.map(log => {
+                const sub = state.subjects.find(s => s.id === log.subjectId);
+                return `
+                  <div class="p-4 sm:px-6 flex items-center justify-between gap-4 hover:bg-bgBase/40 transition-colors">
+                    <div class="flex items-start gap-3.5 min-w-0">
+                      <span class="w-3 h-3 rounded-full mt-1.5 shrink-0" style="background-color: ${sub ? sub.color : '#899889'}"></span>
+                      <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-2">
+                          <span class="text-sm font-medium text-charcoal">${sub ? escapeHTML(sub.name) : 'Unknown Subject'}</span>
+                          <span class="text-xs text-mutedGrey">· ${formatReadableDate(log.date)}</span>
+                        </div>
+                        ${log.note ? `<p class="text-xs text-mutedGrey mt-0.5 truncate">${escapeHTML(log.note)}</p>` : ''}
+                      </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span class="text-xs font-semibold text-charcoal bg-bgBase border border-borderSubtle/70 px-3 py-1 rounded-lg">
+                        +${log.pages} ${log.pages === 1 ? 'page' : 'pages'}
+                      </span>
+                      <button onclick="openLogModal('${log.id}')" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase" title="Edit">
+                        <i data-lucide="pencil" class="w-4 h-4"></i>
+                      </button>
+                      <button onclick="confirmDeleteLog('${log.id}')" class="p-1.5 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase" title="Delete">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    // --- VIEW 5: DAY-WISE STATISTICS ---
+    function renderStatisticsView() {
+      const streak = getStudyStreak();
+
+      // Calculate Date Range for Bar Chart
+      let chartDates = [];
+      const today = parseLocalDate(getLocalTodayStr());
+
+      if (statsRange === '7' || statsRange === '30') {
+        const count = Number(statsRange);
+        for (let i = count - 1; i >= 0; i--) {
+          const d = new Date(today);
+          d.setDate(d.getDate() - i);
+          chartDates.push(formatDateYYYYMMDD(d));
+        }
+      } else if (statsRange === 'custom' && statsCustomStart && statsCustomEnd && statsCustomStart <= statsCustomEnd) {
+        let cursor = parseLocalDate(statsCustomStart);
+        const end = parseLocalDate(statsCustomEnd);
+        let safety = 0;
+        while (cursor <= end && safety < 90) {
+          chartDates.push(formatDateYYYYMMDD(cursor));
+          cursor.setDate(cursor.getDate() + 1);
+          safety++;
+        }
+      } else {
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(today);
+          d.setDate(d.getDate() - i);
+          chartDates.push(formatDateYYYYMMDD(d));
+        }
+      }
+
+      const regularLogs = state.logs.filter(l => !l.isInitial);
+
+      const chartData = chartDates.map(dateStr => {
+        const pages = regularLogs
+          .filter(l => l.date === dateStr)
+          .reduce((sum, l) => sum + Number(l.pages), 0);
+        return { dateStr, label: formatShortDate(dateStr), pages };
+      });
+      const maxChartPages = Math.max(10, ...chartData.map(d => d.pages));
+
+      // Weekly Statistics (Current 7 days vs Previous 7 days)
+      const thisWeekDates = [];
+      const prevWeekDates = [];
+      for (let i = 0; i < 7; i++) {
+        const d1 = new Date(today);
+        d1.setDate(d1.getDate() - i);
+        thisWeekDates.push(formatDateYYYYMMDD(d1));
+
+        const d2 = new Date(today);
+        d2.setDate(d2.getDate() - (i + 7));
+        prevWeekDates.push(formatDateYYYYMMDD(d2));
+      }
+
+      const thisWeekLogs = regularLogs.filter(l => thisWeekDates.includes(l.date));
+      const prevWeekLogs = regularLogs.filter(l => prevWeekDates.includes(l.date));
+
+      const thisWeekTotal = thisWeekLogs.reduce((s, l) => s + Number(l.pages), 0);
+      const prevWeekTotal = prevWeekLogs.reduce((s, l) => s + Number(l.pages), 0);
+      const dailyAvg = Math.round((thisWeekTotal / 7) * 10) / 10;
+
+      // Most productive day this week
+      const dayTotals = {};
+      thisWeekLogs.forEach(l => { dayTotals[l.date] = (dayTotals[l.date] || 0) + Number(l.pages); });
+      let bestDay = null;
+      let bestDayPages = 0;
+      Object.entries(dayTotals).forEach(([dt, pgs]) => {
+        if (pgs > bestDayPages) { bestDayPages = pgs; bestDay = dt; }
+      });
+
+      // Most studied subject this week
+      const subTotals = {};
+      thisWeekLogs.forEach(l => { subTotals[l.subjectId] = (subTotals[l.subjectId] || 0) + Number(l.pages); });
+      let topSubId = null;
+      let topSubPages = 0;
+      Object.entries(subTotals).forEach(([sid, pgs]) => {
+        if (pgs > topSubPages) { topSubPages = pgs; topSubId = sid; }
+      });
+      const topSubject = state.subjects.find(s => s.id === topSubId);
+
+      // Week over week diff
+      const weekDiff = thisWeekTotal - prevWeekTotal;
+      const weekDiffLabel = weekDiff > 0 ? `+${weekDiff} vs last week` : weekDiff < 0 ? `${weekDiff} vs last week` : 'Same as last week';
+
+      // Subject-wise breakdown for selected date
+      const selectedDateLogs = regularLogs.filter(l => l.date === statsSelectedDate);
+      const selectedDateBreakdown = state.subjects.map(sub => {
+        const pages = selectedDateLogs
+          .filter(l => l.subjectId === sub.id)
+          .reduce((sum, l) => sum + Number(l.pages), 0);
+        return { ...sub, pages };
+      }).filter(item => item.pages > 0);
+      const selectedDateTotal = selectedDateBreakdown.reduce((s, i) => s + i.pages, 0);
+
+      // 35-Day Activity Heatmap (5 weeks)
+      const heatmapDays = [];
+      for (let i = 34; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dateStr = formatDateYYYYMMDD(d);
+        const pages = regularLogs
+          .filter(l => l.date === dateStr)
+          .reduce((sum, l) => sum + Number(l.pages), 0);
+        heatmapDays.push({ dateStr, dayNum: d.getDate(), pages });
+      }
+
+      return `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-serif-editorial text-3xl text-charcoal">Study Statistics</h2>
+            <p class="text-sm text-mutedGrey mt-1">Insights into your daily consistency and syllabus momentum.</p>
+          </div>
+          <!-- Encouraging Consistency Tracker -->
+          <div class="bg-surface border border-borderSubtle rounded-2xl px-4 py-3 flex items-center gap-3 self-start">
+            <div class="w-8 h-8 rounded-xl bg-sage/15 flex items-center justify-center text-sageDark">
+              <i data-lucide="flame" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-charcoal">${streak} ${streak === 1 ? 'Day' : 'Days'} Active Streak</p>
+              <p class="text-[11px] text-mutedGrey">${streak > 0 ? 'Wonderful rhythm. Keep going at your pace.' : 'Ready whenever you start your next session.'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Summary Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
+            <p class="text-xs text-mutedGrey">Completed This Week</p>
+            <p class="text-2xl font-semibold text-charcoal mt-1">${thisWeekTotal} <span class="text-xs font-normal text-mutedGrey">pages</span></p>
+            <p class="text-[11px] text-sageDark mt-1">${weekDiffLabel}</p>
+          </div>
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
+            <p class="text-xs text-mutedGrey">Daily Average (7d)</p>
+            <p class="text-2xl font-semibold text-charcoal mt-1">${dailyAvg} <span class="text-xs font-normal text-mutedGrey">pages/day</span></p>
+            <p class="text-[11px] text-mutedGrey mt-1">${state.settings.weeklyTarget > 0 ? `Weekly goal: ${state.settings.weeklyTarget}p` : 'Steady pacing'}</p>
+          </div>
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
+            <p class="text-xs text-mutedGrey">Most Productive Day</p>
+            <p class="text-lg font-semibold text-charcoal mt-1.5">${bestDay ? formatShortDate(bestDay) : '—'}</p>
+            <p class="text-[11px] text-mutedGrey mt-1">${bestDay ? `${bestDayPages} pages completed` : 'No sessions this week'}</p>
+          </div>
+          <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
+            <p class="text-xs text-mutedGrey">Most Studied Subject</p>
+            <p class="text-lg font-semibold text-charcoal mt-1.5 truncate">${topSubject ? escapeHTML(topSubject.name) : '—'}</p>
+            <p class="text-[11px] text-mutedGrey mt-1">${topSubject ? `${topSubPages} pages this week` : 'No sessions this week'}</p>
+          </div>
+        </div>
+
+        <!-- Daily Activity Bar Chart -->
+        <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div>
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Daily Activity Chart</h3>
+              <p class="text-xs text-mutedGrey mt-0.5">Click any bar to inspect that day's subject breakdown</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button onclick="statsRange='7'; renderCurrentView();" class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${statsRange === '7' ? 'bg-charcoal text-white' : 'bg-bgBase text-mutedGrey hover:text-charcoal'}">Last 7 Days</button>
+              <button onclick="statsRange='30'; renderCurrentView();" class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${statsRange === '30' ? 'bg-charcoal text-white' : 'bg-bgBase text-mutedGrey hover:text-charcoal'}">Last 30 Days</button>
+              <button onclick="statsRange='custom'; renderCurrentView();" class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${statsRange === 'custom' ? 'bg-charcoal text-white' : 'bg-bgBase text-mutedGrey hover:text-charcoal'}">Custom</button>
+            </div>
+          </div>
+
+          ${statsRange === 'custom' ? `
+            <div class="flex flex-wrap items-center gap-3 mb-5 p-3 bg-bgBase rounded-xl">
+              <div class="flex items-center gap-2 text-xs">
+                <span class="text-mutedGrey">From:</span>
+                <input type="date" value="${statsCustomStart}" onchange="statsCustomStart=this.value; renderCurrentView();" class="px-2.5 py-1 bg-surface border border-borderSubtle rounded-lg text-charcoal" />
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="text-mutedGrey">To:</span>
+                <input type="date" value="${statsCustomEnd}" onchange="statsCustomEnd=this.value; renderCurrentView();" class="px-2.5 py-1 bg-surface border border-borderSubtle rounded-lg text-charcoal" />
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="h-52 flex items-end gap-1.5 sm:gap-2 pt-6 overflow-x-auto pb-2">
+            ${chartData.map(item => {
+              const heightPct = Math.round((item.pages / maxChartPages) * 100);
+              const isSelected = item.dateStr === statsSelectedDate;
+              return `
+                <div onclick="statsSelectedDate='${item.dateStr}'; renderCurrentView();" class="flex-1 min-w-[24px] flex flex-col items-center gap-1.5 h-full justify-end cursor-pointer group">
+                  <span class="text-[10px] font-medium text-charcoal opacity-80 group-hover:opacity-100">${item.pages > 0 ? item.pages : ''}</span>
+                  <div class="w-full max-w-[34px] bg-bgBase rounded-t-md h-36 flex items-end overflow-hidden border ${isSelected ? 'border-charcoal' : 'border-transparent'}">
+                    <div class="w-full rounded-t-md transition-all duration-500 ${isSelected ? 'bg-charcoal' : 'bg-sage group-hover:bg-sageDark'}" style="height: ${heightPct}%"></div>
+                  </div>
+                  <span class="text-[10px] ${isSelected ? 'font-semibold text-charcoal' : 'text-mutedGrey'} whitespace-nowrap">${chartData.length <= 10 ? item.label : item.dateStr.slice(8)}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <!-- Bottom Grid: Calendar Heatmap & Subject-Wise Daily Breakdown -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Study Calendar / Activity Heatmap -->
+          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">35-Day Activity Calendar</h3>
+                <p class="text-xs text-mutedGrey mt-0.5">Select any day to view its study details</p>
+              </div>
+              <div class="flex items-center gap-1 text-[10px] text-mutedGrey">
+                <span>Less</span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-bgBase border border-borderSubtle"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-sage/35"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-sage/70"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-sageDark"></span>
+                <span>More</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-7 gap-2">
+              ${heatmapDays.map(day => {
+                let bgClass = 'bg-bgBase text-mutedGrey border-borderSubtle/60';
+                if (day.pages > 0 && day.pages < 10) bgClass = 'bg-sage/30 text-charcoal border-sage/40';
+                else if (day.pages >= 10 && day.pages < 25) bgClass = 'bg-sage/65 text-charcoal border-sage';
+                else if (day.pages >= 25) bgClass = 'bg-sageDark text-white border-sageDark';
+
+                const isSelected = day.dateStr === statsSelectedDate;
+                return `
+                  <button onclick="statsSelectedDate='${day.dateStr}'; renderCurrentView();" title="${formatReadableDate(day.dateStr)}: ${day.pages} pages" class="aspect-square rounded-lg border text-xs font-medium flex flex-col items-center justify-center transition-transform hover:scale-105 ${bgClass} ${isSelected ? 'ring-2 ring-charcoal ring-offset-1' : ''}">
+                    <span>${day.dayNum}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </section>
+
+          <!-- Subject-Wise Daily Breakdown -->
+          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Daily Subject Breakdown</h3>
+                  <p class="text-sm font-medium text-charcoal mt-0.5">${formatReadableDate(statsSelectedDate)}</p>
+                </div>
+                <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-bgBase text-charcoal">${selectedDateTotal} pages total</span>
+              </div>
+
+              ${selectedDateBreakdown.length === 0 ? `
+                <div class="py-12 text-center bg-bgBase/50 rounded-xl border border-dashed border-borderSubtle">
+                  <p class="text-sm text-charcoal font-medium">No activity recorded on this date</p>
+                  <p class="text-xs text-mutedGrey mt-1">Select another highlighted day or log a past session.</p>
+                </div>
+              ` : `
+                <div class="space-y-3.5 mt-4">
+                  ${selectedDateBreakdown.map(item => {
+                    const pct = selectedDateTotal > 0 ? Math.round((item.pages / selectedDateTotal) * 100) : 0;
+                    return `
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="font-medium text-charcoal flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${item.color}"></span>
+                            ${escapeHTML(item.name)}
+                          </span>
+                          <span class="text-charcoal font-semibold">${item.pages} pages (${pct}%)</span>
+                        </div>
+                        <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
+                          <div class="h-full rounded-full" style="width: ${pct}%; background-color: ${item.color}"></div>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // --- VIEW 6: SETTINGS & GOALS ---
+    function renderSettingsView() {
+      return `
+        <div class="mb-6">
+          <h2 class="font-serif-editorial text-3xl text-charcoal">Goals & Settings</h2>
+          <p class="text-sm text-mutedGrey mt-1">Configure your daily targets, examination date, and data backups.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Study Targets & Examination Date -->
+          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
+            <h3 class="font-serif-editorial text-xl text-charcoal mb-4">Academic Targets & Exam Date</h3>
+            <form onsubmit="handleSaveSettings(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Daily Page Target</label>
+                <input type="number" id="set-daily-target" min="0" step="1" value="${state.settings.dailyTarget}" placeholder="e.g. 20" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+                <p class="text-[11px] text-mutedGrey mt-1">Set to 0 to hide the daily target bar on the dashboard.</p>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Weekly Page Target</label>
+                <input type="number" id="set-weekly-target" min="0" step="1" value="${state.settings.weeklyTarget}" placeholder="e.g. 120" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Annual Examination Date (Optional)</label>
+                <input type="date" id="set-exam-date" value="${state.settings.examDate}" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+                <p class="text-[11px] text-mutedGrey mt-1">Calculates the required daily page pace to complete your syllabus in time.</p>
+              </div>
+              <div class="pt-2">
+                <button type="submit" class="px-5 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+                  Save Preferences
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Data Export & Backup -->
+          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Backup & Portability</h3>
+              <p class="text-xs text-mutedGrey leading-relaxed mb-6">
+                Your data is stored locally in your browser. Export a JSON backup regularly to safeguard your records or transfer them across devices.
+              </p>
+
+              <div class="space-y-3">
+                <button onclick="exportJSON()" class="w-full py-2.5 px-4 bg-bgBase hover:bg-borderSubtle/60 border border-borderSubtle text-charcoal text-sm font-medium rounded-xl flex items-center justify-between transition-colors cursor-pointer">
+                  <span class="flex items-center gap-2.5">
+                    <i data-lucide="download" class="w-4 h-4 text-sageDark"></i>
+                    <span>Export Full Backup (JSON)</span>
+                  </span>
+                  <span class="text-xs text-mutedGrey">.json</span>
+                </button>
+
+                <button onclick="exportCSV()" class="w-full py-2.5 px-4 bg-bgBase hover:bg-borderSubtle/60 border border-borderSubtle text-charcoal text-sm font-medium rounded-xl flex items-center justify-between transition-colors cursor-pointer">
+                  <span class="flex items-center gap-2.5">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-dustyBlue"></i>
+                    <span>Export Study Logs (CSV)</span>
+                  </span>
+                  <span class="text-xs text-mutedGrey">.csv</span>
+                </button>
+
+                <label class="w-full py-2.5 px-4 bg-bgBase hover:bg-borderSubtle/60 border border-borderSubtle text-charcoal text-sm font-medium rounded-xl flex items-center justify-between transition-colors cursor-pointer">
+                  <span class="flex items-center gap-2.5">
+                    <i data-lucide="upload" class="w-4 h-4 text-charcoal"></i>
+                    <span>Restore from JSON Backup</span>
+                  </span>
+                  <span class="text-xs text-mutedGrey">Browse</span>
+                  <input type="file" accept=".json" onchange="handleImportJSON(event)" class="hidden" />
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-borderSubtle flex items-center justify-between">
+              <span class="text-xs text-mutedGrey">Clear all local records</span>
+              <button onclick="confirmFactoryReset()" class="text-xs font-medium text-red-600 hover:underline">Reset Application</button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // --- SUBJECT CRUD LOGIC ---
+    function openSubjectModal(editId = null) {
+      const modal = document.getElementById('subject-modal');
+      const title = document.getElementById('subject-modal-title');
+      const errEl = document.getElementById('sub-error');
+      errEl.classList.add('hidden');
+
+      renderColorPicker();
+
+      if (editId) {
+        const sub = state.subjects.find(s => s.id === editId);
+        if (!sub) return;
+        title.textContent = 'Edit Subject';
+        document.getElementById('sub-edit-id').value = sub.id;
+        document.getElementById('sub-name').value = sub.name;
+        document.getElementById('sub-total').value = sub.totalPages;
+        document.getElementById('sub-color').value = sub.color;
+        document.getElementById('sub-notes').value = sub.notes || '';
+        document.getElementById('sub-initial-wrapper').classList.add('hidden');
+        selectColorSwatch(sub.color);
+      } else {
+        title.textContent = 'Add Subject';
+        document.getElementById('sub-edit-id').value = '';
+        document.getElementById('sub-name').value = '';
+        document.getElementById('sub-total').value = '';
+        document.getElementById('sub-initial').value = '0';
+        document.getElementById('sub-notes').value = '';
+        document.getElementById('sub-initial-wrapper').classList.remove('hidden');
+        selectColorSwatch(MUTED_PALETTE[0].hex);
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSubjectModal() {
+      const modal = document.getElementById('subject-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderColorPicker() {
+      const grid = document.getElementById('color-picker-grid');
+      grid.innerHTML = MUTED_PALETTE.map(c => `
+        <button type="button" data-hex="${c.hex}" onclick="selectColorSwatch('${c.hex}')" title="${c.name}" class="color-swatch w-7 h-7 rounded-full border-2 border-transparent transition-transform hover:scale-110" style="background-color: ${c.hex}"></button>
+      `).join('');
+    }
+
+    function selectColorSwatch(hex) {
+      document.getElementById('sub-color').value = hex;
+      document.querySelectorAll('.color-swatch').forEach(btn => {
+        if (btn.dataset.hex === hex) {
+          btn.classList.add('ring-2', 'ring-charcoal', 'ring-offset-2');
+        } else {
+          btn.classList.remove('ring-2', 'ring-charcoal', 'ring-offset-2');
+        }
+      });
+    }
+
+    function handleSaveSubject(e) {
+      e.preventDefault();
+      const editId = document.getElementById('sub-edit-id').value;
+      const name = document.getElementById('sub-name').value.trim();
+      const totalPages = parseInt(document.getElementById('sub-total').value, 10);
+      const initialPages = parseInt(document.getElementById('sub-initial').value || '0', 10);
+      const color = document.getElementById('sub-color').value;
+      const notes = document.getElementById('sub-notes').value.trim();
+      const errEl = document.getElementById('sub-error');
+
+      if (!name) {
+        errEl.textContent = 'Please enter a subject name.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (isNaN(totalPages) || totalPages <= 0) {
+        errEl.textContent = 'Total pages must be greater than zero.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (editId) {
+        const sub = state.subjects.find(s => s.id === editId);
+        const currentStats = getSubjectStats(editId);
+        if (totalPages < currentStats.completedPages) {
+          errEl.textContent = `Total pages cannot be less than already completed pages (${currentStats.completedPages}).`;
+          errEl.classList.remove('hidden');
+          return;
+        }
+        sub.name = name;
+        sub.totalPages = totalPages;
+        sub.color = color;
+        sub.notes = notes;
+        saveState();
+        closeSubjectModal();
+        renderCurrentView();
+        showToast('Subject updated.');
+      } else {
+        if (isNaN(initialPages) || initialPages < 0 || initialPages > totalPages) {
+          errEl.textContent = 'Initial completed pages must be between 0 and total pages.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        const newId = 'sub_' + Date.now();
+        state.subjects.push({
+          id: newId,
+          name,
+          totalPages,
+          color,
+          notes,
+          createdAt: Date.now()
+        });
+
+        if (initialPages > 0) {
+          state.logs.push({
+            id: 'log_init_' + Date.now(),
+            subjectId: newId,
+            date: getLocalTodayStr(),
+            pages: initialPages,
+            note: 'Initial syllabus progress',
+            isInitial: true,
+            createdAt: Date.now()
+          });
+        }
+
+        saveState();
+        closeSubjectModal();
+        renderCurrentView();
+        showToast(`${name} added to your syllabus.`);
+      }
+    }
+
+    function confirmDeleteSubject(subjectId) {
+      const sub = state.subjects.find(s => s.id === subjectId);
+      if (!sub) return;
+      openConfirmModal(
+        'Delete Subject',
+        `Are you sure you want to delete "${sub.name}" and all of its recorded study entries? This action cannot be undone.`,
+        () => {
+          state.subjects = state.subjects.filter(s => s.id !== subjectId);
+          state.logs = state.logs.filter(l => l.subjectId !== subjectId);
+          saveState();
+          if (currentView === 'subject-detail') navigateTo('subjects');
+          else renderCurrentView();
+          showToast('Subject deleted.');
+        }
+      );
+    }
+
+    function confirmResetSubject(subjectId) {
+      const sub = state.subjects.find(s => s.id === subjectId);
+      if (!sub) return;
+      openConfirmModal(
+        'Reset Subject Progress',
+        `Reset all logged pages for "${sub.name}" back to 0? The subject itself will remain in your list.`,
+        () => {
+          state.logs = state.logs.filter(l => l.subjectId !== subjectId);
+          saveState();
+          renderCurrentView();
+          showToast(`Progress reset for ${sub.name}.`);
+        }
+      );
+    }
+
+    // --- STUDY LOG CRUD LOGIC ---
+    function openLogModal(editLogId = null, preselectSubjectId = null) {
+      if (state.subjects.length === 0) {
+        showToast('Please add a subject first before logging progress.', 'error');
+        openSubjectModal();
+        return;
+      }
+
+      const modal = document.getElementById('log-modal');
+      const title = document.getElementById('log-modal-title');
+      const subjectSelect = document.getElementById('log-subject');
+      const errEl = document.getElementById('log-error');
+      errEl.classList.add('hidden');
+
+      subjectSelect.innerHTML = state.subjects
+        .map(s => `<option value="${s.id}">${escapeHTML(s.name)}</option>`)
+        .join('');
+
+      if (editLogId) {
+        const log = state.logs.find(l => l.id === editLogId);
+        if (!log) return;
+        title.textContent = 'Edit Study Entry';
+        document.getElementById('log-edit-id').value = log.id;
+        subjectSelect.value = log.subjectId;
+        document.getElementById('log-date').value = log.date;
+        document.getElementById('log-pages').value = log.pages;
+        document.getElementById('log-note').value = log.note || '';
+      } else {
+        title.textContent = 'Log Study Progress';
+        document.getElementById('log-edit-id').value = '';
+        if (preselectSubjectId) subjectSelect.value = preselectSubjectId;
+        document.getElementById('log-date').value = getLocalTodayStr();
+        document.getElementById('log-pages').value = '';
+        document.getElementById('log-note').value = '';
+      }
+
+      updateLogSubjectHint();
+      subjectSelect.onchange = updateLogSubjectHint;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function updateLogSubjectHint() {
+      const subId = document.getElementById('log-subject').value;
+      const editId = document.getElementById('log-edit-id').value;
+      const st = getSubjectStats(subId);
+      if (!st) return;
+
+      let available = st.remainingPages;
+      if (editId) {
+        const existing = state.logs.find(l => l.id === editId);
+        if (existing && existing.subjectId === subId) {
+          available += Number(existing.pages);
+        }
+      }
+      document.getElementById('log-subject-hint').textContent = `${available} pages remaining in ${st.name}`;
+    }
+
+    function closeLogModal() {
+      const modal = document.getElementById('log-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSaveLog(e) {
+      e.preventDefault();
+      const editId = document.getElementById('log-edit-id').value;
+      const subjectId = document.getElementById('log-subject').value;
+      const date = document.getElementById('log-date').value;
+      const pages = parseInt(document.getElementById('log-pages').value, 10);
+      const note = document.getElementById('log-note').value.trim();
+      const errEl = document.getElementById('log-error');
+
+      if (!subjectId || !date) {
+        errEl.textContent = 'Please select a subject and date.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (isNaN(pages) || pages <= 0) {
+        errEl.textContent = 'Pages completed must be at least 1.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const st = getSubjectStats(subjectId);
+      let maxAllowed = st.remainingPages;
+      if (editId) {
+        const prev = state.logs.find(l => l.id === editId);
+        if (prev && prev.subjectId === subjectId) {
+          maxAllowed += Number(prev.pages);
+        }
+      }
+
+      if (pages > maxAllowed) {
+        errEl.textContent = `Exceeds syllabus total. Maximum pages you can log for ${st.name}: ${maxAllowed}.`;
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (editId) {
+        const log = state.logs.find(l => l.id === editId);
+        log.subjectId = subjectId;
+        log.date = date;
+        log.pages = pages;
+        log.note = note;
+        showToast('Study entry updated.');
+      } else {
+        state.logs.push({
+          id: 'log_' + Date.now(),
+          subjectId,
+          date,
+          pages,
+          note,
+          isInitial: false,
+          createdAt: Date.now()
+        });
+        showToast(`Logged ${pages} pages for ${st.name}.`);
+      }
+
+      saveState();
+      closeLogModal();
+      renderCurrentView();
+    }
+
+    function handleInlineQuickLog(e) {
+      e.preventDefault();
+      const subjectId = document.getElementById('inline-log-subject').value;
+      const date = document.getElementById('inline-log-date').value;
+      const pages = parseInt(document.getElementById('inline-log-pages').value, 10);
+
+      if (!subjectId || !date || isNaN(pages) || pages <= 0) {
+        showToast('Please enter a valid number of pages.', 'error');
+        return;
+      }
+
+      const st = getSubjectStats(subjectId);
+      if (pages > st.remainingPages) {
+        showToast(`Only ${st.remainingPages} pages remaining in ${st.name}.`, 'error');
+        return;
+      }
+
+      state.logs.push({
+        id: 'log_' + Date.now(),
+        subjectId,
+        date,
+        pages,
+        note: '',
+        isInitial: false,
+        createdAt: Date.now()
+      });
+
+      saveState();
+      renderCurrentView();
+      showToast(`Logged ${pages} pages for ${st.name}.`);
+    }
+
+    function confirmDeleteLog(logId) {
+      openConfirmModal(
+        'Delete Study Entry',
+        'Remove this study session? Your subject and overall progress percentages will recalculate automatically.',
+        () => {
+          state.logs = state.logs.filter(l => l.id !== logId);
+          saveState();
+          renderCurrentView();
+          showToast('Study entry deleted.');
+        }
+      );
+    }
+
+    // --- SETTINGS & BACKUP ---
+    function handleSaveSettings(e) {
+      e.preventDefault();
+      const daily = Math.max(0, parseInt(document.getElementById('set-daily-target').value || '0', 10));
+      const weekly = Math.max(0, parseInt(document.getElementById('set-weekly-target').value || '0', 10));
+      const examDate = document.getElementById('set-exam-date').value;
+
+      state.settings.dailyTarget = daily;
+      state.settings.weeklyTarget = weekly;
+      state.settings.examDate = examDate;
+
+      saveState();
+      showToast('Preferences saved.');
+    }
+
+    function exportJSON() {
+      const dataStr = JSON.stringify(state, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `syllabus-backup-${getLocalTodayStr()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('JSON backup exported.');
+    }
+
+    function exportCSV() {
+      const headers = ['Date', 'Subject', 'Pages Completed', 'Note', 'Type'];
+      const rows = state.logs.map(l => {
+        const sub = state.subjects.find(s => s.id === l.subjectId);
+        return [
+          l.date,
+          `"${(sub ? sub.name : 'Unknown').replace(/"/g, '""')}"`,
+          l.pages,
+          `"${(l.note || '').replace(/"/g, '""')}"`,
+          l.isInitial ? 'Initial' : 'Daily Log'
+        ].join(',');
+      });
+      const csvContent = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `syllabus-study-logs-${getLocalTodayStr()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('CSV study log exported.');
+    }
+
+    function handleImportJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          if (!Array.isArray(imported.subjects) || !Array.isArray(imported.logs)) {
+            throw new Error('Invalid format');
+          }
+          openConfirmModal(
+            'Restore Backup',
+            'Restoring this backup will replace your current subjects and study logs. Do you wish to continue?',
+            () => {
+              state.subjects = imported.subjects;
+              state.logs = imported.logs;
+              state.settings = {
+                dailyTarget: Number(imported.settings?.dailyTarget) || 0,
+                weeklyTarget: Number(imported.settings?.weeklyTarget) || 0,
+                examDate: imported.settings?.examDate || ''
+              };
+              saveState();
+              navigateTo('dashboard');
+              showToast('Backup restored successfully.');
+            }
+          );
+        } catch (err) {
+          showToast('Invalid backup JSON file.', 'error');
+        }
+        e.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmFactoryReset() {
+      openConfirmModal(
+        'Reset All Application Data',
+        'This will permanently erase all subjects, study logs, and targets from this browser. Have you exported a backup?',
+        () => {
+          state = {
+            subjects: [],
+            logs: [],
+            settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
+          };
+          saveState();
+          navigateTo('dashboard');
+          showToast('Application data cleared.');
+        }
+      );
+    }
+
+    // --- CUSTOM CONFIRMATION MODAL ---
+    function openConfirmModal(title, message, onConfirm) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      confirmCallback = onConfirm;
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      confirmCallback = null;
+    }
+
+    document.getElementById('confirm-action-btn').addEventListener('click', () => {
+      if (typeof confirmCallback === 'function') {
+        confirmCallback();
+      }
+      closeConfirmModal();
+    });
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      updateSidebarStreak();
+      renderCurrentView();
+    });
+  </script>
+</body>
+</html>
