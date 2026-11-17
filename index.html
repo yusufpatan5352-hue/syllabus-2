@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Syllabus — Your Academic Progress Tracker</title>
+  <title>Syllabus — Your Academic & Reading Progress Tracker</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Newsreader (Serif headings) & Inter (Clean UI) -->
@@ -69,7 +69,7 @@
 </head>
 <body class="min-h-screen flex flex-col md:flex-row selection:bg-[#899889]/20">
 
-  <!-- Toast / Notification Banner (No alert() used) -->
+  <!-- Toast / Notification Banner -->
   <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- AUTHENTICATION & ONBOARDING OVERLAY -->
@@ -81,7 +81,7 @@
           <i data-lucide="book-open" class="w-5 h-5"></i>
         </div>
         <h1 class="font-serif-editorial text-2xl font-medium text-charcoal">Syllabus</h1>
-        <p class="text-xs text-mutedGrey mt-1">Personal Academic Progress Tracker</p>
+        <p class="text-xs text-mutedGrey mt-1">Personal Academic & Reading Progress Tracker</p>
       </div>
 
       <!-- STEP 1: Sign In / Create Account -->
@@ -89,7 +89,7 @@
         <div>
           <h2 class="font-serif-editorial text-xl text-charcoal">Student Sign In</h2>
           <p class="text-xs text-mutedGrey mt-1 leading-relaxed">
-            New student? Enter a username and use that <strong>exact same username as your initial password</strong> to create your private workspace.
+            New user? Enter a username and use that <strong>exact same username as your initial password</strong> to create your private workspace.
           </p>
         </div>
 
@@ -159,7 +159,7 @@
       </div>
       <div>
         <h1 class="font-serif-editorial text-xl font-medium tracking-tight text-charcoal leading-none">Syllabus</h1>
-        <p class="text-[11px] text-mutedGrey mt-1 tracking-wide uppercase">Academic Tracker</p>
+        <p class="text-[11px] text-mutedGrey mt-1 tracking-wide uppercase">Study & Reading Tracker</p>
       </div>
     </div>
 
@@ -170,7 +170,7 @@
       </button>
     </div>
 
-    <nav class="flex-1 px-3 py-2 space-y-1" id="desktop-nav">
+    <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto" id="desktop-nav">
       <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase">
         <i data-lucide="layout-dashboard" class="w-4 h-4 text-mutedGrey"></i>
         Dashboard
@@ -179,6 +179,24 @@
         <i data-lucide="library" class="w-4 h-4"></i>
         My Subjects
       </button>
+      <button data-nav="categories" onclick="navigateTo('categories')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+        Categories
+      </button>
+      <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+        Daily Log
+      </button>
+      <button data-nav="statistics" onclick="navigateTo('statistics')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+        Statistics
+      </button>
+      <button data-nav="settings" onclick="navigateTo('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+        Goals & Settings
+      </button>
+    </nav>
+
     <div class="p-4 m-3 rounded-xl bg-bgBase/80 border border-borderSubtle text-xs text-mutedGrey space-y-3">
       <div>
         <div class="flex items-center justify-between mb-1">
@@ -199,7 +217,7 @@
 
   <!-- Mobile Top Header -->
   <header class="md:hidden sticky top-0 z-30 bg-surface/95 backdrop-blur border-b border-borderSubtle px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-2.5" onclick="navigateTo('dashboard')">
+    <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateTo('dashboard')">
       <div class="w-7 h-7 rounded-lg bg-sage/20 border border-sage/40 flex items-center justify-center">
         <i data-lucide="book-open" class="w-3.5 h-3.5 text-sageDark"></i>
       </div>
@@ -225,23 +243,27 @@
 
   <!-- Mobile Bottom Navigation -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-borderSubtle z-30 flex justify-around items-center py-2 px-1" id="mobile-nav">
-    <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-charcoal">
+    <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-charcoal">
       <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
       <span>Home</span>
     </button>
-    <button data-nav="subjects" onclick="navigateTo('subjects')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+    <button data-nav="subjects" onclick="navigateTo('subjects')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey">
       <i data-lucide="library" class="w-4 h-4"></i>
       <span>Subjects</span>
     </button>
-    <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+    <button data-nav="categories" onclick="navigateTo('categories')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey">
+      <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+      <span>Categories</span>
+    </button>
+    <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey">
       <i data-lucide="calendar-check" class="w-4 h-4"></i>
       <span>Log</span>
     </button>
-    <button data-nav="statistics" onclick="navigateTo('statistics')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+    <button data-nav="statistics" onclick="navigateTo('statistics')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey">
       <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
       <span>Stats</span>
     </button>
-    <button data-nav="settings" onclick="navigateTo('settings')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey">
+    <button data-nav="settings" onclick="navigateTo('settings')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey">
       <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
       <span>Settings</span>
     </button>
@@ -259,7 +281,7 @@
       <form id="log-form" onsubmit="handleSaveLog(event)" class="p-6 space-y-4">
         <input type="hidden" id="log-edit-id" value="" />
         <div>
-          <label class="block text-xs font-medium text-charcoal mb-1.5">Subject *</label>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Subject / Collection *</label>
           <select id="log-subject" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></select>
           <p id="log-subject-hint" class="text-[11px] text-mutedGrey mt-1"></p>
         </div>
@@ -269,13 +291,13 @@
             <input type="date" id="log-date" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-charcoal mb-1.5">Pages Completed *</label>
+            <label id="log-amount-label" class="block text-xs font-medium text-charcoal mb-1.5">Pages Completed *</label>
             <input type="number" id="log-pages" min="1" step="1" required placeholder="e.g. 15" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
           </div>
         </div>
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Session Note (Optional)</label>
-          <input type="text" id="log-note" placeholder="e.g. Chapter 4: Differential Equations" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="text" id="log-note" placeholder="e.g. Chapter 4, Stanzas 1-20, or Sermon #3" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
         </div>
         <p id="log-error" class="text-xs text-red-600 hidden"></p>
         <div class="pt-2 flex items-center justify-end gap-2">
@@ -287,10 +309,10 @@
   </div>
 
   <!-- MODAL: Add / Edit Subject -->
-  <div id="subject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
-    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden">
+  <div id="subject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4 overflow-y-auto">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden my-auto">
       <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
-        <h3 id="subject-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Add Subject</h3>
+        <h3 id="subject-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Add Subject / Item</h3>
         <button onclick="closeSubjectModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
@@ -298,38 +320,109 @@
       <form id="subject-form" onsubmit="handleSaveSubject(event)" class="p-6 space-y-4">
         <input type="hidden" id="sub-edit-id" value="" />
         <div>
-          <label class="block text-xs font-medium text-charcoal mb-1.5">Subject Name *</label>
-          <input type="text" id="sub-name" required placeholder="e.g. Mathematics, Physics, History" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Name / Title *</label>
+          <input type="text" id="sub-name" required placeholder="e.g. Mathematics, Selected Poems, Sunday Sermons" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
         </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-charcoal mb-1.5">Total Pages *</label>
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Category *</label>
+            <select id="sub-category" onchange="handleSubjectCategoryChange()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-charcoal mb-1.5">Measurement Unit *</label>
+            <select id="sub-unit" onchange="updateSubjectModalUnitLabels()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+              <option value="pages">Pages</option>
+              <option value="chapters">Chapters</option>
+              <option value="verses">Verses</option>
+              <option value="sections">Sections</option>
+              <option value="sermons">Sermons</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label id="sub-total-label" class="block text-xs font-medium text-charcoal mb-1.5">Total Pages *</label>
             <input type="number" id="sub-total" min="1" step="1" required placeholder="e.g. 320" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
           </div>
           <div id="sub-initial-wrapper">
-            <label class="block text-xs font-medium text-charcoal mb-1.5">Initial Completed</label>
+            <label id="sub-initial-label" class="block text-xs font-medium text-charcoal mb-1.5">Initial Completed</label>
             <input type="number" id="sub-initial" min="0" step="1" value="0" placeholder="0" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
           </div>
         </div>
+
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Personalized Goal End Date (Optional)</label>
+          <input type="date" id="sub-target-date" class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <p class="text-[11px] text-mutedGrey mt-1">Dynamically calculates daily target pace until this deadline.</p>
+        </div>
+
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Muted Accent Colour</label>
           <div id="color-picker-grid" class="flex flex-wrap gap-2.5 pt-1"></div>
           <input type="hidden" id="sub-color" value="#899889" />
         </div>
+
         <div>
-          <label class="block text-xs font-medium text-charcoal mb-1.5">Syllabus Notes (Optional)</label>
-          <textarea id="sub-notes" rows="2" placeholder="Textbooks, units, or key exam chapters..." class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></textarea>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Notes / Description (Optional)</label>
+          <textarea id="sub-notes" rows="2" placeholder="Textbooks, anthology details, or key milestones..." class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></textarea>
         </div>
+
         <p id="sub-error" class="text-xs text-red-600 hidden"></p>
         <div class="pt-2 flex items-center justify-end gap-2">
           <button type="button" onclick="closeSubjectModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Subject</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Item</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: Custom Confirmation Dialog (Replaces browser confirm()) -->
+  <!-- MODAL: Add / Edit Custom Category -->
+  <div id="category-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden">
+      <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
+        <h3 id="category-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Create Category</h3>
+        <button onclick="closeCategoryModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form id="category-form" onsubmit="handleSaveCategory(event)" class="p-6 space-y-4">
+        <input type="hidden" id="cat-edit-id" value="" />
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Category Name *</label>
+          <input type="text" id="cat-name" required placeholder="e.g. Textbooks, Literature, Reference, Devotionals" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Default Unit for New Items</label>
+          <select id="cat-default-unit" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+            <option value="pages">Pages</option>
+            <option value="chapters">Chapters</option>
+            <option value="verses">Verses</option>
+            <option value="sections">Sections</option>
+            <option value="sermons">Sermons</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Category Goal End Date (Optional)</label>
+          <input type="date" id="cat-target-date" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <p class="text-[11px] text-mutedGrey mt-1">Applies as fallback pacing deadline for items in this category without their own date.</p>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Category Colour</label>
+          <div id="cat-color-picker-grid" class="flex flex-wrap gap-2.5 pt-1"></div>
+          <input type="hidden" id="cat-color" value="#899889" />
+        </div>
+        <p id="cat-error" class="text-xs text-red-600 hidden"></p>
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeCategoryModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Custom Confirmation Dialog -->
   <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
     <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-sm overflow-hidden p-6">
       <div class="flex items-start gap-3.5">
@@ -350,8 +443,9 @@
 
   <script>
     /**
-     * SYLLABUS — ACADEMIC PROGRESS TRACKER
-     * Multi-account architecture with mandatory first-login password setup.
+     * SYLLABUS — ACADEMIC & READING PROGRESS TRACKER
+     * Features: Multi-user auth, Custom Categories, Poems & Sermons tracking,
+     * Customizable Measurement Units, Personalized Goal End Dates & Dynamic Pacing.
      */
 
     const ACCOUNTS_KEY = 'syllabus_accounts_v1';
@@ -369,14 +463,32 @@
       { name: 'Charcoal Mist', hex: '#687076' }
     ];
 
+    const UNIT_CONFIG = {
+      pages: { singular: 'page', plural: 'pages', label: 'Pages', short: 'p' },
+      chapters: { singular: 'chapter', plural: 'chapters', label: 'Chapters', short: 'ch' },
+      verses: { singular: 'verse', plural: 'verses', label: 'Verses', short: 'v' },
+      sections: { singular: 'section', plural: 'sections', label: 'Sections', short: 'sec' },
+      sermons: { singular: 'sermon', plural: 'sermons', label: 'Sermons', short: 'ser' }
+    };
+
+    function getDefaultCategories() {
+      return [
+        { id: 'cat_general', name: 'General', color: '#899889', defaultUnit: 'pages', targetDate: '', isDefault: true, createdAt: 1 },
+        { id: 'cat_textbooks', name: 'Textbooks', color: '#8797A3', defaultUnit: 'pages', targetDate: '', isDefault: false, createdAt: 2 },
+        { id: 'cat_poems', name: 'Poems', color: '#9A94A6', defaultUnit: 'verses', targetDate: '', isDefault: false, createdAt: 3 },
+        { id: 'cat_sermons', name: 'Sermons', color: '#B59E7A', defaultUnit: 'sermons', targetDate: '', isDefault: false, createdAt: 4 }
+      ];
+    }
+
     // Active User Session State
-    let currentUser = null; // normalized lowercase username
+    let currentUser = null;
     let pendingOnboardingUser = null;
 
     // Application State (Scoped per logged-in user)
     let state = {
-      subjects: [], // { id, name, totalPages, color, notes, createdAt }
-      logs: [],     // { id, subjectId, date (YYYY-MM-DD), pages, note, isInitial, createdAt }
+      categories: [], // { id, name, color, defaultUnit, targetDate, isDefault, createdAt }
+      subjects: [],   // { id, name, categoryId, unit, totalPages, color, notes, targetDate, createdAt }
+      logs: [],       // { id, subjectId, date (YYYY-MM-DD), pages, note, isInitial, createdAt }
       settings: {
         dailyTarget: 20,
         weeklyTarget: 120,
@@ -387,14 +499,36 @@
     // UI View State
     let currentView = 'dashboard';
     let selectedSubjectId = null;
+    let selectedCategoryId = null;
     let subjectSearchQuery = '';
+    let subjectCategoryFilter = 'all';
     let logFilterSubject = 'all';
+    let logFilterCategory = 'all';
     let logFilterDate = '';
-    let statsRange = '7'; // '7', '30', 'custom'
+    let statsRange = '7';
     let statsCustomStart = '';
     let statsCustomEnd = '';
     let statsSelectedDate = getLocalTodayStr();
     let confirmCallback = null;
+
+    // --- UNIT FORMATTING HELPERS ---
+    function normalizeUnit(unit) {
+      return UNIT_CONFIG[unit] ? unit : 'pages';
+    }
+
+    function formatUnitCount(count, unit) {
+      const u = UNIT_CONFIG[normalizeUnit(unit)];
+      const num = Number(count) || 0;
+      return `${num.toLocaleString()} ${num === 1 ? u.singular : u.plural}`;
+    }
+
+    function getUnitLabel(unit) {
+      return UNIT_CONFIG[normalizeUnit(unit)].label;
+    }
+
+    function getUnitShort(unit) {
+      return UNIT_CONFIG[normalizeUnit(unit)].short;
+    }
 
     // --- DATE HELPERS (Strictly Local Calendar Dates) ---
     function getLocalTodayStr() {
@@ -421,6 +555,7 @@
     }
 
     function formatShortDate(dateStr) {
+      if (!dateStr) return '';
       const d = parseLocalDate(dateStr);
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     }
@@ -472,22 +607,17 @@
       const registry = getAccountsRegistry();
       const existingAccount = registry[usernameKey];
 
-      // Case 1: Brand new user signing in for the first time
       if (!existingAccount) {
-        // Initial password MUST equal their username
         if (rawPass !== rawUser && rawPass.toLowerCase() !== usernameKey) {
           errEl.textContent = 'Account not found. To create a new account, enter your username as your initial password.';
           errEl.classList.remove('hidden');
           return;
         }
-
-        // Require immediate password change before allowing dashboard access
         pendingOnboardingUser = usernameKey;
         showMandatoryPasswordChange(rawUser);
         return;
       }
 
-      // Case 2: Existing account
       const enteredHash = await hashPassword(rawPass);
       if (enteredHash !== existingAccount.passwordHash) {
         errEl.textContent = 'Incorrect password for this username.';
@@ -495,7 +625,6 @@
         return;
       }
 
-      // Safety check: if password was somehow never changed from username, enforce change now
       if (existingAccount.mustChangePassword) {
         pendingOnboardingUser = usernameKey;
         showMandatoryPasswordChange(rawUser);
@@ -580,6 +709,7 @@
       pendingOnboardingUser = null;
       localStorage.removeItem(SESSION_KEY);
       state = {
+        categories: getDefaultCategories(),
         subjects: [],
         logs: [],
         settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
@@ -593,9 +723,57 @@
       lucide.createIcons();
     }
 
-    // --- PERSISTENCE LAYER (SCOPED PER USER) ---
+    // --- PERSISTENCE & GRACEFUL MIGRATION LAYER ---
     function getUserStorageKey() {
       return `${DATA_PREFIX}${currentUser}`;
+    }
+
+    function migrateUserData(rawParsed) {
+      const categories = Array.isArray(rawParsed.categories) && rawParsed.categories.length > 0
+        ? rawParsed.categories.map(c => ({
+            id: c.id,
+            name: c.name || 'Category',
+            color: c.color || '#899889',
+            defaultUnit: normalizeUnit(c.defaultUnit),
+            targetDate: c.targetDate || '',
+            isDefault: Boolean(c.isDefault),
+            createdAt: c.createdAt || Date.now()
+          }))
+        : getDefaultCategories();
+
+      // Guarantee 'cat_general' exists as fallback
+      if (!categories.some(c => c.id === 'cat_general')) {
+        categories.unshift({
+          id: 'cat_general',
+          name: 'General',
+          color: '#899889',
+          defaultUnit: 'pages',
+          targetDate: '',
+          isDefault: true,
+          createdAt: 1
+        });
+      }
+
+      const validCategoryIds = new Set(categories.map(c => c.id));
+
+      const subjects = Array.isArray(rawParsed.subjects)
+        ? rawParsed.subjects.map(s => ({
+            ...s,
+            unit: normalizeUnit(s.unit),
+            categoryId: validCategoryIds.has(s.categoryId) ? s.categoryId : 'cat_general',
+            targetDate: s.targetDate || ''
+          }))
+        : [];
+
+      const logs = Array.isArray(rawParsed.logs) ? rawParsed.logs : [];
+
+      const settings = {
+        dailyTarget: Number(rawParsed.settings?.dailyTarget) || 0,
+        weeklyTarget: Number(rawParsed.settings?.weeklyTarget) || 0,
+        examDate: rawParsed.settings?.examDate || ''
+      };
+
+      return { categories, subjects, logs, settings };
     }
 
     function loadState() {
@@ -604,15 +782,12 @@
         const raw = localStorage.getItem(getUserStorageKey());
         if (raw) {
           const parsed = JSON.parse(raw);
-          state.subjects = Array.isArray(parsed.subjects) ? parsed.subjects : [];
-          state.logs = Array.isArray(parsed.logs) ? parsed.logs : [];
-          state.settings = {
-            dailyTarget: Number(parsed.settings?.dailyTarget) || 0,
-            weeklyTarget: Number(parsed.settings?.weeklyTarget) || 0,
-            examDate: parsed.settings?.examDate || ''
-          };
+          state = migrateUserData(parsed);
+          // Persist migrated schema seamlessly
+          localStorage.setItem(getUserStorageKey(), JSON.stringify(state));
         } else {
           state = {
+            categories: getDefaultCategories(),
             subjects: [],
             logs: [],
             settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
@@ -633,67 +808,224 @@
       }
     }
 
-    // --- CORE CALCULATION ENGINE ---
+    // --- CORE CALCULATION & PACING ENGINE ---
+    function calculateDynamicPacing(remainingUnits, targetDateStr, unit = 'pages') {
+      if (!targetDateStr) return null;
+      const today = parseLocalDate(getLocalTodayStr());
+      const deadline = parseLocalDate(targetDateStr);
+      const diffTime = deadline.getTime() - today.getTime();
+      const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (remainingUnits <= 0) {
+        return {
+          status: 'completed',
+          daysRemaining: Math.max(0, daysRemaining),
+          requiredDaily: 0,
+          requiredDailyCeil: 0,
+          targetDate: targetDateStr,
+          unit
+        };
+      }
+
+      if (daysRemaining < 0) {
+        return {
+          status: 'overdue',
+          daysOverdue: Math.abs(daysRemaining),
+          daysRemaining: 0,
+          requiredDaily: remainingUnits,
+          requiredDailyCeil: remainingUnits,
+          targetDate: targetDateStr,
+          unit
+        };
+      }
+
+      // If due today (daysRemaining === 0), all remaining units are needed today
+      const effectiveDays = Math.max(1, daysRemaining);
+      const exactDaily = remainingUnits / effectiveDays;
+      const requiredDaily = Math.ceil(exactDaily * 10) / 10;
+      const requiredDailyCeil = Math.ceil(exactDaily);
+
+      return {
+        status: daysRemaining === 0 ? 'due-today' : 'active',
+        daysRemaining,
+        requiredDaily,
+        requiredDailyCeil,
+        targetDate: targetDateStr,
+        unit
+      };
+    }
+
+    function getCategoryById(categoryId) {
+      return state.categories.find(c => c.id === categoryId) || state.categories[0];
+    }
+
     function getSubjectStats(subjectId) {
       const subject = state.subjects.find(s => s.id === subjectId);
       if (!subject) return null;
 
+      const unit = normalizeUnit(subject.unit);
+      const category = getCategoryById(subject.categoryId);
       const subjectLogs = state.logs.filter(l => l.subjectId === subjectId);
-      const completedPages = subjectLogs.reduce((sum, l) => sum + Number(l.pages), 0);
-      const totalPages = Number(subject.totalPages);
-      const remainingPages = Math.max(0, totalPages - completedPages);
-      const percentage = totalPages > 0 ? Math.min(100, Math.round((completedPages / totalPages) * 1000) / 10) : 0;
+      const completedUnits = subjectLogs.reduce((sum, l) => sum + Number(l.pages), 0);
+      const totalUnits = Number(subject.totalPages);
+      const remainingUnits = Math.max(0, totalUnits - completedUnits);
+      const percentage = totalUnits > 0 ? Math.min(100, Math.round((completedUnits / totalUnits) * 1000) / 10) : 0;
 
-      // Recent activity check
       const regularLogs = subjectLogs.filter(l => !l.isInitial).sort((a, b) => b.date.localeCompare(a.date));
       const lastStudiedDate = regularLogs.length > 0 ? regularLogs[0].date : null;
 
+      // Determine effective target date: subject-specific overrides category target date
+      const effectiveTargetDate = subject.targetDate || (category && category.targetDate) || '';
+      const pacing = calculateDynamicPacing(remainingUnits, effectiveTargetDate, unit);
+
+      // Today's completed units for this subject
+      const todayStr = getLocalTodayStr();
+      const todayUnits = subjectLogs
+        .filter(l => l.date === todayStr && !l.isInitial)
+        .reduce((sum, l) => sum + Number(l.pages), 0);
+
       return {
         ...subject,
-        completedPages,
-        remainingPages,
+        unit,
+        category,
+        completedPages: completedUnits,
+        completedUnits,
+        totalUnits,
+        remainingPages: remainingUnits,
+        remainingUnits,
         percentage,
         lastStudiedDate,
+        effectiveTargetDate,
+        pacing,
+        todayUnits,
         logs: subjectLogs
+      };
+    }
+
+    function getCategoryStats(categoryId) {
+      const category = getCategoryById(categoryId);
+      if (!category) return null;
+
+      const items = state.subjects
+        .filter(s => s.categoryId === categoryId)
+        .map(s => getSubjectStats(s.id));
+
+      let totalUnits = 0;
+      let completedUnits = 0;
+      const unitBreakdown = {};
+
+      items.forEach(item => {
+        totalUnits += item.totalUnits;
+        completedUnits += item.completedUnits;
+        if (!unitBreakdown[item.unit]) {
+          unitBreakdown[item.unit] = { total: 0, completed: 0, remaining: 0 };
+        }
+        unitBreakdown[item.unit].total += item.totalUnits;
+        unitBreakdown[item.unit].completed += item.completedUnits;
+        unitBreakdown[item.unit].remaining += item.remainingUnits;
+      });
+
+      const remainingUnits = Math.max(0, totalUnits - completedUnits);
+      // Average completion across items weighted by item progress if mixed units, or direct ratio if single unit
+      const distinctUnits = Object.keys(unitBreakdown);
+      let percentage = 0;
+      if (items.length > 0) {
+        if (distinctUnits.length <= 1) {
+          percentage = totalUnits > 0 ? Math.min(100, Math.round((completedUnits / totalUnits) * 1000) / 10) : 0;
+        } else {
+          const avgPct = items.reduce((sum, i) => sum + i.percentage, 0) / items.length;
+          percentage = Math.round(avgPct * 10) / 10;
+        }
+      }
+
+      const primaryUnit = distinctUnits.length === 1 ? distinctUnits[0] : (category.defaultUnit || 'pages');
+      const isMixedUnits = distinctUnits.length > 1;
+      const pacing = category.targetDate && !isMixedUnits
+        ? calculateDynamicPacing(remainingUnits, category.targetDate, primaryUnit)
+        : null;
+
+      return {
+        ...category,
+        items,
+        itemCount: items.length,
+        totalUnits,
+        completedUnits,
+        remainingUnits,
+        percentage,
+        unitBreakdown,
+        distinctUnits,
+        primaryUnit,
+        isMixedUnits,
+        pacing
       };
     }
 
     function getOverallStats() {
       const totalSubjects = state.subjects.length;
-      let totalSyllabusPages = 0;
-      let totalCompletedPages = 0;
+      const unitTotals = {}; // { pages: { total, completed, remaining }, verses: {...}, ... }
+      let sumPercentages = 0;
 
       state.subjects.forEach(sub => {
-        const stats = getSubjectStats(sub.id);
-        totalSyllabusPages += stats.totalPages;
-        totalCompletedPages += stats.completedPages;
+        const st = getSubjectStats(sub.id);
+        sumPercentages += st.percentage;
+        if (!unitTotals[st.unit]) {
+          unitTotals[st.unit] = { total: 0, completed: 0, remaining: 0 };
+        }
+        unitTotals[st.unit].total += st.totalUnits;
+        unitTotals[st.unit].completed += st.completedUnits;
+        unitTotals[st.unit].remaining += st.remainingUnits;
       });
 
-      const totalRemainingPages = Math.max(0, totalSyllabusPages - totalCompletedPages);
-      // Combined page totals calculation (not average of percentages)
-      const overallPercentage = totalSyllabusPages > 0
-        ? Math.min(100, Math.round((totalCompletedPages / totalSyllabusPages) * 1000) / 10)
-        : 0;
+      const distinctUnits = Object.keys(unitTotals);
+      const isMixedUnits = distinctUnits.length > 1;
+
+      let overallPercentage = 0;
+      if (totalSubjects > 0) {
+        if (!isMixedUnits) {
+          const u = distinctUnits[0];
+          const tot = unitTotals[u].total;
+          const comp = unitTotals[u].completed;
+          overallPercentage = tot > 0 ? Math.min(100, Math.round((comp / tot) * 1000) / 10) : 0;
+        } else {
+          // Equal-weighted mean completion across active subjects/collections so pages & verses never distort scale
+          overallPercentage = Math.round((sumPercentages / totalSubjects) * 10) / 10;
+        }
+      }
+
+      const pagesOnly = unitTotals.pages || { total: 0, completed: 0, remaining: 0 };
 
       return {
         totalSubjects,
-        totalSyllabusPages,
-        totalCompletedPages,
-        totalRemainingPages,
-        overallPercentage
+        unitTotals,
+        distinctUnits,
+        isMixedUnits,
+        overallPercentage,
+        totalSyllabusPages: pagesOnly.total,
+        totalCompletedPages: pagesOnly.completed,
+        totalRemainingPages: pagesOnly.remaining
       };
     }
 
     function getTodayStats() {
       const todayStr = getLocalTodayStr();
       const todayLogs = state.logs.filter(l => l.date === todayStr && !l.isInitial);
-      const pagesToday = todayLogs.reduce((sum, l) => sum + Number(l.pages), 0);
       const subjectsStudied = new Set(todayLogs.map(l => l.subjectId)).size;
+
+      // Break down today's completed units cleanly by unit type
+      const todayByUnit = {};
+      todayLogs.forEach(l => {
+        const sub = state.subjects.find(s => s.id === l.subjectId);
+        const unit = sub ? normalizeUnit(sub.unit) : 'pages';
+        todayByUnit[unit] = (todayByUnit[unit] || 0) + Number(l.pages);
+      });
+
+      const pagesToday = todayByUnit.pages || 0;
       const dailyTarget = Number(state.settings.dailyTarget) || 0;
       const targetPercent = dailyTarget > 0 ? Math.min(100, Math.round((pagesToday / dailyTarget) * 100)) : 0;
 
       return {
         pagesToday,
+        todayByUnit,
         subjectsStudied,
         dailyTarget,
         targetPercent,
@@ -711,7 +1043,6 @@
       const cursor = new Date();
       const todayStr = formatDateYYYYMMDD(cursor);
 
-      // If not studied today yet, check if streak is alive from yesterday
       if (!activeDates.has(todayStr)) {
         cursor.setDate(cursor.getDate() - 1);
         if (!activeDates.has(formatDateYYYYMMDD(cursor))) {
@@ -782,13 +1113,17 @@
     }
 
     // --- NAVIGATION ---
-    function navigateTo(view, subjectId = null) {
+    function navigateTo(view, entityId = null) {
       currentView = view;
-      if (subjectId) selectedSubjectId = subjectId;
+      if (view === 'subject-detail' && entityId) selectedSubjectId = entityId;
+      if (view === 'category-detail' && entityId) selectedCategoryId = entityId;
 
       // Update Desktop Nav styling
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        const isMatch = btn.dataset.nav === view || (view === 'subject-detail' && btn.dataset.nav === 'subjects');
+        const isMatch =
+          btn.dataset.nav === view ||
+          (view === 'subject-detail' && btn.dataset.nav === 'subjects') ||
+          (view === 'category-detail' && btn.dataset.nav === 'categories');
         btn.className = isMatch
           ? 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase'
           : 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60';
@@ -796,10 +1131,13 @@
 
       // Update Mobile Nav styling
       document.querySelectorAll('.mob-nav-btn').forEach(btn => {
-        const isMatch = btn.dataset.nav === view || (view === 'subject-detail' && btn.dataset.nav === 'subjects');
+        const isMatch =
+          btn.dataset.nav === view ||
+          (view === 'subject-detail' && btn.dataset.nav === 'subjects') ||
+          (view === 'category-detail' && btn.dataset.nav === 'categories');
         btn.className = isMatch
-          ? 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-semibold text-charcoal'
-          : 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[11px] font-medium text-mutedGrey';
+          ? 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-semibold text-charcoal'
+          : 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey';
       });
 
       renderCurrentView();
@@ -818,6 +1156,12 @@
         case 'subject-detail':
           container.innerHTML = renderSubjectDetailView(selectedSubjectId);
           break;
+        case 'categories':
+          container.innerHTML = renderCategoriesView();
+          break;
+        case 'category-detail':
+          container.innerHTML = renderCategoryDetailView(selectedCategoryId);
+          break;
         case 'daily-log':
           container.innerHTML = renderDailyLogView();
           break;
@@ -831,13 +1175,32 @@
       lucide.createIcons();
     }
 
+    // --- PACING BADGE HELPER ---
+    function renderPacingBadge(pacing, compact = false) {
+      if (!pacing) return '';
+      const unitInfo = UNIT_CONFIG[normalizeUnit(pacing.unit)];
+      const unitWord = pacing.requiredDaily === 1 ? unitInfo.singular : unitInfo.plural;
+
+      if (pacing.status === 'completed') {
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-sageDark bg-sage/15 px-2 py-0.5 rounded-md">Goal completed</span>`;
+      }
+      if (pacing.status === 'overdue') {
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-red-700 bg-red-50 border border-red-200/70 px-2 py-0.5 rounded-md">Deadline passed (${formatShortDate(pacing.targetDate)})</span>`;
+      }
+      if (pacing.status === 'due-today') {
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-800 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md">Target: ${pacing.requiredDaily} ${unitWord} due today</span>`;
+      }
+      return compact
+        ? `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-sageDark"><i data-lucide="calendar-clock" class="w-3 h-3"></i> ${pacing.requiredDaily} ${unitWord}/day by ${formatShortDate(pacing.targetDate)}</span>`
+        : `<span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-sageDark bg-sage/15 px-2.5 py-0.5 rounded-md"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Target: ${pacing.requiredDaily} ${unitWord}/day by ${formatShortDate(pacing.targetDate)} (${pacing.daysRemaining}d left)</span>`;
+    }
+
     // --- VIEW 1: MAIN DASHBOARD ---
     function renderDashboardView() {
       const todayDateFormatted = new Date().toLocaleDateString('en-US', {
         weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
       });
 
-      // Empty state when no subjects exist
       if (state.subjects.length === 0) {
         return `
           <div class="mb-8">
@@ -849,25 +1212,39 @@
             <div class="w-14 h-14 rounded-2xl bg-sage/15 border border-sage/30 flex items-center justify-center mx-auto mb-5 text-sageDark">
               <i data-lucide="book-open-check" class="w-7 h-7"></i>
             </div>
-            <h3 class="font-serif-editorial text-2xl text-charcoal mb-2">Begin Your Annual Exam Preparation</h3>
+            <h3 class="font-serif-editorial text-2xl text-charcoal mb-2">Begin Your Structured Study & Reading</h3>
             <p class="text-sm text-mutedGrey max-w-md mx-auto leading-relaxed mb-7">
-              Add the subjects in your syllabus along with their total page counts. You can then record your daily reading progress and track your completion pace effortlessly.
+              Add subjects, textbooks, poem collections, or sermon series with custom measurement units (Pages, Chapters, Verses, Sections, or Sermons) and target deadlines.
             </p>
-            <button onclick="openSubjectModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all cursor-pointer">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-              <span>Add Your First Subject</span>
-            </button>
+            <div class="flex flex-wrap items-center justify-center gap-3">
+              <button onclick="openSubjectModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all cursor-pointer">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Add Your First Item</span>
+              </button>
+              <button onclick="navigateTo('categories')" class="inline-flex items-center gap-2 px-5 py-3 bg-bgBase hover:bg-borderSubtle/60 text-charcoal text-sm font-medium rounded-xl border border-borderSubtle transition-all cursor-pointer">
+                <i data-lucide="folder-kanban" class="w-4 h-4 text-sageDark"></i>
+                <span>Manage Categories</span>
+              </button>
+            </div>
           </div>
         `;
       }
 
       const overall = getOverallStats();
       const today = getTodayStats();
-      const examStats = getExamCountdownStats(overall.totalRemainingPages);
+      const examStats = overall.totalRemainingPages > 0 ? getExamCountdownStats(overall.totalRemainingPages) : null;
       const recentLogs = [...state.logs]
         .filter(l => !l.isInitial)
         .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
         .slice(0, 5);
+
+      // Active daily pacing targets across subjects/items
+      const activePacingItems = state.subjects
+        .map(s => getSubjectStats(s.id))
+        .filter(st => st.pacing && st.remainingUnits > 0)
+        .sort((a, b) => a.effectiveTargetDate.localeCompare(b.effectiveTargetDate));
+
+      const todayUnitBadges = Object.entries(today.todayByUnit);
 
       return `
         <!-- Header Greeting -->
@@ -875,17 +1252,20 @@
           <div>
             <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
             <h2 class="font-serif-editorial text-3xl sm:text-4xl font-normal text-charcoal">${getGreeting()} Here's your progress.</h2>
-            <p class="text-sm text-mutedGrey mt-1.5">Consistency over intensity — every page brings clarity.</p>
+            <p class="text-sm text-mutedGrey mt-1.5">Consistency over intensity — every unit brings clarity.</p>
           </div>
           ${examStats ? renderExamPill(examStats) : ''}
         </div>
 
-        <!-- A. Overall Progress Overview -->
+        <!-- A. Overall Progress Overview (Clean Mixed-Unit Breakdown) -->
         <section class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
             <div>
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Overall Syllabus Completion</h3>
-              <p class="text-sm text-charcoal mt-0.5">Combined across all ${overall.totalSubjects} ${overall.totalSubjects === 1 ? 'subject' : 'subjects'}</p>
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Overall Completion</h3>
+              <p class="text-sm text-charcoal mt-0.5">
+                Across ${overall.totalSubjects} ${overall.totalSubjects === 1 ? 'item' : 'items'} in ${state.categories.filter(c => state.subjects.some(s => s.categoryId === c.id)).length} active categories
+                ${overall.isMixedUnits ? '· Equal-weighted across measurement units' : ''}
+              </p>
             </div>
             <div class="text-left sm:text-right">
               <span class="font-serif-editorial text-4xl font-medium text-charcoal">${overall.overallPercentage}%</span>
@@ -897,66 +1277,103 @@
             <div class="h-full bg-sage rounded-full progress-fill" style="width: ${overall.overallPercentage}%"></div>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-borderSubtle/80">
+          <!-- Unit-Aware Summary Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-${Math.min(5, overall.distinctUnits.length + 1)} gap-4 pt-4 border-t border-borderSubtle/80">
             <div>
-              <p class="text-xs text-mutedGrey">Total Subjects</p>
+              <p class="text-xs text-mutedGrey">Active Items</p>
               <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalSubjects}</p>
+              <p class="text-[11px] text-mutedGrey mt-0.5">${state.categories.length} categories</p>
             </div>
-            <div>
-              <p class="text-xs text-mutedGrey">Total Syllabus Pages</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalSyllabusPages.toLocaleString()}</p>
-            </div>
-            <div>
-              <p class="text-xs text-mutedGrey">Pages Completed</p>
-              <p class="text-lg font-semibold text-sageDark mt-0.5">${overall.totalCompletedPages.toLocaleString()}</p>
-            </div>
-            <div>
-              <p class="text-xs text-mutedGrey">Pages Remaining</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalRemainingPages.toLocaleString()}</p>
-            </div>
+            ${overall.distinctUnits.map(unitKey => {
+              const uData = overall.unitTotals[unitKey];
+              const uCfg = UNIT_CONFIG[unitKey];
+              const uPct = uData.total > 0 ? Math.round((uData.completed / uData.total) * 100) : 0;
+              return `
+                <div>
+                  <p class="text-xs text-mutedGrey">${uCfg.label} Completed</p>
+                  <p class="text-lg font-semibold text-sageDark mt-0.5">${uData.completed.toLocaleString()} <span class="text-xs font-normal text-mutedGrey">/ ${uData.total.toLocaleString()}</span></p>
+                  <p class="text-[11px] text-mutedGrey mt-0.5">${uData.remaining.toLocaleString()} ${uCfg.plural} left (${uPct}%)</p>
+                </div>
+              `;
+            }).join('')}
           </div>
         </section>
 
-        <!-- C. Today's Progress & Planning Row -->
+        <!-- C. Today's Progress, Daily Subject Pacing & Recent Activity -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <section class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Today's Progress</h3>
-                <p class="text-xs text-mutedGrey mt-0.5">${formatReadableDate(getLocalTodayStr())}</p>
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Today's Progress & Daily Pacing</h3>
+                  <p class="text-xs text-mutedGrey mt-0.5">${formatReadableDate(getLocalTodayStr())}</p>
+                </div>
+                <button onclick="openLogModal()" class="text-xs font-medium text-sageDark hover:text-charcoal flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-bgBase hover:bg-borderSubtle/50 transition-colors cursor-pointer">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Record Today</span>
+                </button>
               </div>
-              <button onclick="openLogModal()" class="text-xs font-medium text-sageDark hover:text-charcoal flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-bgBase hover:bg-borderSubtle/50 transition-colors cursor-pointer">
-                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>Record Today</span>
-              </button>
+
+              ${todayUnitBadges.length === 0 ? `
+                <div class="py-4 px-4 rounded-xl bg-bgBase/70 border border-dashed border-borderSubtle text-center mb-4">
+                  <p class="text-sm text-charcoal font-medium">No progress logged yet today</p>
+                  <p class="text-xs text-mutedGrey mt-1">Record a session whenever you complete pages, chapters, verses, sections, or sermons.</p>
+                </div>
+              ` : `
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  ${todayUnitBadges.map(([uKey, val]) => `
+                    <div class="px-3.5 py-2.5 rounded-xl bg-bgBase border border-borderSubtle/80">
+                      <p class="text-[11px] text-mutedGrey">${UNIT_CONFIG[uKey].label} Today</p>
+                      <p class="text-xl font-semibold text-charcoal mt-0.5">${val.toLocaleString()} <span class="text-xs font-normal text-mutedGrey">${val === 1 ? UNIT_CONFIG[uKey].singular : UNIT_CONFIG[uKey].plural}</span></p>
+                    </div>
+                  `).join('')}
+                  <div class="px-3.5 py-2.5 rounded-xl bg-bgBase border border-borderSubtle/80">
+                    <p class="text-[11px] text-mutedGrey">Items Studied</p>
+                    <p class="text-xl font-semibold text-charcoal mt-0.5">${today.subjectsStudied}</p>
+                  </div>
+                </div>
+              `}
+
+              <!-- Dynamic Daily Goal Pacing per Active Deadline -->
+              ${activePacingItems.length > 0 ? `
+                <div class="mt-3 pt-3 border-t border-borderSubtle/70">
+                  <p class="text-[11px] font-semibold uppercase tracking-wider text-mutedGrey mb-2.5">Today's Required Pacing for Active Goals</p>
+                  <div class="space-y-2">
+                    ${activePacingItems.slice(0, 4).map(st => {
+                      const p = st.pacing;
+                      const unitInfo = UNIT_CONFIG[st.unit];
+                      const targetToday = p.requiredDailyCeil;
+                      const doneToday = st.todayUnits;
+                      const metToday = doneToday >= targetToday;
+                      return `
+                        <div onclick="navigateTo('subject-detail', '${st.id}')" class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-bgBase/70 hover:bg-bgBase border border-borderSubtle/60 cursor-pointer transition-colors">
+                          <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                            <div class="min-w-0">
+                              <p class="text-xs font-medium text-charcoal truncate">${escapeHTML(st.name)}</p>
+                              <p class="text-[11px] text-mutedGrey">Due ${formatShortDate(st.effectiveTargetDate)} · ${st.remainingUnits} ${unitInfo.plural} left</p>
+                            </div>
+                          </div>
+                          <div class="text-right shrink-0">
+                            <span class="text-xs font-semibold ${metToday ? 'text-sageDark' : 'text-charcoal'}">
+                              ${doneToday} / ${targetToday} ${targetToday === 1 ? unitInfo.singular : unitInfo.plural}
+                            </span>
+                            <span class="block text-[10px] ${metToday ? 'text-sageDark font-medium' : 'text-mutedGrey'}">
+                              ${metToday ? 'On track today' : `${p.requiredDaily}/day needed`}
+                            </span>
+                          </div>
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              ` : ''}
             </div>
 
-            ${today.pagesToday === 0 ? `
-              <div class="py-5 px-4 rounded-xl bg-bgBase/70 border border-dashed border-borderSubtle text-center my-auto">
-                <p class="text-sm text-charcoal font-medium">No pages logged yet today</p>
-                <p class="text-xs text-mutedGrey mt-1">Record a study session whenever you finish reading a few pages.</p>
-              </div>
-            ` : `
-              <div class="grid grid-cols-3 gap-4 my-2">
-                <div>
-                  <p class="text-xs text-mutedGrey">Pages Today</p>
-                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.pagesToday}</p>
-                </div>
-                <div>
-                  <p class="text-xs text-mutedGrey">Subjects Studied</p>
-                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.subjectsStudied}</p>
-                </div>
-                <div>
-                  <p class="text-xs text-mutedGrey">Daily Target</p>
-                  <p class="text-2xl font-semibold text-charcoal mt-0.5">${today.dailyTarget > 0 ? `${today.targetPercent}%` : '—'}</p>
-                </div>
-              </div>
-            `}
-
-            ${today.dailyTarget > 0 ? `
+            ${today.dailyTarget > 0 && overall.totalSyllabusPages > 0 ? `
               <div class="mt-4 pt-3 border-t border-borderSubtle/70">
                 <div class="flex justify-between text-xs mb-1.5">
-                  <span class="text-mutedGrey">Daily Target: <strong class="text-charcoal font-medium">${today.pagesToday} / ${today.dailyTarget} pages</strong></span>
+                  <span class="text-mutedGrey">Global Daily Page Target: <strong class="text-charcoal font-medium">${today.pagesToday} / ${today.dailyTarget} pages</strong></span>
                   <span class="font-medium text-sageDark">${today.targetPercent}%</span>
                 </div>
                 <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
@@ -980,6 +1397,7 @@
               <div class="space-y-3 divide-y divide-borderSubtle/60">
                 ${recentLogs.map(log => {
                   const sub = state.subjects.find(s => s.id === log.subjectId);
+                  const unit = sub ? normalizeUnit(sub.unit) : 'pages';
                   return `
                     <div class="pt-2.5 first:pt-0 flex items-center justify-between gap-2">
                       <div class="min-w-0">
@@ -989,7 +1407,7 @@
                         </div>
                         <p class="text-[11px] text-mutedGrey pl-4">${formatShortDate(log.date)}</p>
                       </div>
-                      <span class="text-xs font-semibold text-charcoal bg-bgBase px-2.5 py-1 rounded-lg shrink-0">+${log.pages}p</span>
+                      <span class="text-xs font-semibold text-charcoal bg-bgBase px-2.5 py-1 rounded-lg shrink-0">+${formatUnitCount(log.pages, unit)}</span>
                     </div>
                   `;
                 }).join('')}
@@ -998,40 +1416,55 @@
           </section>
         </div>
 
-        <!-- B. Individual Subject Progress Cards -->
+        <!-- B. Individual Subject / Item Progress Cards -->
         <section>
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-serif-editorial text-2xl text-charcoal">Your Subjects</h3>
-            <button onclick="openSubjectModal()" class="text-xs font-medium text-charcoal hover:bg-surface px-3 py-1.5 rounded-xl border border-borderSubtle transition-colors flex items-center gap-1.5 cursor-pointer">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-              <span>Add Subject</span>
-            </button>
+            <div>
+              <h3 class="font-serif-editorial text-2xl text-charcoal">Your Subjects & Collections</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="navigateTo('categories')" class="text-xs font-medium text-mutedGrey hover:text-charcoal px-3 py-1.5 rounded-xl border border-borderSubtle bg-surface transition-colors cursor-pointer">
+                Categories
+              </button>
+              <button onclick="openSubjectModal()" class="text-xs font-medium text-charcoal hover:bg-surface px-3 py-1.5 rounded-xl border border-borderSubtle transition-colors flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add Item</span>
+              </button>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             ${state.subjects.map(sub => {
               const st = getSubjectStats(sub.id);
+              const uCfg = UNIT_CONFIG[st.unit];
               return `
                 <div onclick="navigateTo('subject-detail', '${sub.id}')" class="group bg-surface hover:bg-surfaceWarm rounded-2xl border border-borderSubtle hover:border-charcoal/25 p-5 shadow-xs transition-all cursor-pointer flex flex-col justify-between">
                   <div>
-                    <div class="flex items-start justify-between gap-2 mb-3">
-                      <div class="flex items-center gap-2.5 min-w-0">
-                        <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-                        <h4 class="font-medium text-base text-charcoal truncate group-hover:text-black">${escapeHTML(st.name)}</h4>
-                      </div>
+                    <div class="flex items-center justify-between gap-2 mb-2">
+                      <span class="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md bg-bgBase text-mutedGrey">
+                        <span class="w-1.5 h-1.5 rounded-full" style="background-color: ${st.category.color}"></span>
+                        ${escapeHTML(st.category.name)}
+                      </span>
                       <span class="text-sm font-semibold text-charcoal shrink-0">${st.percentage}%</span>
                     </div>
 
+                    <div class="flex items-center gap-2.5 min-w-0 mb-3">
+                      <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                      <h4 class="font-medium text-base text-charcoal truncate group-hover:text-black">${escapeHTML(st.name)}</h4>
+                    </div>
+
                     <!-- Progress Bar -->
-                    <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-4">
+                    <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-3">
                       <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
                     </div>
+
+                    ${st.pacing ? `<div class="mb-3">${renderPacingBadge(st.pacing, true)}</div>` : ''}
                   </div>
 
                   <div>
                     <div class="flex items-center justify-between text-xs text-mutedGrey pb-3 border-b border-borderSubtle/70">
-                      <span><strong class="text-charcoal font-medium">${st.completedPages}</strong> of ${st.totalPages} pages</span>
-                      <span>${st.remainingPages} left</span>
+                      <span><strong class="text-charcoal font-medium">${st.completedUnits}</strong> of ${st.totalUnits} ${uCfg.plural}</span>
+                      <span>${st.remainingUnits} left</span>
                     </div>
                     <div class="pt-2.5 flex items-center justify-between text-[11px] text-mutedGrey">
                       <span>${st.lastStudiedDate ? `Last studied ${formatShortDate(st.lastStudiedDate)}` : 'No recent sessions'}</span>
@@ -1052,7 +1485,7 @@
       if (examStats.status === 'past') {
         return `
           <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 text-xs">
-            <span class="text-mutedGrey">Examination Date:</span>
+            <span class="text-mutedGrey">Global Target Date:</span>
             <span class="font-medium text-charcoal ml-1">${formatReadableDate(state.settings.examDate)} (Passed)</span>
           </div>
         `;
@@ -1060,19 +1493,19 @@
       if (examStats.status === 'completed') {
         return `
           <div class="bg-sage/15 border border-sage/30 rounded-xl px-4 py-2.5 text-xs text-charcoal">
-            <span class="font-medium">Syllabus Complete</span> · ${examStats.daysRemaining} days until exam
+            <span class="font-medium">All Pages Complete</span> · ${examStats.daysRemaining} days until target date
           </div>
         `;
       }
       return `
         <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 flex items-center gap-4 text-xs shadow-2xs">
           <div>
-            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Exam Countdown</span>
+            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Global Target</span>
             <span class="font-semibold text-charcoal">${examStats.daysRemaining} ${examStats.daysRemaining === 1 ? 'day' : 'days'} left</span>
           </div>
           <div class="h-6 w-px bg-borderSubtle"></div>
           <div>
-            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Required Pace</span>
+            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Required Page Pace</span>
             <span class="font-semibold text-sageDark">${examStats.requiredDaily} pages/day</span>
           </div>
         </div>
@@ -1081,58 +1514,71 @@
 
     // --- VIEW 2: MY SUBJECTS ---
     function renderSubjectsView() {
-      const filtered = state.subjects.filter(s =>
-        s.name.toLowerCase().includes(subjectSearchQuery.toLowerCase())
-      );
+      const filtered = state.subjects.filter(s => {
+        const matchesSearch = s.name.toLowerCase().includes(subjectSearchQuery.toLowerCase());
+        const matchesCat = subjectCategoryFilter === 'all' || s.categoryId === subjectCategoryFilter;
+        return matchesSearch && matchesCat;
+      });
 
       return `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 class="font-serif-editorial text-3xl text-charcoal">My Subjects</h2>
-            <p class="text-sm text-mutedGrey mt-1">Organise your syllabus page counts and subject details.</p>
+            <h2 class="font-serif-editorial text-3xl text-charcoal">My Subjects & Collections</h2>
+            <p class="text-sm text-mutedGrey mt-1">Organise your books, poems, sermons, and study materials across categories.</p>
           </div>
           <button onclick="openSubjectModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add New Subject</span>
+            <span>Add New Item</span>
           </button>
         </div>
 
-        <!-- Search Filter -->
+        <!-- Search & Category Filters -->
         ${state.subjects.length > 0 ? `
-          <div class="mb-6 relative max-w-sm">
-            <i data-lucide="search" class="w-4 h-4 text-mutedGrey absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-            <input type="text" value="${escapeHTML(subjectSearchQuery)}" oninput="subjectSearchQuery = this.value; renderCurrentView();" placeholder="Search subjects..." class="w-full pl-10 pr-4 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <div class="relative flex-1 min-w-[220px] max-w-sm">
+              <i data-lucide="search" class="w-4 h-4 text-mutedGrey absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input type="text" value="${escapeHTML(subjectSearchQuery)}" oninput="subjectSearchQuery = this.value; renderCurrentView();" placeholder="Search subjects, poems, sermons..." class="w-full pl-10 pr-4 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+            </div>
+            <select onchange="subjectCategoryFilter = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+              <option value="all" ${subjectCategoryFilter === 'all' ? 'selected' : ''}>All Categories</option>
+              ${state.categories.map(c => `<option value="${c.id}" ${subjectCategoryFilter === c.id ? 'selected' : ''}>${escapeHTML(c.name)}</option>`).join('')}
+            </select>
           </div>
         ` : ''}
 
         ${state.subjects.length === 0 ? `
           <div class="bg-surface rounded-2xl border border-borderSubtle p-12 text-center">
-            <p class="font-serif-editorial text-xl text-charcoal mb-2">No subjects added yet</p>
-            <p class="text-sm text-mutedGrey mb-6">Create your first subject to start tracking syllabus pages.</p>
-            <button onclick="openSubjectModal()" class="px-5 py-2.5 bg-charcoal text-white text-sm font-medium rounded-xl">Add Subject</button>
+            <p class="font-serif-editorial text-xl text-charcoal mb-2">No items added yet</p>
+            <p class="text-sm text-mutedGrey mb-6">Create your first subject, poem collection, or sermon series to begin tracking.</p>
+            <button onclick="openSubjectModal()" class="px-5 py-2.5 bg-charcoal text-white text-sm font-medium rounded-xl">Add Item</button>
           </div>
         ` : filtered.length === 0 ? `
           <div class="bg-surface rounded-2xl border border-borderSubtle p-10 text-center">
-            <p class="text-sm text-mutedGrey">No subjects match "${escapeHTML(subjectSearchQuery)}".</p>
+            <p class="text-sm text-mutedGrey">No items match your current filter.</p>
           </div>
         ` : `
           <div class="space-y-3">
             ${filtered.map(sub => {
               const st = getSubjectStats(sub.id);
+              const uCfg = UNIT_CONFIG[st.unit];
               return `
                 <div class="bg-surface rounded-2xl border border-borderSubtle p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-charcoal/20 transition-colors">
                   <div class="flex-1 min-w-0 cursor-pointer" onclick="navigateTo('subject-detail', '${sub.id}')">
-                    <div class="flex items-center gap-3 mb-1.5">
+                    <div class="flex flex-wrap items-center gap-2.5 mb-1.5">
                       <span class="w-3.5 h-3.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
                       <h3 class="font-medium text-base text-charcoal truncate">${escapeHTML(st.name)}</h3>
+                      <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-bgBase text-mutedGrey border border-borderSubtle/70">${escapeHTML(st.category.name)}</span>
                       <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-bgBase text-charcoal">${st.percentage}%</span>
                     </div>
-                    ${st.notes ? `<p class="text-xs text-mutedGrey pl-6 mb-2.5 line-clamp-1">${escapeHTML(st.notes)}</p>` : ''}
+                    ${st.notes ? `<p class="text-xs text-mutedGrey pl-6 mb-2 line-clamp-1">${escapeHTML(st.notes)}</p>` : ''}
                     <div class="pl-6 max-w-md">
                       <div class="w-full h-1.5 bg-bgBase rounded-full overflow-hidden mb-1.5">
                         <div class="h-full rounded-full" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
                       </div>
-                      <p class="text-xs text-mutedGrey">${st.completedPages} completed · ${st.remainingPages} remaining · ${st.totalPages} total pages</p>
+                      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-mutedGrey">
+                        <span>${st.completedUnits} completed · ${st.remainingUnits} remaining · ${st.totalUnits} total ${uCfg.plural}</span>
+                        ${st.pacing ? renderPacingBadge(st.pacing, true) : ''}
+                      </div>
                     </div>
                   </div>
 
@@ -1140,13 +1586,13 @@
                     <button onclick="navigateTo('subject-detail', '${sub.id}')" class="px-3 py-1.5 text-xs font-medium text-charcoal bg-bgBase hover:bg-borderSubtle/60 rounded-lg transition-colors">
                       Open
                     </button>
-                    <button onclick="openSubjectModal('${sub.id}')" title="Edit Subject" class="p-2 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase transition-colors">
+                    <button onclick="openSubjectModal('${sub.id}')" title="Edit Item" class="p-2 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase transition-colors">
                       <i data-lucide="pencil" class="w-4 h-4"></i>
                     </button>
                     <button onclick="confirmResetSubject('${sub.id}')" title="Reset Progress" class="p-2 text-mutedGrey hover:text-amber-700 rounded-lg hover:bg-bgBase transition-colors">
                       <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                     </button>
-                    <button onclick="confirmDeleteSubject('${sub.id}')" title="Delete Subject" class="p-2 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase transition-colors">
+                    <button onclick="confirmDeleteSubject('${sub.id}')" title="Delete Item" class="p-2 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase transition-colors">
                       <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                   </div>
@@ -1158,6 +1604,238 @@
       `;
     }
 
+    // --- VIEW 2B: CATEGORIES DASHBOARD ---
+    function renderCategoriesView() {
+      const categoryCards = state.categories.map(cat => getCategoryStats(cat.id));
+
+      return `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-serif-editorial text-3xl text-charcoal">Book & Study Categories</h2>
+            <p class="text-sm text-mutedGrey mt-1">Group your textbooks, literature, poems, and sermons with dedicated category goals.</p>
+          </div>
+          <button onclick="openCategoryModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+            <i data-lucide="folder-plus" class="w-4 h-4"></i>
+            <span>New Category</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          ${categoryCards.map(cat => {
+            const uCfg = UNIT_CONFIG[cat.primaryUnit];
+            const breakdownSummary = cat.distinctUnits.length === 0
+              ? 'No items assigned yet'
+              : cat.distinctUnits.map(uKey => {
+                  const b = cat.unitBreakdown[uKey];
+                  return `${b.completed}/${b.total} ${UNIT_CONFIG[uKey].plural}`;
+                }).join(' · ');
+
+            return `
+              <div class="group bg-surface hover:bg-surfaceWarm rounded-2xl border border-borderSubtle hover:border-charcoal/25 p-6 shadow-xs transition-all flex flex-col justify-between">
+                <div onclick="navigateTo('category-detail', '${cat.id}')" class="cursor-pointer">
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="w-3.5 h-3.5 rounded-full shrink-0" style="background-color: ${cat.color}"></span>
+                      <h3 class="font-serif-editorial text-xl text-charcoal truncate">${escapeHTML(cat.name)}</h3>
+                    </div>
+                    <span class="text-sm font-semibold text-charcoal bg-bgBase px-2.5 py-0.5 rounded-full shrink-0">${cat.percentage}%</span>
+                  </div>
+
+                  <p class="text-xs text-mutedGrey mb-4">
+                    ${cat.itemCount} ${cat.itemCount === 1 ? 'item' : 'items'} · Default unit: <span class="text-charcoal font-medium">${uCfg.label}</span>
+                  </p>
+
+                  <!-- Category Progress Bar -->
+                  <div class="w-full h-2.5 bg-bgBase rounded-full overflow-hidden mb-3">
+                    <div class="h-full rounded-full progress-fill" style="width: ${cat.percentage}%; background-color: ${cat.color}"></div>
+                  </div>
+
+                  <p class="text-xs text-mutedGrey mb-3">${breakdownSummary}</p>
+
+                  ${cat.pacing ? `<div class="mb-3">${renderPacingBadge(cat.pacing, true)}</div>` : (cat.targetDate ? `<p class="text-[11px] text-sageDark mb-3">Deadline: ${formatShortDate(cat.targetDate)}</p>` : '')}
+                </div>
+
+                <div class="pt-3 border-t border-borderSubtle/70 flex items-center justify-between">
+                  <button onclick="navigateTo('category-detail', '${cat.id}')" class="text-xs font-medium text-charcoal hover:text-sageDark inline-flex items-center gap-1 cursor-pointer">
+                    <span>Open Category</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <div class="flex items-center gap-1">
+                    <button onclick="openSubjectModal(null, '${cat.id}')" title="Add Item to Category" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase transition-colors">
+                      <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="openCategoryModal('${cat.id}')" title="Edit Category" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase transition-colors">
+                      <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                    ${!cat.isDefault ? `
+                      <button onclick="confirmDeleteCategory('${cat.id}')" title="Delete Category" class="p-1.5 text-mutedGrey hover:text-red-600 rounded-lg hover:bg-bgBase transition-colors">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    ` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // --- VIEW 2C: CATEGORY DETAIL & FILTERED DAILY COMPLETION VIEW ---
+    function renderCategoryDetailView(categoryId) {
+      const cat = getCategoryStats(categoryId);
+      if (!cat) {
+        navigateTo('categories');
+        return '';
+      }
+
+      const categorySubjectIds = new Set(cat.items.map(i => i.id));
+      const categoryLogs = state.logs
+        .filter(l => !l.isInitial && categorySubjectIds.has(l.subjectId))
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt);
+
+      const todayStr = getLocalTodayStr();
+      const todayCatLogs = categoryLogs.filter(l => l.date === todayStr);
+
+      return `
+        <div class="mb-6">
+          <button onclick="navigateTo('categories')" class="inline-flex items-center gap-1.5 text-xs font-medium text-mutedGrey hover:text-charcoal mb-4 transition-colors cursor-pointer">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Back to Categories</span>
+          </button>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="w-4 h-4 rounded-full shrink-0" style="background-color: ${cat.color}"></span>
+                <h2 class="font-serif-editorial text-3xl text-charcoal">${escapeHTML(cat.name)}</h2>
+              </div>
+              <p class="text-xs text-mutedGrey mt-1">
+                ${cat.itemCount} ${cat.itemCount === 1 ? 'item' : 'items'} · Default tracking unit: ${UNIT_CONFIG[cat.primaryUnit].label}
+                ${cat.targetDate ? ` · Category Goal Date: ${formatReadableDate(cat.targetDate)}` : ''}
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openCategoryModal('${cat.id}')" class="px-3.5 py-2 text-xs font-medium text-charcoal bg-surface border border-borderSubtle hover:bg-bgBase rounded-xl transition-colors">
+                Edit Category
+              </button>
+              <button onclick="openSubjectModal(null, '${cat.id}')" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add to ${escapeHTML(cat.name)}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Overview Card -->
+        <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
+          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Category Completion</span>
+              ${cat.pacing ? `<div class="mt-1.5">${renderPacingBadge(cat.pacing)}</div>` : ''}
+            </div>
+            <span class="font-serif-editorial text-3xl font-medium text-charcoal">${cat.percentage}%</span>
+          </div>
+          <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden mb-5">
+            <div class="h-full rounded-full progress-fill" style="width: ${cat.percentage}%; background-color: ${cat.color}"></div>
+          </div>
+
+          ${cat.distinctUnits.length > 0 ? `
+            <div class="grid grid-cols-2 sm:grid-cols-${Math.min(4, cat.distinctUnits.length + 1)} gap-4 pt-4 border-t border-borderSubtle/80">
+              <div>
+                <p class="text-xs text-mutedGrey">Items in Category</p>
+                <p class="text-lg font-semibold text-charcoal mt-0.5">${cat.itemCount}</p>
+              </div>
+              ${cat.distinctUnits.map(uKey => {
+                const b = cat.unitBreakdown[uKey];
+                const uCfg = UNIT_CONFIG[uKey];
+                return `
+                  <div>
+                    <p class="text-xs text-mutedGrey">${uCfg.label} Progress</p>
+                    <p class="text-lg font-semibold text-charcoal mt-0.5">${b.completed} <span class="text-xs font-normal text-mutedGrey">/ ${b.total}</span></p>
+                    <p class="text-[11px] text-mutedGrey">${b.remaining} ${uCfg.plural} remaining</p>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Items in Category & Filtered Daily Log Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Category Items List -->
+          <div class="lg:col-span-7 space-y-3">
+            <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Items in ${escapeHTML(cat.name)}</h3>
+            ${cat.items.length === 0 ? `
+              <div class="bg-surface rounded-2xl border border-borderSubtle p-10 text-center">
+                <p class="text-sm text-charcoal font-medium mb-1">No items in this category yet</p>
+                <p class="text-xs text-mutedGrey mb-4">Add a book, poem collection, or sermon series to start tracking.</p>
+                <button onclick="openSubjectModal(null, '${cat.id}')" class="px-4 py-2 bg-charcoal text-white text-xs font-medium rounded-xl">Add Item</button>
+              </div>
+            ` : cat.items.map(st => {
+              const uCfg = UNIT_CONFIG[st.unit];
+              return `
+                <div class="bg-surface rounded-2xl border border-borderSubtle p-5 hover:border-charcoal/25 transition-colors">
+                  <div class="flex items-start justify-between gap-3 mb-2">
+                    <div onclick="navigateTo('subject-detail', '${st.id}')" class="flex items-center gap-2.5 min-w-0 cursor-pointer">
+                      <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                      <h4 class="font-medium text-base text-charcoal truncate hover:underline">${escapeHTML(st.name)}</h4>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                      <span class="text-xs font-semibold text-charcoal">${st.percentage}%</span>
+                      <button onclick="openLogModal(null, '${st.id}')" class="px-2.5 py-1 bg-bgBase hover:bg-charcoal hover:text-white text-charcoal text-xs font-medium rounded-lg transition-colors cursor-pointer">
+                        + Log
+                      </button>
+                    </div>
+                  </div>
+                  <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-2.5">
+                    <div class="h-full rounded-full" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
+                  </div>
+                  <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-mutedGrey">
+                    <span><strong class="text-charcoal">${st.completedUnits}</strong> / ${st.totalUnits} ${uCfg.plural} (${st.remainingUnits} left)</span>
+                    ${st.pacing ? renderPacingBadge(st.pacing, true) : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Filtered Daily Completion View for this Category -->
+          <div class="lg:col-span-5">
+            <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Category Daily Log</h3>
+            <div class="bg-surface rounded-2xl border border-borderSubtle p-5 shadow-xs">
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-borderSubtle/70">
+                <span class="text-xs text-mutedGrey">Today's sessions in ${escapeHTML(cat.name)}</span>
+                <span class="text-xs font-semibold text-sageDark">${todayCatLogs.length} ${todayCatLogs.length === 1 ? 'session' : 'sessions'}</span>
+              </div>
+
+              ${categoryLogs.length === 0 ? `
+                <div class="py-8 text-center">
+                  <p class="text-xs text-mutedGrey">No sessions logged for ${escapeHTML(cat.name)} yet.</p>
+                </div>
+              ` : `
+                <div class="divide-y divide-borderSubtle/70 max-h-[420px] overflow-y-auto pr-1">
+                  ${categoryLogs.slice(0, 20).map(log => {
+                    const sub = state.subjects.find(s => s.id === log.subjectId);
+                    const unit = sub ? normalizeUnit(sub.unit) : 'pages';
+                    return `
+                      <div class="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-2">
+                        <div class="min-w-0">
+                          <p class="text-xs font-medium text-charcoal truncate">${sub ? escapeHTML(sub.name) : 'Item'}</p>
+                          <p class="text-[11px] text-mutedGrey">${formatReadableDate(log.date)}${log.note ? ` · ${escapeHTML(log.note)}` : ''}</p>
+                        </div>
+                        <span class="text-xs font-semibold text-charcoal bg-bgBase px-2.5 py-1 rounded-lg shrink-0">+${formatUnitCount(log.pages, unit)}</span>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     // --- VIEW 3: SUBJECT DETAIL PAGE ---
     function renderSubjectDetailView(subjectId) {
       const st = getSubjectStats(subjectId);
@@ -1166,6 +1844,7 @@
         return '';
       }
 
+      const uCfg = UNIT_CONFIG[st.unit];
       const regularLogs = st.logs
         .filter(l => !l.isInitial)
         .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt);
@@ -1178,36 +1857,50 @@
         const d = new Date();
         d.setDate(d.getDate() - i);
         const dateStr = formatDateYYYYMMDD(d);
-        const pages = st.logs
+        const count = st.logs
           .filter(l => l.date === dateStr && !l.isInitial)
           .reduce((sum, l) => sum + Number(l.pages), 0);
         last7Days.push({
           dateStr,
           label: d.toLocaleDateString('en-US', { weekday: 'short' }),
-          pages
+          pages: count
         });
       }
-      const maxBar = Math.max(10, ...last7Days.map(d => d.pages));
+      const maxBar = Math.max(5, ...last7Days.map(d => d.pages));
 
       return `
         <div class="mb-6">
-          <button onclick="navigateTo('subjects')" class="inline-flex items-center gap-1.5 text-xs font-medium text-mutedGrey hover:text-charcoal mb-4 transition-colors">
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-            <span>Back to My Subjects</span>
-          </button>
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <button onclick="navigateTo('subjects')" class="inline-flex items-center gap-1.5 text-xs font-medium text-mutedGrey hover:text-charcoal transition-colors cursor-pointer">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>All Subjects</span>
+            </button>
+            <span class="text-borderSubtle">/</span>
+            <button onclick="navigateTo('category-detail', '${st.category.id}')" class="inline-flex items-center gap-1.5 text-xs font-medium text-mutedGrey hover:text-charcoal transition-colors cursor-pointer">
+              <span class="w-2 h-2 rounded-full" style="background-color: ${st.category.color}"></span>
+              <span>${escapeHTML(st.category.name)}</span>
+            </button>
+          </div>
 
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <span class="w-4 h-4 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-              <h2 class="font-serif-editorial text-3xl text-charcoal">${escapeHTML(st.name)}</h2>
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="w-4 h-4 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                <h2 class="font-serif-editorial text-3xl text-charcoal">${escapeHTML(st.name)}</h2>
+              </div>
+              <div class="flex flex-wrap items-center gap-2 mt-2 pl-7">
+                <span class="text-xs px-2.5 py-0.5 rounded-md bg-surface border border-borderSubtle text-mutedGrey">Category: <strong class="text-charcoal font-medium">${escapeHTML(st.category.name)}</strong></span>
+                <span class="text-xs px-2.5 py-0.5 rounded-md bg-surface border border-borderSubtle text-mutedGrey">Unit: <strong class="text-charcoal font-medium">${uCfg.label}</strong></span>
+                ${st.pacing ? renderPacingBadge(st.pacing) : ''}
+              </div>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="openSubjectModal('${st.id}')" class="px-3.5 py-2 text-xs font-medium text-charcoal bg-surface border border-borderSubtle hover:bg-bgBase rounded-xl transition-colors">
-                Edit Subject
+                Edit Item
               </button>
               <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>Log Pages</span>
+                <span>Log ${uCfg.label}</span>
               </button>
             </div>
           </div>
@@ -1216,7 +1909,7 @@
         <!-- Subject Overview Card -->
         <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex items-baseline justify-between mb-3">
-            <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Subject Completion</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Completion Progress</span>
             <span class="font-serif-editorial text-3xl font-medium text-charcoal">${st.percentage}%</span>
           </div>
           <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden mb-6">
@@ -1225,22 +1918,22 @@
 
           <div class="grid grid-cols-3 gap-4 pt-4 border-t border-borderSubtle/80">
             <div>
-              <p class="text-xs text-mutedGrey">Total Pages</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.totalPages}</p>
+              <p class="text-xs text-mutedGrey">Total ${uCfg.label}</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.totalUnits}</p>
             </div>
             <div>
               <p class="text-xs text-mutedGrey">Completed</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.completedPages}</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.completedUnits}</p>
             </div>
             <div>
               <p class="text-xs text-mutedGrey">Remaining</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.remainingPages}</p>
+              <p class="text-lg font-semibold text-charcoal mt-0.5">${st.remainingUnits}</p>
             </div>
           </div>
 
           ${st.notes ? `
             <div class="mt-5 pt-4 border-t border-borderSubtle/80">
-              <p class="text-xs font-medium text-mutedGrey mb-1">Syllabus Notes</p>
+              <p class="text-xs font-medium text-mutedGrey mb-1">Notes</p>
               <p class="text-sm text-charcoal leading-relaxed">${escapeHTML(st.notes)}</p>
             </div>
           ` : ''}
@@ -1249,7 +1942,7 @@
         <!-- Weekly Performance & Study Entries -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Last 7 Days Activity</h3>
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Last 7 Days (${uCfg.label})</h3>
             <div class="h-40 flex items-end justify-between gap-2 pt-4">
               ${last7Days.map(day => {
                 const heightPct = Math.round((day.pages / maxBar) * 100);
@@ -1269,13 +1962,13 @@
           <div class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Recorded Study Entries</h3>
-              ${initialLog ? `<span class="text-[11px] text-mutedGrey">Includes ${initialLog.pages} initial pages</span>` : ''}
+              ${initialLog ? `<span class="text-[11px] text-mutedGrey">Includes ${formatUnitCount(initialLog.pages, st.unit)} initial progress</span>` : ''}
             </div>
 
             ${regularLogs.length === 0 ? `
               <div class="py-10 text-center border border-dashed border-borderSubtle rounded-xl bg-bgBase/40">
                 <p class="text-sm text-charcoal font-medium">No daily entries logged yet</p>
-                <p class="text-xs text-mutedGrey mt-1 mb-4">Record your study sessions to build a history for ${escapeHTML(st.name)}.</p>
+                <p class="text-xs text-mutedGrey mt-1 mb-4">Record your sessions to build a history for ${escapeHTML(st.name)}.</p>
                 <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-charcoal text-white text-xs font-medium rounded-xl">Log First Session</button>
               </div>
             ` : `
@@ -1285,7 +1978,7 @@
                     <div>
                       <div class="flex items-center gap-2">
                         <span class="text-sm font-medium text-charcoal">${formatReadableDate(log.date)}</span>
-                        <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-bgBase text-charcoal">+${log.pages} pages</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-bgBase text-charcoal">+${formatUnitCount(log.pages, st.unit)}</span>
                       </div>
                       ${log.note ? `<p class="text-xs text-mutedGrey mt-1">${escapeHTML(log.note)}</p>` : ''}
                     </div>
@@ -1310,15 +2003,24 @@
     function renderDailyLogView() {
       const regularLogs = state.logs
         .filter(l => !l.isInitial)
-        .filter(l => logFilterSubject === 'all' || l.subjectId === logFilterSubject)
-        .filter(l => !logFilterDate || l.date === logFilterDate)
+        .filter(l => {
+          if (logFilterSubject !== 'all' && l.subjectId !== logFilterSubject) return false;
+          if (logFilterCategory !== 'all') {
+            const sub = state.subjects.find(s => s.id === l.subjectId);
+            if (!sub || sub.categoryId !== logFilterCategory) return false;
+          }
+          if (logFilterDate && l.date !== logFilterDate) return false;
+          return true;
+        })
         .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt);
+
+      const firstSubjectUnit = state.subjects.length > 0 ? normalizeUnit(state.subjects[0].unit) : 'pages';
 
       return `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h2 class="font-serif-editorial text-3xl text-charcoal">Daily Progress Log</h2>
-            <p class="text-sm text-mutedGrey mt-1">Record and review your daily page completions across subjects.</p>
+            <p class="text-sm text-mutedGrey mt-1">Record and review your daily completions across all subjects, poems, and sermons.</p>
           </div>
           <button onclick="openLogModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i>
@@ -1332,9 +2034,9 @@
             <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Quick Record</h3>
             <form onsubmit="handleInlineQuickLog(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
               <div class="sm:col-span-4">
-                <label class="block text-xs font-medium text-charcoal mb-1">Subject</label>
-                <select id="inline-log-subject" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
-                  ${state.subjects.map(s => `<option value="${s.id}">${escapeHTML(s.name)}</option>`).join('')}
+                <label class="block text-xs font-medium text-charcoal mb-1">Subject / Collection</label>
+                <select id="inline-log-subject" onchange="updateInlineQuickLogUnit()" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+                  ${state.subjects.map(s => `<option value="${s.id}">${escapeHTML(s.name)} (${UNIT_CONFIG[normalizeUnit(s.unit)].label})</option>`).join('')}
                 </select>
               </div>
               <div class="sm:col-span-3">
@@ -1342,7 +2044,7 @@
                 <input type="date" id="inline-log-date" value="${getLocalTodayStr()}" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-xs font-medium text-charcoal mb-1">Pages</label>
+                <label id="inline-log-unit-label" class="block text-xs font-medium text-charcoal mb-1">${UNIT_CONFIG[firstSubjectUnit].label}</label>
                 <input type="number" id="inline-log-pages" min="1" step="1" placeholder="15" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
               </div>
               <div class="sm:col-span-3">
@@ -1356,13 +2058,17 @@
 
         <!-- Filters -->
         <div class="flex flex-wrap items-center gap-3 mb-4">
+          <select onchange="logFilterCategory = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none">
+            <option value="all" ${logFilterCategory === 'all' ? 'selected' : ''}>All Categories</option>
+            ${state.categories.map(c => `<option value="${c.id}" ${logFilterCategory === c.id ? 'selected' : ''}>${escapeHTML(c.name)}</option>`).join('')}
+          </select>
           <select onchange="logFilterSubject = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none">
-            <option value="all" ${logFilterSubject === 'all' ? 'selected' : ''}>All Subjects</option>
+            <option value="all" ${logFilterSubject === 'all' ? 'selected' : ''}>All Items</option>
             ${state.subjects.map(s => `<option value="${s.id}" ${logFilterSubject === s.id ? 'selected' : ''}>${escapeHTML(s.name)}</option>`).join('')}
           </select>
           <input type="date" value="${logFilterDate}" onchange="logFilterDate = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none" />
-          ${(logFilterSubject !== 'all' || logFilterDate) ? `
-            <button onclick="logFilterSubject = 'all'; logFilterDate = ''; renderCurrentView();" class="text-xs text-mutedGrey hover:text-charcoal underline">Clear filters</button>
+          ${(logFilterSubject !== 'all' || logFilterCategory !== 'all' || logFilterDate) ? `
+            <button onclick="logFilterSubject = 'all'; logFilterCategory = 'all'; logFilterDate = ''; renderCurrentView();" class="text-xs text-mutedGrey hover:text-charcoal underline">Clear filters</button>
           ` : ''}
         </div>
 
@@ -1371,19 +2077,22 @@
           ${regularLogs.length === 0 ? `
             <div class="p-12 text-center">
               <p class="font-serif-editorial text-xl text-charcoal mb-1">No study entries found</p>
-              <p class="text-xs text-mutedGrey">Log your completed pages above to keep an accurate daily record.</p>
+              <p class="text-xs text-mutedGrey">Log your completed units above to keep an accurate daily record.</p>
             </div>
           ` : `
             <div class="divide-y divide-borderSubtle/80">
               ${regularLogs.map(log => {
                 const sub = state.subjects.find(s => s.id === log.subjectId);
+                const unit = sub ? normalizeUnit(sub.unit) : 'pages';
+                const cat = sub ? getCategoryById(sub.categoryId) : null;
                 return `
                   <div class="p-4 sm:px-6 flex items-center justify-between gap-4 hover:bg-bgBase/40 transition-colors">
                     <div class="flex items-start gap-3.5 min-w-0">
                       <span class="w-3 h-3 rounded-full mt-1.5 shrink-0" style="background-color: ${sub ? sub.color : '#899889'}"></span>
                       <div class="min-w-0">
                         <div class="flex flex-wrap items-center gap-2">
-                          <span class="text-sm font-medium text-charcoal">${sub ? escapeHTML(sub.name) : 'Unknown Subject'}</span>
+                          <span class="text-sm font-medium text-charcoal">${sub ? escapeHTML(sub.name) : 'Unknown Item'}</span>
+                          ${cat ? `<span class="text-[10px] px-2 py-0.5 rounded bg-bgBase text-mutedGrey">${escapeHTML(cat.name)}</span>` : ''}
                           <span class="text-xs text-mutedGrey">· ${formatReadableDate(log.date)}</span>
                         </div>
                         ${log.note ? `<p class="text-xs text-mutedGrey mt-0.5 truncate">${escapeHTML(log.note)}</p>` : ''}
@@ -1392,7 +2101,7 @@
 
                     <div class="flex items-center gap-3 shrink-0">
                       <span class="text-xs font-semibold text-charcoal bg-bgBase border border-borderSubtle/70 px-3 py-1 rounded-lg">
-                        +${log.pages} ${log.pages === 1 ? 'page' : 'pages'}
+                        +${formatUnitCount(log.pages, unit)}
                       </span>
                       <button onclick="openLogModal('${log.id}')" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg hover:bg-bgBase" title="Edit">
                         <i data-lucide="pencil" class="w-4 h-4"></i>
@@ -1410,11 +2119,18 @@
       `;
     }
 
-    // --- VIEW 5: DAY-WISE STATISTICS ---
+    function updateInlineQuickLogUnit() {
+      const subId = document.getElementById('inline-log-subject').value;
+      const sub = state.subjects.find(s => s.id === subId);
+      const unit = sub ? normalizeUnit(sub.unit) : 'pages';
+      const labelEl = document.getElementById('inline-log-unit-label');
+      if (labelEl) labelEl.textContent = UNIT_CONFIG[unit].label;
+    }
+
+    // --- VIEW 5: DAY-WISE STATISTICS (WITH MIXED-UNIT BREAKDOWN) ---
     function renderStatisticsView() {
       const streak = getStudyStreak();
 
-      // Calculate Date Range for Bar Chart
       let chartDates = [];
       const today = parseLocalDate(getLocalTodayStr());
 
@@ -1444,13 +2160,19 @@
 
       const regularLogs = state.logs.filter(l => !l.isInitial);
 
+      // Build chart data showing total logged units per day + per-unit breakdown
       const chartData = chartDates.map(dateStr => {
-        const pages = regularLogs
-          .filter(l => l.date === dateStr)
-          .reduce((sum, l) => sum + Number(l.pages), 0);
-        return { dateStr, label: formatShortDate(dateStr), pages };
+        const dayLogs = regularLogs.filter(l => l.date === dateStr);
+        const totalUnits = dayLogs.reduce((sum, l) => sum + Number(l.pages), 0);
+        const byUnit = {};
+        dayLogs.forEach(l => {
+          const sub = state.subjects.find(s => s.id === l.subjectId);
+          const u = sub ? normalizeUnit(sub.unit) : 'pages';
+          byUnit[u] = (byUnit[u] || 0) + Number(l.pages);
+        });
+        return { dateStr, label: formatShortDate(dateStr), totalUnits, byUnit };
       });
-      const maxChartPages = Math.max(10, ...chartData.map(d => d.pages));
+      const maxChartUnits = Math.max(10, ...chartData.map(d => d.totalUnits));
 
       // Weekly Statistics (Current 7 days vs Previous 7 days)
       const thisWeekDates = [];
@@ -1468,42 +2190,58 @@
       const thisWeekLogs = regularLogs.filter(l => thisWeekDates.includes(l.date));
       const prevWeekLogs = regularLogs.filter(l => prevWeekDates.includes(l.date));
 
-      const thisWeekTotal = thisWeekLogs.reduce((s, l) => s + Number(l.pages), 0);
-      const prevWeekTotal = prevWeekLogs.reduce((s, l) => s + Number(l.pages), 0);
-      const dailyAvg = Math.round((thisWeekTotal / 7) * 10) / 10;
-
-      // Most productive day this week
-      const dayTotals = {};
-      thisWeekLogs.forEach(l => { dayTotals[l.date] = (dayTotals[l.date] || 0) + Number(l.pages); });
-      let bestDay = null;
-      let bestDayPages = 0;
-      Object.entries(dayTotals).forEach(([dt, pgs]) => {
-        if (pgs > bestDayPages) { bestDayPages = pgs; bestDay = dt; }
+      const thisWeekByUnit = {};
+      thisWeekLogs.forEach(l => {
+        const sub = state.subjects.find(s => s.id === l.subjectId);
+        const u = sub ? normalizeUnit(sub.unit) : 'pages';
+        thisWeekByUnit[u] = (thisWeekByUnit[u] || 0) + Number(l.pages);
       });
 
-      // Most studied subject this week
-      const subTotals = {};
-      thisWeekLogs.forEach(l => { subTotals[l.subjectId] = (subTotals[l.subjectId] || 0) + Number(l.pages); });
+      const thisWeekSessions = thisWeekLogs.length;
+      const prevWeekSessions = prevWeekLogs.length;
+      const activeDaysThisWeek = new Set(thisWeekLogs.map(l => l.date)).size;
+
+      // Most productive day this week (by session count / volume)
+      const daySessionCounts = {};
+      thisWeekLogs.forEach(l => {
+        daySessionCounts[l.date] = (daySessionCounts[l.date] || 0) + Number(l.pages);
+      });
+      let bestDay = null;
+      let bestDayUnits = 0;
+      Object.entries(daySessionCounts).forEach(([dt, val]) => {
+        if (val > bestDayUnits) { bestDayUnits = val; bestDay = dt; }
+      });
+
+      // Most studied subject this week (by number of sessions logged)
+      const subSessionCounts = {};
+      const subUnitTotals = {};
+      thisWeekLogs.forEach(l => {
+        subSessionCounts[l.subjectId] = (subSessionCounts[l.subjectId] || 0) + 1;
+        subUnitTotals[l.subjectId] = (subUnitTotals[l.subjectId] || 0) + Number(l.pages);
+      });
       let topSubId = null;
-      let topSubPages = 0;
-      Object.entries(subTotals).forEach(([sid, pgs]) => {
-        if (pgs > topSubPages) { topSubPages = pgs; topSubId = sid; }
+      let topSubSessions = 0;
+      Object.entries(subSessionCounts).forEach(([sid, cnt]) => {
+        if (cnt > topSubSessions) { topSubSessions = cnt; topSubId = sid; }
       });
       const topSubject = state.subjects.find(s => s.id === topSubId);
-
-      // Week over week diff
-      const weekDiff = thisWeekTotal - prevWeekTotal;
-      const weekDiffLabel = weekDiff > 0 ? `+${weekDiff} vs last week` : weekDiff < 0 ? `${weekDiff} vs last week` : 'Same as last week';
 
       // Subject-wise breakdown for selected date
       const selectedDateLogs = regularLogs.filter(l => l.date === statsSelectedDate);
       const selectedDateBreakdown = state.subjects.map(sub => {
-        const pages = selectedDateLogs
+        const units = selectedDateLogs
           .filter(l => l.subjectId === sub.id)
           .reduce((sum, l) => sum + Number(l.pages), 0);
-        return { ...sub, pages };
-      }).filter(item => item.pages > 0);
-      const selectedDateTotal = selectedDateBreakdown.reduce((s, i) => s + i.pages, 0);
+        return { ...sub, unit: normalizeUnit(sub.unit), units };
+      }).filter(item => item.units > 0);
+
+      const selectedDateByUnit = {};
+      selectedDateBreakdown.forEach(item => {
+        selectedDateByUnit[item.unit] = (selectedDateByUnit[item.unit] || 0) + item.units;
+      });
+      const selectedDateSummaryText = Object.entries(selectedDateByUnit)
+        .map(([u, cnt]) => formatUnitCount(cnt, u))
+        .join(' · ') || '0 units';
 
       // 35-Day Activity Heatmap (5 weeks)
       const heatmapDays = [];
@@ -1511,19 +2249,18 @@
         const d = new Date(today);
         d.setDate(d.getDate() - i);
         const dateStr = formatDateYYYYMMDD(d);
-        const pages = regularLogs
-          .filter(l => l.date === dateStr)
-          .reduce((sum, l) => sum + Number(l.pages), 0);
-        heatmapDays.push({ dateStr, dayNum: d.getDate(), pages });
+        const dayLogs = regularLogs.filter(l => l.date === dateStr);
+        const sessionCount = dayLogs.length;
+        const unitVol = dayLogs.reduce((sum, l) => sum + Number(l.pages), 0);
+        heatmapDays.push({ dateStr, dayNum: d.getDate(), sessionCount, unitVol });
       }
 
       return `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h2 class="font-serif-editorial text-3xl text-charcoal">Study Statistics</h2>
-            <p class="text-sm text-mutedGrey mt-1">Insights into your daily consistency and syllabus momentum.</p>
+            <p class="text-sm text-mutedGrey mt-1">Insights into your daily consistency across pages, chapters, verses, sections, and sermons.</p>
           </div>
-          <!-- Encouraging Consistency Tracker -->
           <div class="bg-surface border border-borderSubtle rounded-2xl px-4 py-3 flex items-center gap-3 self-start">
             <div class="w-8 h-8 rounded-xl bg-sage/15 flex items-center justify-center text-sageDark">
               <i data-lucide="flame" class="w-4 h-4"></i>
@@ -1535,27 +2272,35 @@
           </div>
         </div>
 
-        <!-- Weekly Summary Cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- Weekly Summary Cards (Clean Unit-Separated Totals) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
-            <p class="text-xs text-mutedGrey">Completed This Week</p>
-            <p class="text-2xl font-semibold text-charcoal mt-1">${thisWeekTotal} <span class="text-xs font-normal text-mutedGrey">pages</span></p>
-            <p class="text-[11px] text-sageDark mt-1">${weekDiffLabel}</p>
+            <p class="text-xs text-mutedGrey">This Week by Unit</p>
+            ${Object.keys(thisWeekByUnit).length === 0 ? `
+              <p class="text-xl font-semibold text-charcoal mt-1">0 <span class="text-xs font-normal text-mutedGrey">units</span></p>
+              <p class="text-[11px] text-mutedGrey mt-1">No sessions logged yet</p>
+            ` : `
+              <div class="mt-1.5 space-y-0.5">
+                ${Object.entries(thisWeekByUnit).map(([uKey, cnt]) => `
+                  <p class="text-sm font-semibold text-charcoal">${formatUnitCount(cnt, uKey)}</p>
+                `).join('')}
+              </div>
+            `}
           </div>
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
-            <p class="text-xs text-mutedGrey">Daily Average (7d)</p>
-            <p class="text-2xl font-semibold text-charcoal mt-1">${dailyAvg} <span class="text-xs font-normal text-mutedGrey">pages/day</span></p>
-            <p class="text-[11px] text-mutedGrey mt-1">${state.settings.weeklyTarget > 0 ? `Weekly goal: ${state.settings.weeklyTarget}p` : 'Steady pacing'}</p>
+            <p class="text-xs text-mutedGrey">Active Study Days (7d)</p>
+            <p class="text-2xl font-semibold text-charcoal mt-1">${activeDaysThisWeek} <span class="text-xs font-normal text-mutedGrey">/ 7 days</span></p>
+            <p class="text-[11px] text-sageDark mt-1">${thisWeekSessions} sessions (${thisWeekSessions - prevWeekSessions >= 0 ? '+' : ''}${thisWeekSessions - prevWeekSessions} vs last wk)</p>
           </div>
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
-            <p class="text-xs text-mutedGrey">Most Productive Day</p>
+            <p class="text-xs text-mutedGrey">Most Active Day</p>
             <p class="text-lg font-semibold text-charcoal mt-1.5">${bestDay ? formatShortDate(bestDay) : '—'}</p>
-            <p class="text-[11px] text-mutedGrey mt-1">${bestDay ? `${bestDayPages} pages completed` : 'No sessions this week'}</p>
+            <p class="text-[11px] text-mutedGrey mt-1">${bestDay ? `${bestDayUnits} units completed` : 'No sessions this week'}</p>
           </div>
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
-            <p class="text-xs text-mutedGrey">Most Studied Subject</p>
+            <p class="text-xs text-mutedGrey">Most Studied Item</p>
             <p class="text-lg font-semibold text-charcoal mt-1.5 truncate">${topSubject ? escapeHTML(topSubject.name) : '—'}</p>
-            <p class="text-[11px] text-mutedGrey mt-1">${topSubject ? `${topSubPages} pages this week` : 'No sessions this week'}</p>
+            <p class="text-[11px] text-mutedGrey mt-1">${topSubject ? `${formatUnitCount(subUnitTotals[topSubId], topSubject.unit)} (${topSubSessions}x)` : 'No sessions this week'}</p>
           </div>
         </div>
 
@@ -1564,7 +2309,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
               <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Daily Activity Chart</h3>
-              <p class="text-xs text-mutedGrey mt-0.5">Click any bar to inspect that day's subject breakdown</p>
+              <p class="text-xs text-mutedGrey mt-0.5">Click any bar to inspect that day's unit & subject breakdown</p>
             </div>
             <div class="flex flex-wrap items-center gap-1.5">
               <button onclick="statsRange='7'; renderCurrentView();" class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${statsRange === '7' ? 'bg-charcoal text-white' : 'bg-bgBase text-mutedGrey hover:text-charcoal'}">Last 7 Days</button>
@@ -1588,11 +2333,12 @@
 
           <div class="h-52 flex items-end gap-1.5 sm:gap-2 pt-6 overflow-x-auto pb-2">
             ${chartData.map(item => {
-              const heightPct = Math.round((item.pages / maxChartPages) * 100);
+              const heightPct = Math.round((item.totalUnits / maxChartUnits) * 100);
               const isSelected = item.dateStr === statsSelectedDate;
+              const tooltipStr = Object.entries(item.byUnit).map(([u, v]) => formatUnitCount(v, u)).join(', ') || 'No activity';
               return `
-                <div onclick="statsSelectedDate='${item.dateStr}'; renderCurrentView();" class="flex-1 min-w-[24px] flex flex-col items-center gap-1.5 h-full justify-end cursor-pointer group">
-                  <span class="text-[10px] font-medium text-charcoal opacity-80 group-hover:opacity-100">${item.pages > 0 ? item.pages : ''}</span>
+                <div onclick="statsSelectedDate='${item.dateStr}'; renderCurrentView();" title="${item.label}: ${tooltipStr}" class="flex-1 min-w-[24px] flex flex-col items-center gap-1.5 h-full justify-end cursor-pointer group">
+                  <span class="text-[10px] font-medium text-charcoal opacity-80 group-hover:opacity-100">${item.totalUnits > 0 ? item.totalUnits : ''}</span>
                   <div class="w-full max-w-[34px] bg-bgBase rounded-t-md h-36 flex items-end overflow-hidden border ${isSelected ? 'border-charcoal' : 'border-transparent'}">
                     <div class="w-full rounded-t-md transition-all duration-500 ${isSelected ? 'bg-charcoal' : 'bg-sage group-hover:bg-sageDark'}" style="height: ${heightPct}%"></div>
                   </div>
@@ -1605,7 +2351,6 @@
 
         <!-- Bottom Grid: Calendar Heatmap & Subject-Wise Daily Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Study Calendar / Activity Heatmap -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
             <div class="flex items-center justify-between mb-4">
               <div>
@@ -1625,13 +2370,13 @@
             <div class="grid grid-cols-7 gap-2">
               ${heatmapDays.map(day => {
                 let bgClass = 'bg-bgBase text-mutedGrey border-borderSubtle/60';
-                if (day.pages > 0 && day.pages < 10) bgClass = 'bg-sage/30 text-charcoal border-sage/40';
-                else if (day.pages >= 10 && day.pages < 25) bgClass = 'bg-sage/65 text-charcoal border-sage';
-                else if (day.pages >= 25) bgClass = 'bg-sageDark text-white border-sageDark';
+                if (day.sessionCount === 1 && day.unitVol < 15) bgClass = 'bg-sage/30 text-charcoal border-sage/40';
+                else if (day.sessionCount >= 1 && day.unitVol < 30) bgClass = 'bg-sage/65 text-charcoal border-sage';
+                else if (day.unitVol >= 30 || day.sessionCount >= 3) bgClass = 'bg-sageDark text-white border-sageDark';
 
                 const isSelected = day.dateStr === statsSelectedDate;
                 return `
-                  <button onclick="statsSelectedDate='${day.dateStr}'; renderCurrentView();" title="${formatReadableDate(day.dateStr)}: ${day.pages} pages" class="aspect-square rounded-lg border text-xs font-medium flex flex-col items-center justify-center transition-transform hover:scale-105 ${bgClass} ${isSelected ? 'ring-2 ring-charcoal ring-offset-1' : ''}">
+                  <button onclick="statsSelectedDate='${day.dateStr}'; renderCurrentView();" title="${formatReadableDate(day.dateStr)}: ${day.sessionCount} sessions" class="aspect-square rounded-lg border text-xs font-medium flex flex-col items-center justify-center transition-transform hover:scale-105 ${bgClass} ${isSelected ? 'ring-2 ring-charcoal ring-offset-1' : ''}">
                     <span>${day.dayNum}</span>
                   </button>
                 `;
@@ -1642,12 +2387,12 @@
           <!-- Subject-Wise Daily Breakdown -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <div>
-                  <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Daily Subject Breakdown</h3>
+                  <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Daily Item Breakdown</h3>
                   <p class="text-sm font-medium text-charcoal mt-0.5">${formatReadableDate(statsSelectedDate)}</p>
                 </div>
-                <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-bgBase text-charcoal">${selectedDateTotal} pages total</span>
+                <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-bgBase text-charcoal">${selectedDateSummaryText}</span>
               </div>
 
               ${selectedDateBreakdown.length === 0 ? `
@@ -1658,7 +2403,8 @@
               ` : `
                 <div class="space-y-3.5 mt-4">
                   ${selectedDateBreakdown.map(item => {
-                    const pct = selectedDateTotal > 0 ? Math.round((item.pages / selectedDateTotal) * 100) : 0;
+                    const unitSameTotal = selectedDateByUnit[item.unit] || item.units;
+                    const pct = unitSameTotal > 0 ? Math.round((item.units / unitSameTotal) * 100) : 100;
                     return `
                       <div>
                         <div class="flex justify-between text-xs mb-1">
@@ -1666,7 +2412,7 @@
                             <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${item.color}"></span>
                             ${escapeHTML(item.name)}
                           </span>
-                          <span class="text-charcoal font-semibold">${item.pages} pages (${pct}%)</span>
+                          <span class="text-charcoal font-semibold">${formatUnitCount(item.units, item.unit)}</span>
                         </div>
                         <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
                           <div class="h-full rounded-full" style="width: ${pct}%; background-color: ${item.color}"></div>
@@ -1687,27 +2433,27 @@
       return `
         <div class="mb-6">
           <h2 class="font-serif-editorial text-3xl text-charcoal">Goals & Settings</h2>
-          <p class="text-sm text-mutedGrey mt-1">Configure your daily targets, examination date, and data backups.</p>
+          <p class="text-sm text-mutedGrey mt-1">Configure your global targets, default deadline, and data backups.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Study Targets & Examination Date -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
-            <h3 class="font-serif-editorial text-xl text-charcoal mb-4">Academic Targets & Exam Date</h3>
+            <h3 class="font-serif-editorial text-xl text-charcoal mb-4">Global Targets & Target Date</h3>
             <form onsubmit="handleSaveSettings(event)" class="space-y-4">
               <div>
-                <label class="block text-xs font-medium text-charcoal mb-1.5">Daily Page Target</label>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Daily Page Target (for Page-based books)</label>
                 <input type="number" id="set-daily-target" min="0" step="1" value="${state.settings.dailyTarget}" placeholder="e.g. 20" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
-                <p class="text-[11px] text-mutedGrey mt-1">Set to 0 to hide the daily target bar on the dashboard.</p>
+                <p class="text-[11px] text-mutedGrey mt-1">Set to 0 to hide the global daily page bar on the dashboard.</p>
               </div>
               <div>
                 <label class="block text-xs font-medium text-charcoal mb-1.5">Weekly Page Target</label>
                 <input type="number" id="set-weekly-target" min="0" step="1" value="${state.settings.weeklyTarget}" placeholder="e.g. 120" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
               </div>
               <div>
-                <label class="block text-xs font-medium text-charcoal mb-1.5">Annual Examination Date (Optional)</label>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Global Examination / Goal Date (Optional)</label>
                 <input type="date" id="set-exam-date" value="${state.settings.examDate}" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
-                <p class="text-[11px] text-mutedGrey mt-1">Calculates the required daily page pace to complete your syllabus in time.</p>
+                <p class="text-[11px] text-mutedGrey mt-1">You can also set personalized deadlines per individual item or category.</p>
               </div>
               <div class="pt-2">
                 <button type="submit" class="px-5 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
@@ -1722,7 +2468,7 @@
             <div>
               <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Backup & Portability</h3>
               <p class="text-xs text-mutedGrey leading-relaxed mb-6">
-                Your data is stored locally in your browser. Export a JSON backup regularly to safeguard your records or transfer them across devices.
+                Your categories, items, measurement units, deadlines, and logs are stored locally in your browser. Export a JSON backup regularly to safeguard your records.
               </p>
 
               <div class="space-y-3">
@@ -1762,39 +2508,203 @@
       `;
     }
 
+    // --- CATEGORY CRUD LOGIC ---
+    function openCategoryModal(editId = null) {
+      const modal = document.getElementById('category-modal');
+      const title = document.getElementById('category-modal-title');
+      const errEl = document.getElementById('cat-error');
+      errEl.classList.add('hidden');
+
+      renderCategoryColorPicker();
+
+      if (editId) {
+        const cat = state.categories.find(c => c.id === editId);
+        if (!cat) return;
+        title.textContent = 'Edit Category';
+        document.getElementById('cat-edit-id').value = cat.id;
+        document.getElementById('cat-name').value = cat.name;
+        document.getElementById('cat-default-unit').value = normalizeUnit(cat.defaultUnit);
+        document.getElementById('cat-target-date').value = cat.targetDate || '';
+        selectCategoryColorSwatch(cat.color);
+      } else {
+        title.textContent = 'Create Category';
+        document.getElementById('cat-edit-id').value = '';
+        document.getElementById('cat-name').value = '';
+        document.getElementById('cat-default-unit').value = 'pages';
+        document.getElementById('cat-target-date').value = '';
+        selectCategoryColorSwatch(MUTED_PALETTE[0].hex);
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCategoryModal() {
+      const modal = document.getElementById('category-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderCategoryColorPicker() {
+      const grid = document.getElementById('cat-color-picker-grid');
+      grid.innerHTML = MUTED_PALETTE.map(c => `
+        <button type="button" data-hex="${c.hex}" onclick="selectCategoryColorSwatch('${c.hex}')" title="${c.name}" class="cat-color-swatch w-7 h-7 rounded-full border-2 border-transparent transition-transform hover:scale-110" style="background-color: ${c.hex}"></button>
+      `).join('');
+    }
+
+    function selectCategoryColorSwatch(hex) {
+      document.getElementById('cat-color').value = hex;
+      document.querySelectorAll('.cat-color-swatch').forEach(btn => {
+        if (btn.dataset.hex === hex) {
+          btn.classList.add('ring-2', 'ring-charcoal', 'ring-offset-2');
+        } else {
+          btn.classList.remove('ring-2', 'ring-charcoal', 'ring-offset-2');
+        }
+      });
+    }
+
+    function handleSaveCategory(e) {
+      e.preventDefault();
+      const editId = document.getElementById('cat-edit-id').value;
+      const name = document.getElementById('cat-name').value.trim();
+      const defaultUnit = normalizeUnit(document.getElementById('cat-default-unit').value);
+      const targetDate = document.getElementById('cat-target-date').value;
+      const color = document.getElementById('cat-color').value;
+      const errEl = document.getElementById('cat-error');
+
+      if (!name) {
+        errEl.textContent = 'Please enter a category name.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (editId) {
+        const cat = state.categories.find(c => c.id === editId);
+        if (cat) {
+          cat.name = name;
+          cat.defaultUnit = defaultUnit;
+          cat.targetDate = targetDate;
+          cat.color = color;
+        }
+        saveState();
+        closeCategoryModal();
+        renderCurrentView();
+        showToast('Category updated.');
+      } else {
+        state.categories.push({
+          id: 'cat_' + Date.now(),
+          name,
+          color,
+          defaultUnit,
+          targetDate,
+          isDefault: false,
+          createdAt: Date.now()
+        });
+        saveState();
+        closeCategoryModal();
+        renderCurrentView();
+        showToast(`Category "${name}" created.`);
+      }
+    }
+
+    function confirmDeleteCategory(categoryId) {
+      const cat = state.categories.find(c => c.id === categoryId);
+      if (!cat || cat.isDefault) return;
+      const itemCount = state.subjects.filter(s => s.categoryId === categoryId).length;
+      const extraMsg = itemCount > 0
+        ? ` Its ${itemCount} ${itemCount === 1 ? 'item' : 'items'} will be moved safely to "General".`
+        : '';
+      openConfirmModal(
+        'Delete Category',
+        `Delete the "${cat.name}" category?${extraMsg}`,
+        () => {
+          state.subjects.forEach(s => {
+            if (s.categoryId === categoryId) s.categoryId = 'cat_general';
+          });
+          state.categories = state.categories.filter(c => c.id !== categoryId);
+          saveState();
+          if (currentView === 'category-detail') navigateTo('categories');
+          else renderCurrentView();
+          showToast('Category deleted.');
+        }
+      );
+    }
+
     // --- SUBJECT CRUD LOGIC ---
-    function openSubjectModal(editId = null) {
+    function openSubjectModal(editId = null, preselectCategoryId = null) {
       const modal = document.getElementById('subject-modal');
       const title = document.getElementById('subject-modal-title');
+      const catSelect = document.getElementById('sub-category');
       const errEl = document.getElementById('sub-error');
       errEl.classList.add('hidden');
 
       renderColorPicker();
 
+      catSelect.innerHTML = state.categories
+        .map(c => `<option value="${c.id}">${escapeHTML(c.name)}</option>`)
+        .join('');
+
       if (editId) {
         const sub = state.subjects.find(s => s.id === editId);
         if (!sub) return;
-        title.textContent = 'Edit Subject';
+        title.textContent = 'Edit Item';
         document.getElementById('sub-edit-id').value = sub.id;
         document.getElementById('sub-name').value = sub.name;
+        catSelect.value = sub.categoryId || 'cat_general';
+        document.getElementById('sub-unit').value = normalizeUnit(sub.unit);
         document.getElementById('sub-total').value = sub.totalPages;
+        document.getElementById('sub-target-date').value = sub.targetDate || '';
         document.getElementById('sub-color').value = sub.color;
         document.getElementById('sub-notes').value = sub.notes || '';
         document.getElementById('sub-initial-wrapper').classList.add('hidden');
         selectColorSwatch(sub.color);
       } else {
-        title.textContent = 'Add Subject';
+        title.textContent = 'Add Subject / Item';
         document.getElementById('sub-edit-id').value = '';
         document.getElementById('sub-name').value = '';
+        const chosenCatId = preselectCategoryId || (currentView === 'category-detail' && selectedCategoryId) || 'cat_general';
+        catSelect.value = chosenCatId;
+        const chosenCat = getCategoryById(chosenCatId);
+        document.getElementById('sub-unit').value = chosenCat ? normalizeUnit(chosenCat.defaultUnit) : 'pages';
         document.getElementById('sub-total').value = '';
         document.getElementById('sub-initial').value = '0';
+        document.getElementById('sub-target-date').value = '';
         document.getElementById('sub-notes').value = '';
         document.getElementById('sub-initial-wrapper').classList.remove('hidden');
-        selectColorSwatch(MUTED_PALETTE[0].hex);
+        selectColorSwatch(chosenCat ? chosenCat.color : MUTED_PALETTE[0].hex);
       }
 
+      updateSubjectModalUnitLabels();
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+    }
+
+    function handleSubjectCategoryChange() {
+      const editId = document.getElementById('sub-edit-id').value;
+      if (editId) return; // Keep existing unit when editing an item unless changed explicitly
+      const catId = document.getElementById('sub-category').value;
+      const cat = getCategoryById(catId);
+      if (cat) {
+        document.getElementById('sub-unit').value = normalizeUnit(cat.defaultUnit);
+        selectColorSwatch(cat.color);
+        updateSubjectModalUnitLabels();
+      }
+    }
+
+    function updateSubjectModalUnitLabels() {
+      const unit = normalizeUnit(document.getElementById('sub-unit').value);
+      const uCfg = UNIT_CONFIG[unit];
+      document.getElementById('sub-total-label').textContent = `Target ${uCfg.label} *`;
+      document.getElementById('sub-initial-label').textContent = `Initial ${uCfg.label} Completed`;
+
+      const placeholders = {
+        pages: 'e.g. 320',
+        chapters: 'e.g. 24',
+        verses: 'e.g. 150',
+        sections: 'e.g. 40',
+        sermons: 'e.g. 12'
+      };
+      document.getElementById('sub-total').placeholder = placeholders[unit] || 'e.g. 100';
     }
 
     function closeSubjectModal() {
@@ -1825,19 +2735,23 @@
       e.preventDefault();
       const editId = document.getElementById('sub-edit-id').value;
       const name = document.getElementById('sub-name').value.trim();
-      const totalPages = parseInt(document.getElementById('sub-total').value, 10);
-      const initialPages = parseInt(document.getElementById('sub-initial').value || '0', 10);
+      const categoryId = document.getElementById('sub-category').value || 'cat_general';
+      const unit = normalizeUnit(document.getElementById('sub-unit').value);
+      const totalUnits = parseInt(document.getElementById('sub-total').value, 10);
+      const initialUnits = parseInt(document.getElementById('sub-initial').value || '0', 10);
+      const targetDate = document.getElementById('sub-target-date').value;
       const color = document.getElementById('sub-color').value;
       const notes = document.getElementById('sub-notes').value.trim();
       const errEl = document.getElementById('sub-error');
+      const uCfg = UNIT_CONFIG[unit];
 
       if (!name) {
-        errEl.textContent = 'Please enter a subject name.';
+        errEl.textContent = 'Please enter a name.';
         errEl.classList.remove('hidden');
         return;
       }
-      if (isNaN(totalPages) || totalPages <= 0) {
-        errEl.textContent = 'Total pages must be greater than zero.';
+      if (isNaN(totalUnits) || totalUnits <= 0) {
+        errEl.textContent = `Target ${uCfg.plural} must be greater than zero.`;
         errEl.classList.remove('hidden');
         return;
       }
@@ -1845,22 +2759,25 @@
       if (editId) {
         const sub = state.subjects.find(s => s.id === editId);
         const currentStats = getSubjectStats(editId);
-        if (totalPages < currentStats.completedPages) {
-          errEl.textContent = `Total pages cannot be less than already completed pages (${currentStats.completedPages}).`;
+        if (totalUnits < currentStats.completedUnits) {
+          errEl.textContent = `Target cannot be less than already completed ${uCfg.plural} (${currentStats.completedUnits}).`;
           errEl.classList.remove('hidden');
           return;
         }
         sub.name = name;
-        sub.totalPages = totalPages;
+        sub.categoryId = categoryId;
+        sub.unit = unit;
+        sub.totalPages = totalUnits;
+        sub.targetDate = targetDate;
         sub.color = color;
         sub.notes = notes;
         saveState();
         closeSubjectModal();
         renderCurrentView();
-        showToast('Subject updated.');
+        showToast('Item updated.');
       } else {
-        if (isNaN(initialPages) || initialPages < 0 || initialPages > totalPages) {
-          errEl.textContent = 'Initial completed pages must be between 0 and total pages.';
+        if (isNaN(initialUnits) || initialUnits < 0 || initialUnits > totalUnits) {
+          errEl.textContent = `Initial completed ${uCfg.plural} must be between 0 and ${totalUnits}.`;
           errEl.classList.remove('hidden');
           return;
         }
@@ -1869,19 +2786,22 @@
         state.subjects.push({
           id: newId,
           name,
-          totalPages,
+          categoryId,
+          unit,
+          totalPages: totalUnits,
+          targetDate,
           color,
           notes,
           createdAt: Date.now()
         });
 
-        if (initialPages > 0) {
+        if (initialUnits > 0) {
           state.logs.push({
             id: 'log_init_' + Date.now(),
             subjectId: newId,
             date: getLocalTodayStr(),
-            pages: initialPages,
-            note: 'Initial syllabus progress',
+            pages: initialUnits,
+            note: 'Initial progress',
             isInitial: true,
             createdAt: Date.now()
           });
@@ -1890,7 +2810,7 @@
         saveState();
         closeSubjectModal();
         renderCurrentView();
-        showToast(`${name} added to your syllabus.`);
+        showToast(`${name} added.`);
       }
     }
 
@@ -1898,15 +2818,15 @@
       const sub = state.subjects.find(s => s.id === subjectId);
       if (!sub) return;
       openConfirmModal(
-        'Delete Subject',
-        `Are you sure you want to delete "${sub.name}" and all of its recorded study entries? This action cannot be undone.`,
+        'Delete Item',
+        `Are you sure you want to delete "${sub.name}" and all of its recorded entries? This action cannot be undone.`,
         () => {
           state.subjects = state.subjects.filter(s => s.id !== subjectId);
           state.logs = state.logs.filter(l => l.subjectId !== subjectId);
           saveState();
           if (currentView === 'subject-detail') navigateTo('subjects');
           else renderCurrentView();
-          showToast('Subject deleted.');
+          showToast('Item deleted.');
         }
       );
     }
@@ -1915,8 +2835,8 @@
       const sub = state.subjects.find(s => s.id === subjectId);
       if (!sub) return;
       openConfirmModal(
-        'Reset Subject Progress',
-        `Reset all logged pages for "${sub.name}" back to 0? The subject itself will remain in your list.`,
+        'Reset Progress',
+        `Reset all logged progress for "${sub.name}" back to 0? The item itself will remain in your list.`,
         () => {
           state.logs = state.logs.filter(l => l.subjectId !== subjectId);
           saveState();
@@ -1929,7 +2849,7 @@
     // --- STUDY LOG CRUD LOGIC ---
     function openLogModal(editLogId = null, preselectSubjectId = null) {
       if (state.subjects.length === 0) {
-        showToast('Please add a subject first before logging progress.', 'error');
+        showToast('Please add a subject or item first before logging progress.', 'error');
         openSubjectModal();
         return;
       }
@@ -1941,7 +2861,7 @@
       errEl.classList.add('hidden');
 
       subjectSelect.innerHTML = state.subjects
-        .map(s => `<option value="${s.id}">${escapeHTML(s.name)}</option>`)
+        .map(s => `<option value="${s.id}">${escapeHTML(s.name)} (${UNIT_CONFIG[normalizeUnit(s.unit)].label})</option>`)
         .join('');
 
       if (editLogId) {
@@ -1957,6 +2877,7 @@
         title.textContent = 'Log Study Progress';
         document.getElementById('log-edit-id').value = '';
         if (preselectSubjectId) subjectSelect.value = preselectSubjectId;
+        else if (currentView === 'subject-detail' && selectedSubjectId) subjectSelect.value = selectedSubjectId;
         document.getElementById('log-date').value = getLocalTodayStr();
         document.getElementById('log-pages').value = '';
         document.getElementById('log-note').value = '';
@@ -1975,14 +2896,17 @@
       const st = getSubjectStats(subId);
       if (!st) return;
 
-      let available = st.remainingPages;
+      const uCfg = UNIT_CONFIG[st.unit];
+      document.getElementById('log-amount-label').textContent = `${uCfg.label} Completed *`;
+
+      let available = st.remainingUnits;
       if (editId) {
         const existing = state.logs.find(l => l.id === editId);
         if (existing && existing.subjectId === subId) {
           available += Number(existing.pages);
         }
       }
-      document.getElementById('log-subject-hint').textContent = `${available} pages remaining in ${st.name}`;
+      document.getElementById('log-subject-hint').textContent = `${available} ${uCfg.plural} remaining in ${st.name}`;
     }
 
     function closeLogModal() {
@@ -1996,23 +2920,26 @@
       const editId = document.getElementById('log-edit-id').value;
       const subjectId = document.getElementById('log-subject').value;
       const date = document.getElementById('log-date').value;
-      const pages = parseInt(document.getElementById('log-pages').value, 10);
+      const amount = parseInt(document.getElementById('log-pages').value, 10);
       const note = document.getElementById('log-note').value.trim();
       const errEl = document.getElementById('log-error');
 
       if (!subjectId || !date) {
-        errEl.textContent = 'Please select a subject and date.';
-        errEl.classList.remove('hidden');
-        return;
-      }
-      if (isNaN(pages) || pages <= 0) {
-        errEl.textContent = 'Pages completed must be at least 1.';
+        errEl.textContent = 'Please select an item and date.';
         errEl.classList.remove('hidden');
         return;
       }
 
       const st = getSubjectStats(subjectId);
-      let maxAllowed = st.remainingPages;
+      const uCfg = UNIT_CONFIG[st.unit];
+
+      if (isNaN(amount) || amount <= 0) {
+        errEl.textContent = `${uCfg.label} completed must be at least 1.`;
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      let maxAllowed = st.remainingUnits;
       if (editId) {
         const prev = state.logs.find(l => l.id === editId);
         if (prev && prev.subjectId === subjectId) {
@@ -2020,8 +2947,8 @@
         }
       }
 
-      if (pages > maxAllowed) {
-        errEl.textContent = `Exceeds syllabus total. Maximum pages you can log for ${st.name}: ${maxAllowed}.`;
+      if (amount > maxAllowed) {
+        errEl.textContent = `Exceeds target total. Maximum ${uCfg.plural} you can log for ${st.name}: ${maxAllowed}.`;
         errEl.classList.remove('hidden');
         return;
       }
@@ -2030,20 +2957,20 @@
         const log = state.logs.find(l => l.id === editId);
         log.subjectId = subjectId;
         log.date = date;
-        log.pages = pages;
+        log.pages = amount;
         log.note = note;
-        showToast('Study entry updated.');
+        showToast('Entry updated.');
       } else {
         state.logs.push({
           id: 'log_' + Date.now(),
           subjectId,
           date,
-          pages,
+          pages: amount,
           note,
           isInitial: false,
           createdAt: Date.now()
         });
-        showToast(`Logged ${pages} pages for ${st.name}.`);
+        showToast(`Logged ${formatUnitCount(amount, st.unit)} for ${st.name}.`);
       }
 
       saveState();
@@ -2055,16 +2982,19 @@
       e.preventDefault();
       const subjectId = document.getElementById('inline-log-subject').value;
       const date = document.getElementById('inline-log-date').value;
-      const pages = parseInt(document.getElementById('inline-log-pages').value, 10);
+      const amount = parseInt(document.getElementById('inline-log-pages').value, 10);
 
-      if (!subjectId || !date || isNaN(pages) || pages <= 0) {
-        showToast('Please enter a valid number of pages.', 'error');
+      const st = getSubjectStats(subjectId);
+      if (!st) return;
+      const uCfg = UNIT_CONFIG[st.unit];
+
+      if (!subjectId || !date || isNaN(amount) || amount <= 0) {
+        showToast(`Please enter a valid number of ${uCfg.plural}.`, 'error');
         return;
       }
 
-      const st = getSubjectStats(subjectId);
-      if (pages > st.remainingPages) {
-        showToast(`Only ${st.remainingPages} pages remaining in ${st.name}.`, 'error');
+      if (amount > st.remainingUnits) {
+        showToast(`Only ${st.remainingUnits} ${uCfg.plural} remaining in ${st.name}.`, 'error');
         return;
       }
 
@@ -2072,7 +3002,7 @@
         id: 'log_' + Date.now(),
         subjectId,
         date,
-        pages,
+        pages: amount,
         note: '',
         isInitial: false,
         createdAt: Date.now()
@@ -2080,18 +3010,18 @@
 
       saveState();
       renderCurrentView();
-      showToast(`Logged ${pages} pages for ${st.name}.`);
+      showToast(`Logged ${formatUnitCount(amount, st.unit)} for ${st.name}.`);
     }
 
     function confirmDeleteLog(logId) {
       openConfirmModal(
         'Delete Study Entry',
-        'Remove this study session? Your subject and overall progress percentages will recalculate automatically.',
+        'Remove this session? Your progress percentages and daily pacing will recalculate automatically.',
         () => {
           state.logs = state.logs.filter(l => l.id !== logId);
           saveState();
           renderCurrentView();
-          showToast('Study entry deleted.');
+          showToast('Entry deleted.');
         }
       );
     }
@@ -2124,13 +3054,18 @@
     }
 
     function exportCSV() {
-      const headers = ['Date', 'Subject', 'Pages Completed', 'Note', 'Type'];
+      const headers = ['Date', 'Category', 'Subject / Item', 'Completed', 'Unit', 'Target Date', 'Note', 'Type'];
       const rows = state.logs.map(l => {
         const sub = state.subjects.find(s => s.id === l.subjectId);
+        const cat = sub ? getCategoryById(sub.categoryId) : null;
+        const unit = sub ? normalizeUnit(sub.unit) : 'pages';
         return [
           l.date,
+          `"${(cat ? cat.name : 'General').replace(/"/g, '""')}"`,
           `"${(sub ? sub.name : 'Unknown').replace(/"/g, '""')}"`,
           l.pages,
+          UNIT_CONFIG[unit].label,
+          sub?.targetDate || cat?.targetDate || '',
           `"${(l.note || '').replace(/"/g, '""')}"`,
           l.isInitial ? 'Initial' : 'Daily Log'
         ].join(',');
@@ -2158,15 +3093,9 @@
           }
           openConfirmModal(
             'Restore Backup',
-            'Restoring this backup will replace your current subjects and study logs. Do you wish to continue?',
+            'Restoring this backup will replace your current categories, subjects, and study logs. Do you wish to continue?',
             () => {
-              state.subjects = imported.subjects;
-              state.logs = imported.logs;
-              state.settings = {
-                dailyTarget: Number(imported.settings?.dailyTarget) || 0,
-                weeklyTarget: Number(imported.settings?.weeklyTarget) || 0,
-                examDate: imported.settings?.examDate || ''
-              };
+              state = migrateUserData(imported);
               saveState();
               navigateTo('dashboard');
               showToast('Backup restored successfully.');
@@ -2183,9 +3112,10 @@
     function confirmFactoryReset() {
       openConfirmModal(
         'Reset All Application Data',
-        'This will permanently erase all subjects, study logs, and targets from this browser. Have you exported a backup?',
+        'This will permanently erase all custom categories, subjects, study logs, and targets from this browser. Have you exported a backup?',
         () => {
           state = {
+            categories: getDefaultCategories(),
             subjects: [],
             logs: [],
             settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
