@@ -72,6 +72,85 @@
   <!-- Toast / Notification Banner (No alert() used) -->
   <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- AUTHENTICATION & ONBOARDING OVERLAY -->
+  <div id="auth-screen" class="fixed inset-0 z-50 bg-bgBase flex items-center justify-center p-4 overflow-y-auto">
+    <div class="w-full max-w-md bg-surface rounded-2xl border border-borderSubtle shadow-lg overflow-hidden my-auto">
+      <!-- Brand Header -->
+      <div class="px-8 pt-8 pb-6 bg-surfaceWarm border-b border-borderSubtle text-center">
+        <div class="w-11 h-11 rounded-xl bg-sage/20 border border-sage/40 flex items-center justify-center mx-auto mb-3 text-sageDark">
+          <i data-lucide="book-open" class="w-5 h-5"></i>
+        </div>
+        <h1 class="font-serif-editorial text-2xl font-medium text-charcoal">Syllabus</h1>
+        <p class="text-xs text-mutedGrey mt-1">Personal Academic Progress Tracker</p>
+      </div>
+
+      <!-- STEP 1: Sign In / Create Account -->
+      <form id="auth-login-form" onsubmit="handleAuthLogin(event)" class="p-8 space-y-4">
+        <div>
+          <h2 class="font-serif-editorial text-xl text-charcoal">Student Sign In</h2>
+          <p class="text-xs text-mutedGrey mt-1 leading-relaxed">
+            New student? Enter a username and use that <strong>exact same username as your initial password</strong> to create your private workspace.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Username</label>
+          <input type="text" id="auth-username" required autocomplete="username" placeholder="e.g. aarav_sharma" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Password</label>
+          <input type="password" id="auth-password" required autocomplete="current-password" placeholder="Initial password = your username" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+
+        <p id="auth-login-error" class="text-xs text-red-600 hidden"></p>
+
+        <button type="submit" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+          Continue to Workspace
+        </button>
+
+        <div class="pt-3 border-t border-borderSubtle/70 text-[11px] text-mutedGrey flex items-start gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-sageDark shrink-0 mt-0.5"></i>
+          <span>First-time accounts require setting a private personal password immediately after entry.</span>
+        </div>
+      </form>
+
+      <!-- STEP 2: Mandatory Password Change -->
+      <form id="auth-change-pw-form" onsubmit="handleForcePasswordChange(event)" class="p-8 space-y-4 hidden">
+        <div class="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/80 flex items-start gap-3">
+          <i data-lucide="lock" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+          <div>
+            <h3 class="text-xs font-semibold text-charcoal">Security Requirement: Set Your Password</h3>
+            <p class="text-[11px] text-mutedGrey mt-0.5 leading-relaxed">
+              Welcome, <strong id="onboarding-username-display" class="text-charcoal"></strong>. Because your password currently matches your username, you must set a new private password before accessing your dashboard.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">New Private Password *</label>
+          <input type="password" id="new-private-pw" required minlength="6" placeholder="Minimum 6 characters (different from username)" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Confirm New Password *</label>
+          <input type="password" id="confirm-private-pw" required minlength="6" placeholder="Re-enter your new password" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+        </div>
+
+        <p id="auth-change-error" class="text-xs text-red-600 hidden"></p>
+
+        <div class="flex items-center gap-2 pt-1">
+          <button type="button" onclick="cancelOnboarding()" class="px-4 py-2.5 text-xs font-medium text-mutedGrey hover:text-charcoal rounded-xl border border-borderSubtle">
+            Back
+          </button>
+          <button type="submit" class="flex-1 py-2.5 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+            Save Password & Unlock
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Desktop Sidebar -->
   <aside class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-surface border-r border-borderSubtle z-30">
     <div class="p-6 pb-4 flex items-center gap-3">
@@ -100,26 +179,21 @@
         <i data-lucide="library" class="w-4 h-4"></i>
         My Subjects
       </button>
-      <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
-        <i data-lucide="calendar-check" class="w-4 h-4"></i>
-        Daily Log
-      </button>
-      <button data-nav="statistics" onclick="navigateTo('statistics')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
-        <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-        Statistics
-      </button>
-      <button data-nav="settings" onclick="navigateTo('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
-        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-        Settings
-      </button>
-    </nav>
-
-    <div class="p-4 m-3 rounded-xl bg-bgBase/80 border border-borderSubtle text-xs text-mutedGrey">
-      <div class="flex items-center justify-between mb-1">
-        <span class="font-medium text-charcoal">Study Consistency</span>
-        <span id="sidebar-streak" class="font-semibold text-sageDark">0 days</span>
+    <div class="p-4 m-3 rounded-xl bg-bgBase/80 border border-borderSubtle text-xs text-mutedGrey space-y-3">
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-medium text-charcoal">Study Consistency</span>
+          <span id="sidebar-streak" class="font-semibold text-sageDark">0 days</span>
+        </div>
+        <p class="leading-relaxed">Steady daily progress builds lasting mastery.</p>
       </div>
-      <p class="leading-relaxed">Steady daily progress builds lasting mastery.</p>
+      <div class="pt-2.5 border-t border-borderSubtle flex items-center justify-between">
+        <span class="text-charcoal font-medium truncate max-w-[120px]" id="sidebar-username">@student</span>
+        <button onclick="logoutUser()" class="text-xs text-mutedGrey hover:text-charcoal flex items-center gap-1 transition-colors cursor-pointer" title="Sign Out">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Sign out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -131,10 +205,15 @@
       </div>
       <span class="font-serif-editorial text-lg font-medium text-charcoal">Syllabus</span>
     </div>
-    <button onclick="openLogModal()" class="py-1.5 px-3 bg-charcoal text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow-sm">
-      <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-      <span>Log Progress</span>
-    </button>
+    <div class="flex items-center gap-2">
+      <button onclick="openLogModal()" class="py-1.5 px-3 bg-charcoal text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow-sm">
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        <span>Log</span>
+      </button>
+      <button onclick="logoutUser()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg border border-borderSubtle" title="Sign Out">
+        <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
   </header>
 
   <!-- Main Content Area -->
@@ -272,10 +351,12 @@
   <script>
     /**
      * SYLLABUS — ACADEMIC PROGRESS TRACKER
-     * Clean, structured client-side architecture designed for easy future cloud sync migration.
+     * Multi-account architecture with mandatory first-login password setup.
      */
 
-    const STORAGE_KEY = 'syllabus_tracker_v1';
+    const ACCOUNTS_KEY = 'syllabus_accounts_v1';
+    const SESSION_KEY = 'syllabus_active_session_v1';
+    const DATA_PREFIX = 'syllabus_user_data_v1_';
 
     const MUTED_PALETTE = [
       { name: 'Sage Green', hex: '#899889' },
@@ -288,7 +369,11 @@
       { name: 'Charcoal Mist', hex: '#687076' }
     ];
 
-    // Application State
+    // Active User Session State
+    let currentUser = null; // normalized lowercase username
+    let pendingOnboardingUser = null;
+
+    // Application State (Scoped per logged-in user)
     let state = {
       subjects: [], // { id, name, totalPages, color, notes, createdAt }
       logs: [],     // { id, subjectId, date (YYYY-MM-DD), pages, note, isInitial, createdAt }
@@ -342,15 +427,181 @@
 
     function getGreeting() {
       const hour = new Date().getHours();
-      if (hour < 12) return 'Good morning.';
-      if (hour < 18) return 'Good afternoon.';
-      return 'Good evening.';
+      const displayName = currentUser ? ` ${currentUser}` : '';
+      if (hour < 12) return `Good morning,${displayName}.`;
+      if (hour < 18) return `Good afternoon,${displayName}.`;
+      return `Good evening,${displayName}.`;
     }
 
-    // --- PERSISTENCE LAYER ---
-    function loadState() {
+    // --- CRYPTO & ACCOUNT AUTHENTICATION LAYER ---
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password + '::syllabus_salt_v1');
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function getAccountsRegistry() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveAccountsRegistry(registry) {
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(registry));
+    }
+
+    async function handleAuthLogin(e) {
+      e.preventDefault();
+      const rawUser = document.getElementById('auth-username').value.trim();
+      const rawPass = document.getElementById('auth-password').value;
+      const errEl = document.getElementById('auth-login-error');
+      errEl.classList.add('hidden');
+
+      if (rawUser.length < 3) {
+        errEl.textContent = 'Username must be at least 3 characters long.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const usernameKey = rawUser.toLowerCase();
+      const registry = getAccountsRegistry();
+      const existingAccount = registry[usernameKey];
+
+      // Case 1: Brand new user signing in for the first time
+      if (!existingAccount) {
+        // Initial password MUST equal their username
+        if (rawPass !== rawUser && rawPass.toLowerCase() !== usernameKey) {
+          errEl.textContent = 'Account not found. To create a new account, enter your username as your initial password.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        // Require immediate password change before allowing dashboard access
+        pendingOnboardingUser = usernameKey;
+        showMandatoryPasswordChange(rawUser);
+        return;
+      }
+
+      // Case 2: Existing account
+      const enteredHash = await hashPassword(rawPass);
+      if (enteredHash !== existingAccount.passwordHash) {
+        errEl.textContent = 'Incorrect password for this username.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      // Safety check: if password was somehow never changed from username, enforce change now
+      if (existingAccount.mustChangePassword) {
+        pendingOnboardingUser = usernameKey;
+        showMandatoryPasswordChange(rawUser);
+        return;
+      }
+
+      completeLogin(usernameKey);
+    }
+
+    function showMandatoryPasswordChange(displayUsername) {
+      document.getElementById('auth-login-form').classList.add('hidden');
+      document.getElementById('auth-change-pw-form').classList.remove('hidden');
+      document.getElementById('onboarding-username-display').textContent = displayUsername;
+      document.getElementById('new-private-pw').value = '';
+      document.getElementById('confirm-private-pw').value = '';
+      document.getElementById('auth-change-error').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    function cancelOnboarding() {
+      pendingOnboardingUser = null;
+      document.getElementById('auth-change-pw-form').classList.add('hidden');
+      document.getElementById('auth-login-form').classList.remove('hidden');
+    }
+
+    async function handleForcePasswordChange(e) {
+      e.preventDefault();
+      if (!pendingOnboardingUser) return;
+
+      const newPw = document.getElementById('new-private-pw').value;
+      const confirmPw = document.getElementById('confirm-private-pw').value;
+      const errEl = document.getElementById('auth-change-error');
+      errEl.classList.add('hidden');
+
+      if (newPw.length < 6) {
+        errEl.textContent = 'Your new password must be at least 6 characters long.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (newPw.toLowerCase() === pendingOnboardingUser) {
+        errEl.textContent = 'For your safety, your new password cannot be the same as your username.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (newPw !== confirmPw) {
+        errEl.textContent = 'Passwords do not match. Please re-enter carefully.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const newHash = await hashPassword(newPw);
+      const registry = getAccountsRegistry();
+      registry[pendingOnboardingUser] = {
+        username: pendingOnboardingUser,
+        passwordHash: newHash,
+        mustChangePassword: false,
+        createdAt: registry[pendingOnboardingUser]?.createdAt || Date.now(),
+        updatedAt: Date.now()
+      };
+      saveAccountsRegistry(registry);
+
+      const unlockedUser = pendingOnboardingUser;
+      pendingOnboardingUser = null;
+      completeLogin(unlockedUser);
+      showToast('Private password set! Welcome to Syllabus.');
+    }
+
+    function completeLogin(usernameKey) {
+      currentUser = usernameKey;
+      localStorage.setItem(SESSION_KEY, usernameKey);
+      document.getElementById('auth-screen').classList.add('hidden');
+      document.getElementById('sidebar-username').textContent = `@${usernameKey}`;
+      loadState();
+      updateSidebarStreak();
+      navigateTo('dashboard');
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      pendingOnboardingUser = null;
+      localStorage.removeItem(SESSION_KEY);
+      state = {
+        subjects: [],
+        logs: [],
+        settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
+      };
+      document.getElementById('auth-username').value = '';
+      document.getElementById('auth-password').value = '';
+      document.getElementById('auth-login-error').classList.add('hidden');
+      document.getElementById('auth-change-pw-form').classList.add('hidden');
+      document.getElementById('auth-login-form').classList.remove('hidden');
+      document.getElementById('auth-screen').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // --- PERSISTENCE LAYER (SCOPED PER USER) ---
+    function getUserStorageKey() {
+      return `${DATA_PREFIX}${currentUser}`;
+    }
+
+    function loadState() {
+      if (!currentUser) return;
+      try {
+        const raw = localStorage.getItem(getUserStorageKey());
         if (raw) {
           const parsed = JSON.parse(raw);
           state.subjects = Array.isArray(parsed.subjects) ? parsed.subjects : [];
@@ -360,6 +611,12 @@
             weeklyTarget: Number(parsed.settings?.weeklyTarget) || 0,
             examDate: parsed.settings?.examDate || ''
           };
+        } else {
+          state = {
+            subjects: [],
+            logs: [],
+            settings: { dailyTarget: 20, weeklyTarget: 120, examDate: '' }
+          };
         }
       } catch (err) {
         console.error('Failed to load state:', err);
@@ -367,8 +624,9 @@
     }
 
     function saveState() {
+      if (!currentUser) return;
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(getUserStorageKey(), JSON.stringify(state));
         updateSidebarStreak();
       } catch (err) {
         showToast('Unable to save changes to browser storage.', 'error');
@@ -1965,9 +2223,16 @@
 
     // --- INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
-      loadState();
-      updateSidebarStreak();
-      renderCurrentView();
+      const savedSession = localStorage.getItem(SESSION_KEY);
+      const registry = getAccountsRegistry();
+
+      if (savedSession && registry[savedSession] && !registry[savedSession].mustChangePassword) {
+        completeLogin(savedSession);
+      } else {
+        localStorage.removeItem(SESSION_KEY);
+        document.getElementById('auth-screen').classList.remove('hidden');
+      }
+      lucide.createIcons();
     });
   </script>
 </body>
