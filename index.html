@@ -46,7 +46,6 @@
     .font-serif-editorial {
       font-family: 'Newsreader', serif;
     }
-    /* Smooth custom scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -61,11 +60,37 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #858783;
     }
-    /* Smooth progress bar transitions */
     .progress-fill {
       transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
   </style>
+
+  <!-- FIREBASE CLOUD SYNC: Paste your 6 firebaseConfig values below -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBP80MflReOdjZzn9MbKnbACgmLRsM0U08",
+      authDomain: "syllabus-sync-485f3.firebaseapp.com",
+      projectId: "syllabus-sync-485f3",
+      storageBucket: "syllabus-sync-485f3.firebasestorage.app",
+      messagingSenderId: "84363336364",
+      appId: "1:84363336364:web:812b359e1465891ba91d09"
+    };
+
+    const isConfigured = firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE_");
+    if (isConfigured) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.__cloudDB = { db, doc, getDoc, setDoc, onSnapshot };
+        window.dispatchEvent(new Event('syllabus-cloud-ready'));
+      } catch (e) {
+        console.error("Firebase init failed:", e);
+      }
+    }
+  </script>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row selection:bg-[#899889]/20">
 
@@ -89,7 +114,7 @@
         <div>
           <h2 class="font-serif-editorial text-xl text-charcoal">Student Sign In</h2>
           <p class="text-xs text-mutedGrey mt-1 leading-relaxed">
-            New user? Enter a username and use that <strong>exact same username as your initial password</strong> to create your private workspace.
+            New user? Enter a username and use that <strong>exact same username as your initial password</strong> to create your cloud-synced workspace.
           </p>
         </div>
 
@@ -105,13 +130,13 @@
 
         <p id="auth-login-error" class="text-xs text-red-600 hidden"></p>
 
-        <button type="submit" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
           Continue to Workspace
         </button>
 
         <div class="pt-3 border-t border-borderSubtle/70 text-[11px] text-mutedGrey flex items-start gap-2">
-          <i data-lucide="shield-check" class="w-4 h-4 text-sageDark shrink-0 mt-0.5"></i>
-          <span>First-time accounts require setting a private personal password immediately after entry.</span>
+          <i data-lucide="cloud" class="w-4 h-4 text-sageDark shrink-0 mt-0.5"></i>
+          <span>Your account and study logs sync automatically across all devices signed in with your username.</span>
         </div>
       </form>
 
@@ -143,7 +168,7 @@
           <button type="button" onclick="cancelOnboarding()" class="px-4 py-2.5 text-xs font-medium text-mutedGrey hover:text-charcoal rounded-xl border border-borderSubtle">
             Back
           </button>
-          <button type="submit" class="flex-1 py-2.5 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+          <button type="submit" id="onboarding-submit-btn" class="flex-1 py-2.5 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
             Save Password & Unlock
           </button>
         </div>
@@ -203,7 +228,10 @@
           <span class="font-medium text-charcoal">Study Consistency</span>
           <span id="sidebar-streak" class="font-semibold text-sageDark">0 days</span>
         </div>
-        <p class="leading-relaxed">Steady daily progress builds lasting mastery.</p>
+        <p id="cloud-sync-status" class="text-[11px] text-sageDark flex items-center gap-1.5 mt-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-sageDark"></span>
+          <span>Local storage active</span>
+        </p>
       </div>
       <div class="pt-2.5 border-t border-borderSubtle flex items-center justify-between">
         <span class="text-charcoal font-medium truncate max-w-[120px]" id="sidebar-username">@student</span>
@@ -444,8 +472,7 @@
   <script>
     /**
      * SYLLABUS — ACADEMIC & READING PROGRESS TRACKER
-     * Features: Multi-user auth, Custom Categories, Poems & Sermons tracking,
-     * Customizable Measurement Units, Personalized Goal End Dates & Dynamic Pacing.
+     * Includes Firebase Firestore Real-Time Cloud Sync + Local Offline Fallback
      */
 
     const ACCOUNTS_KEY = 'syllabus_accounts_v1';
@@ -483,12 +510,14 @@
     // Active User Session State
     let currentUser = null;
     let pendingOnboardingUser = null;
+    let unsubscribeCloudSync = null;
+    let isApplyingRemoteUpdate = false;
 
     // Application State (Scoped per logged-in user)
     let state = {
-      categories: [], // { id, name, color, defaultUnit, targetDate, isDefault, createdAt }
-      subjects: [],   // { id, name, categoryId, unit, totalPages, color, notes, targetDate, createdAt }
-      logs: [],       // { id, subjectId, date (YYYY-MM-DD), pages, note, isInitial, createdAt }
+      categories: [],
+      subjects: [],
+      logs: [],
       settings: {
         dailyTarget: 20,
         weeklyTarget: 120,
@@ -511,6 +540,16 @@
     let statsSelectedDate = getLocalTodayStr();
     let confirmCallback = null;
 
+    // --- CLOUD SYNC STATUS INDICATOR ---
+    function setCloudSyncStatus(statusText, isSynced = true) {
+      const el = document.getElementById('cloud-sync-status');
+      if (!el) return;
+      el.innerHTML = `
+        <span class="w-1.5 h-1.5 rounded-full ${isSynced ? 'bg-sageDark' : 'bg-amber-500'}"></span>
+        <span>${escapeHTML(statusText)}</span>
+      `;
+    }
+
     // --- UNIT FORMATTING HELPERS ---
     function normalizeUnit(unit) {
       return UNIT_CONFIG[unit] ? unit : 'pages';
@@ -530,7 +569,7 @@
       return UNIT_CONFIG[normalizeUnit(unit)].short;
     }
 
-    // --- DATE HELPERS (Strictly Local Calendar Dates) ---
+    // --- DATE HELPERS ---
     function getLocalTodayStr() {
       const d = new Date();
       return formatDateYYYYMMDD(d);
@@ -568,7 +607,7 @@
       return `Good evening,${displayName}.`;
     }
 
-    // --- CRYPTO & ACCOUNT AUTHENTICATION LAYER ---
+    // --- CRYPTO & ACCOUNT AUTHENTICATION LAYER (CLOUD + LOCAL) ---
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password + '::syllabus_salt_v1');
@@ -578,7 +617,7 @@
         .join('');
     }
 
-    function getAccountsRegistry() {
+    function getLocalAccountsRegistry() {
       try {
         return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '{}');
       } catch (e) {
@@ -586,8 +625,47 @@
       }
     }
 
-    function saveAccountsRegistry(registry) {
+    function saveLocalAccountsRegistry(registry) {
       localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(registry));
+    }
+
+    async function fetchAccountRecord(usernameKey) {
+      const localReg = getLocalAccountsRegistry();
+      if (window.__cloudDB) {
+        try {
+          const { db, doc, getDoc, setDoc } = window.__cloudDB;
+          const accRef = doc(db, 'syllabus_accounts', usernameKey);
+          const snap = await getDoc(accRef);
+          if (snap.exists()) {
+            const cloudAcc = snap.data();
+            localReg[usernameKey] = cloudAcc;
+            saveLocalAccountsRegistry(localReg);
+            return cloudAcc;
+          } else if (localReg[usernameKey]) {
+            // Migrate existing local account to cloud automatically
+            await setDoc(accRef, localReg[usernameKey]);
+            return localReg[usernameKey];
+          }
+        } catch (err) {
+          console.warn('Cloud account check fallback to local:', err);
+        }
+      }
+      return localReg[usernameKey] || null;
+    }
+
+    async function saveAccountRecord(usernameKey, record) {
+      const localReg = getLocalAccountsRegistry();
+      localReg[usernameKey] = record;
+      saveLocalAccountsRegistry(localReg);
+
+      if (window.__cloudDB) {
+        try {
+          const { db, doc, setDoc } = window.__cloudDB;
+          await setDoc(doc(db, 'syllabus_accounts', usernameKey), record);
+        } catch (err) {
+          console.warn('Could not sync account to cloud:', err);
+        }
+      }
     }
 
     async function handleAuthLogin(e) {
@@ -595,6 +673,7 @@
       const rawUser = document.getElementById('auth-username').value.trim();
       const rawPass = document.getElementById('auth-password').value;
       const errEl = document.getElementById('auth-login-error');
+      const submitBtn = document.getElementById('auth-submit-btn');
       errEl.classList.add('hidden');
 
       if (rawUser.length < 3) {
@@ -604,34 +683,41 @@
       }
 
       const usernameKey = rawUser.toLowerCase();
-      const registry = getAccountsRegistry();
-      const existingAccount = registry[usernameKey];
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Checking account...';
 
-      if (!existingAccount) {
-        if (rawPass !== rawUser && rawPass.toLowerCase() !== usernameKey) {
-          errEl.textContent = 'Account not found. To create a new account, enter your username as your initial password.';
+      try {
+        const existingAccount = await fetchAccountRecord(usernameKey);
+
+        if (!existingAccount) {
+          if (rawPass !== rawUser && rawPass.toLowerCase() !== usernameKey) {
+            errEl.textContent = 'Account not found. To create a new account, enter your username as your initial password.';
+            errEl.classList.remove('hidden');
+            return;
+          }
+          pendingOnboardingUser = usernameKey;
+          showMandatoryPasswordChange(rawUser);
+          return;
+        }
+
+        const enteredHash = await hashPassword(rawPass);
+        if (enteredHash !== existingAccount.passwordHash) {
+          errEl.textContent = 'Incorrect password for this username.';
           errEl.classList.remove('hidden');
           return;
         }
-        pendingOnboardingUser = usernameKey;
-        showMandatoryPasswordChange(rawUser);
-        return;
-      }
 
-      const enteredHash = await hashPassword(rawPass);
-      if (enteredHash !== existingAccount.passwordHash) {
-        errEl.textContent = 'Incorrect password for this username.';
-        errEl.classList.remove('hidden');
-        return;
-      }
+        if (existingAccount.mustChangePassword) {
+          pendingOnboardingUser = usernameKey;
+          showMandatoryPasswordChange(rawUser);
+          return;
+        }
 
-      if (existingAccount.mustChangePassword) {
-        pendingOnboardingUser = usernameKey;
-        showMandatoryPasswordChange(rawUser);
-        return;
+        completeLogin(usernameKey);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Continue to Workspace';
       }
-
-      completeLogin(usernameKey);
     }
 
     function showMandatoryPasswordChange(displayUsername) {
@@ -657,6 +743,7 @@
       const newPw = document.getElementById('new-private-pw').value;
       const confirmPw = document.getElementById('confirm-private-pw').value;
       const errEl = document.getElementById('auth-change-error');
+      const btn = document.getElementById('onboarding-submit-btn');
       errEl.classList.add('hidden');
 
       if (newPw.length < 6) {
@@ -677,21 +764,28 @@
         return;
       }
 
-      const newHash = await hashPassword(newPw);
-      const registry = getAccountsRegistry();
-      registry[pendingOnboardingUser] = {
-        username: pendingOnboardingUser,
-        passwordHash: newHash,
-        mustChangePassword: false,
-        createdAt: registry[pendingOnboardingUser]?.createdAt || Date.now(),
-        updatedAt: Date.now()
-      };
-      saveAccountsRegistry(registry);
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
 
-      const unlockedUser = pendingOnboardingUser;
-      pendingOnboardingUser = null;
-      completeLogin(unlockedUser);
-      showToast('Private password set! Welcome to Syllabus.');
+      try {
+        const newHash = await hashPassword(newPw);
+        const existing = await fetchAccountRecord(pendingOnboardingUser);
+        await saveAccountRecord(pendingOnboardingUser, {
+          username: pendingOnboardingUser,
+          passwordHash: newHash,
+          mustChangePassword: false,
+          createdAt: existing?.createdAt || Date.now(),
+          updatedAt: Date.now()
+        });
+
+        const unlockedUser = pendingOnboardingUser;
+        pendingOnboardingUser = null;
+        completeLogin(unlockedUser);
+        showToast('Private password set! Cloud sync active.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Save Password & Unlock';
+      }
     }
 
     function completeLogin(usernameKey) {
@@ -705,6 +799,10 @@
     }
 
     function logoutUser() {
+      if (unsubscribeCloudSync) {
+        unsubscribeCloudSync();
+        unsubscribeCloudSync = null;
+      }
       currentUser = null;
       pendingOnboardingUser = null;
       localStorage.removeItem(SESSION_KEY);
@@ -723,7 +821,7 @@
       lucide.createIcons();
     }
 
-    // --- PERSISTENCE & GRACEFUL MIGRATION LAYER ---
+    // --- PERSISTENCE, CLOUD SYNC & GRACEFUL MIGRATION LAYER ---
     function getUserStorageKey() {
       return `${DATA_PREFIX}${currentUser}`;
     }
@@ -741,7 +839,6 @@
           }))
         : getDefaultCategories();
 
-      // Guarantee 'cat_general' exists as fallback
       if (!categories.some(c => c.id === 'cat_general')) {
         categories.unshift({
           id: 'cat_general',
@@ -776,14 +873,61 @@
       return { categories, subjects, logs, settings };
     }
 
+    function getUserCloudRef() {
+      if (!window.__cloudDB || !currentUser) return null;
+      const { db, doc } = window.__cloudDB;
+      return doc(db, 'syllabus_users', currentUser);
+    }
+
+    function startCloudSyncListener() {
+      if (unsubscribeCloudSync) {
+        unsubscribeCloudSync();
+        unsubscribeCloudSync = null;
+      }
+
+      const userRef = getUserCloudRef();
+      if (!userRef) {
+        setCloudSyncStatus('Local storage only', false);
+        return;
+      }
+
+      setCloudSyncStatus('Syncing with cloud...', true);
+      const { onSnapshot } = window.__cloudDB;
+
+      unsubscribeCloudSync = onSnapshot(userRef, (snap) => {
+        setCloudSyncStatus('Cloud synced across devices', true);
+        if (snap.exists()) {
+          const cloudData = snap.data();
+          const localUpdated = Number(localStorage.getItem(getUserStorageKey() + '_ts') || 0);
+          if ((cloudData.updatedAt || 0) > localUpdated) {
+            isApplyingRemoteUpdate = true;
+            state = migrateUserData(cloudData);
+            localStorage.setItem(getUserStorageKey(), JSON.stringify(state));
+            localStorage.setItem(getUserStorageKey() + '_ts', String(cloudData.updatedAt));
+            updateSidebarStreak();
+            renderCurrentView();
+            isApplyingRemoteUpdate = false;
+          }
+        } else if (state.subjects.length > 0 || state.logs.length > 0) {
+          // Upload existing local progress to cloud on first sync
+          saveState();
+        }
+      }, (err) => {
+        console.warn('Cloud sync listener error:', err);
+        setCloudSyncStatus('Offline (saved locally)', false);
+      });
+    }
+
+    window.addEventListener('syllabus-cloud-ready', () => {
+      if (currentUser) startCloudSyncListener();
+    });
+
     function loadState() {
       if (!currentUser) return;
       try {
         const raw = localStorage.getItem(getUserStorageKey());
         if (raw) {
-          const parsed = JSON.parse(raw);
-          state = migrateUserData(parsed);
-          // Persist migrated schema seamlessly
+          state = migrateUserData(JSON.parse(raw));
           localStorage.setItem(getUserStorageKey(), JSON.stringify(state));
         } else {
           state = {
@@ -796,15 +940,38 @@
       } catch (err) {
         console.error('Failed to load state:', err);
       }
+      startCloudSyncListener();
     }
 
-    function saveState() {
+    async function saveState() {
       if (!currentUser) return;
+      const now = Date.now();
       try {
         localStorage.setItem(getUserStorageKey(), JSON.stringify(state));
+        localStorage.setItem(getUserStorageKey() + '_ts', String(now));
         updateSidebarStreak();
       } catch (err) {
         showToast('Unable to save changes to browser storage.', 'error');
+      }
+
+      if (isApplyingRemoteUpdate) return;
+      const userRef = getUserCloudRef();
+      if (userRef) {
+        try {
+          setCloudSyncStatus('Saving to cloud...', true);
+          const { setDoc } = window.__cloudDB;
+          await setDoc(userRef, {
+            categories: state.categories,
+            subjects: state.subjects,
+            logs: state.logs,
+            settings: state.settings,
+            updatedAt: now
+          });
+          setCloudSyncStatus('Cloud synced across devices', true);
+        } catch (err) {
+          console.warn('Cloud save failed:', err);
+          setCloudSyncStatus('Offline (saved locally)', false);
+        }
       }
     }
 
@@ -839,7 +1006,6 @@
         };
       }
 
-      // If due today (daysRemaining === 0), all remaining units are needed today
       const effectiveDays = Math.max(1, daysRemaining);
       const exactDaily = remainingUnits / effectiveDays;
       const requiredDaily = Math.ceil(exactDaily * 10) / 10;
@@ -874,11 +1040,9 @@
       const regularLogs = subjectLogs.filter(l => !l.isInitial).sort((a, b) => b.date.localeCompare(a.date));
       const lastStudiedDate = regularLogs.length > 0 ? regularLogs[0].date : null;
 
-      // Determine effective target date: subject-specific overrides category target date
       const effectiveTargetDate = subject.targetDate || (category && category.targetDate) || '';
       const pacing = calculateDynamicPacing(remainingUnits, effectiveTargetDate, unit);
 
-      // Today's completed units for this subject
       const todayStr = getLocalTodayStr();
       const todayUnits = subjectLogs
         .filter(l => l.date === todayStr && !l.isInitial)
@@ -926,7 +1090,6 @@
       });
 
       const remainingUnits = Math.max(0, totalUnits - completedUnits);
-      // Average completion across items weighted by item progress if mixed units, or direct ratio if single unit
       const distinctUnits = Object.keys(unitBreakdown);
       let percentage = 0;
       if (items.length > 0) {
@@ -962,7 +1125,7 @@
 
     function getOverallStats() {
       const totalSubjects = state.subjects.length;
-      const unitTotals = {}; // { pages: { total, completed, remaining }, verses: {...}, ... }
+      const unitTotals = {};
       let sumPercentages = 0;
 
       state.subjects.forEach(sub => {
@@ -987,7 +1150,6 @@
           const comp = unitTotals[u].completed;
           overallPercentage = tot > 0 ? Math.min(100, Math.round((comp / tot) * 1000) / 10) : 0;
         } else {
-          // Equal-weighted mean completion across active subjects/collections so pages & verses never distort scale
           overallPercentage = Math.round((sumPercentages / totalSubjects) * 10) / 10;
         }
       }
@@ -1011,7 +1173,6 @@
       const todayLogs = state.logs.filter(l => l.date === todayStr && !l.isInitial);
       const subjectsStudied = new Set(todayLogs.map(l => l.subjectId)).size;
 
-      // Break down today's completed units cleanly by unit type
       const todayByUnit = {};
       todayLogs.forEach(l => {
         const sub = state.subjects.find(s => s.id === l.subjectId);
@@ -1118,7 +1279,6 @@
       if (view === 'subject-detail' && entityId) selectedSubjectId = entityId;
       if (view === 'category-detail' && entityId) selectedCategoryId = entityId;
 
-      // Update Desktop Nav styling
       document.querySelectorAll('.nav-btn').forEach(btn => {
         const isMatch =
           btn.dataset.nav === view ||
@@ -1129,7 +1289,6 @@
           : 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60';
       });
 
-      // Update Mobile Nav styling
       document.querySelectorAll('.mob-nav-btn').forEach(btn => {
         const isMatch =
           btn.dataset.nav === view ||
@@ -1238,7 +1397,6 @@
         .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
         .slice(0, 5);
 
-      // Active daily pacing targets across subjects/items
       const activePacingItems = state.subjects
         .map(s => getSubjectStats(s.id))
         .filter(st => st.pacing && st.remainingUnits > 0)
@@ -1247,7 +1405,6 @@
       const todayUnitBadges = Object.entries(today.todayByUnit);
 
       return `
-        <!-- Header Greeting -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
@@ -1257,7 +1414,7 @@
           ${examStats ? renderExamPill(examStats) : ''}
         </div>
 
-        <!-- A. Overall Progress Overview (Clean Mixed-Unit Breakdown) -->
+        <!-- Overall Progress Overview -->
         <section class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
             <div>
@@ -1272,12 +1429,10 @@
             </div>
           </div>
 
-          <!-- Large Elegant Overall Progress Bar -->
           <div class="w-full h-3.5 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/70 mb-6">
             <div class="h-full bg-sage rounded-full progress-fill" style="width: ${overall.overallPercentage}%"></div>
           </div>
 
-          <!-- Unit-Aware Summary Grid -->
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-${Math.min(5, overall.distinctUnits.length + 1)} gap-4 pt-4 border-t border-borderSubtle/80">
             <div>
               <p class="text-xs text-mutedGrey">Active Items</p>
@@ -1299,7 +1454,7 @@
           </div>
         </section>
 
-        <!-- C. Today's Progress, Daily Subject Pacing & Recent Activity -->
+        <!-- Today's Progress, Daily Subject Pacing & Recent Activity -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <section class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
             <div>
@@ -1334,7 +1489,6 @@
                 </div>
               `}
 
-              <!-- Dynamic Daily Goal Pacing per Active Deadline -->
               ${activePacingItems.length > 0 ? `
                 <div class="mt-3 pt-3 border-t border-borderSubtle/70">
                   <p class="text-[11px] font-semibold uppercase tracking-wider text-mutedGrey mb-2.5">Today's Required Pacing for Active Goals</p>
@@ -1416,7 +1570,7 @@
           </section>
         </div>
 
-        <!-- B. Individual Subject / Item Progress Cards -->
+        <!-- Individual Subject / Item Progress Cards -->
         <section>
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -1453,7 +1607,6 @@
                       <h4 class="font-medium text-base text-charcoal truncate group-hover:text-black">${escapeHTML(st.name)}</h4>
                     </div>
 
-                    <!-- Progress Bar -->
                     <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-3">
                       <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
                     </div>
@@ -1532,7 +1685,6 @@
           </button>
         </div>
 
-        <!-- Search & Category Filters -->
         ${state.subjects.length > 0 ? `
           <div class="flex flex-wrap items-center gap-3 mb-6">
             <div class="relative flex-1 min-w-[220px] max-w-sm">
@@ -1645,7 +1797,6 @@
                     ${cat.itemCount} ${cat.itemCount === 1 ? 'item' : 'items'} · Default unit: <span class="text-charcoal font-medium">${uCfg.label}</span>
                   </p>
 
-                  <!-- Category Progress Bar -->
                   <div class="w-full h-2.5 bg-bgBase rounded-full overflow-hidden mb-3">
                     <div class="h-full rounded-full progress-fill" style="width: ${cat.percentage}%; background-color: ${cat.color}"></div>
                   </div>
@@ -1727,7 +1878,6 @@
           </div>
         </div>
 
-        <!-- Category Overview Card -->
         <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
             <div>
@@ -1761,9 +1911,7 @@
           ` : ''}
         </div>
 
-        <!-- Items in Category & Filtered Daily Log Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Category Items List -->
           <div class="lg:col-span-7 space-y-3">
             <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Items in ${escapeHTML(cat.name)}</h3>
             ${cat.items.length === 0 ? `
@@ -1800,7 +1948,6 @@
             }).join('')}
           </div>
 
-          <!-- Filtered Daily Completion View for this Category -->
           <div class="lg:col-span-5">
             <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Category Daily Log</h3>
             <div class="bg-surface rounded-2xl border border-borderSubtle p-5 shadow-xs">
@@ -1851,7 +1998,6 @@
 
       const initialLog = st.logs.find(l => l.isInitial);
 
-      // Build last 7 days mini chart for this subject
       const last7Days = [];
       for (let i = 6; i >= 0; i--) {
         const d = new Date();
@@ -1906,7 +2052,6 @@
           </div>
         </div>
 
-        <!-- Subject Overview Card -->
         <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex items-baseline justify-between mb-3">
             <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Completion Progress</span>
@@ -1939,7 +2084,6 @@
           ` : ''}
         </div>
 
-        <!-- Weekly Performance & Study Entries -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
             <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Last 7 Days (${uCfg.label})</h3>
@@ -2028,7 +2172,6 @@
           </button>
         </div>
 
-        <!-- Inline Quick Logger Card -->
         ${state.subjects.length > 0 ? `
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5 sm:p-6 shadow-xs mb-6">
             <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey mb-4">Quick Record</h3>
@@ -2056,7 +2199,6 @@
           </div>
         ` : ''}
 
-        <!-- Filters -->
         <div class="flex flex-wrap items-center gap-3 mb-4">
           <select onchange="logFilterCategory = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-xs font-medium text-charcoal focus:outline-none">
             <option value="all" ${logFilterCategory === 'all' ? 'selected' : ''}>All Categories</option>
@@ -2072,7 +2214,6 @@
           ` : ''}
         </div>
 
-        <!-- History List -->
         <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xs overflow-hidden">
           ${regularLogs.length === 0 ? `
             <div class="p-12 text-center">
@@ -2127,7 +2268,7 @@
       if (labelEl) labelEl.textContent = UNIT_CONFIG[unit].label;
     }
 
-    // --- VIEW 5: DAY-WISE STATISTICS (WITH MIXED-UNIT BREAKDOWN) ---
+    // --- VIEW 5: DAY-WISE STATISTICS ---
     function renderStatisticsView() {
       const streak = getStudyStreak();
 
@@ -2160,7 +2301,6 @@
 
       const regularLogs = state.logs.filter(l => !l.isInitial);
 
-      // Build chart data showing total logged units per day + per-unit breakdown
       const chartData = chartDates.map(dateStr => {
         const dayLogs = regularLogs.filter(l => l.date === dateStr);
         const totalUnits = dayLogs.reduce((sum, l) => sum + Number(l.pages), 0);
@@ -2174,7 +2314,6 @@
       });
       const maxChartUnits = Math.max(10, ...chartData.map(d => d.totalUnits));
 
-      // Weekly Statistics (Current 7 days vs Previous 7 days)
       const thisWeekDates = [];
       const prevWeekDates = [];
       for (let i = 0; i < 7; i++) {
@@ -2201,7 +2340,6 @@
       const prevWeekSessions = prevWeekLogs.length;
       const activeDaysThisWeek = new Set(thisWeekLogs.map(l => l.date)).size;
 
-      // Most productive day this week (by session count / volume)
       const daySessionCounts = {};
       thisWeekLogs.forEach(l => {
         daySessionCounts[l.date] = (daySessionCounts[l.date] || 0) + Number(l.pages);
@@ -2212,7 +2350,6 @@
         if (val > bestDayUnits) { bestDayUnits = val; bestDay = dt; }
       });
 
-      // Most studied subject this week (by number of sessions logged)
       const subSessionCounts = {};
       const subUnitTotals = {};
       thisWeekLogs.forEach(l => {
@@ -2226,7 +2363,6 @@
       });
       const topSubject = state.subjects.find(s => s.id === topSubId);
 
-      // Subject-wise breakdown for selected date
       const selectedDateLogs = regularLogs.filter(l => l.date === statsSelectedDate);
       const selectedDateBreakdown = state.subjects.map(sub => {
         const units = selectedDateLogs
@@ -2243,7 +2379,6 @@
         .map(([u, cnt]) => formatUnitCount(cnt, u))
         .join(' · ') || '0 units';
 
-      // 35-Day Activity Heatmap (5 weeks)
       const heatmapDays = [];
       for (let i = 34; i >= 0; i--) {
         const d = new Date(today);
@@ -2272,7 +2407,6 @@
           </div>
         </div>
 
-        <!-- Weekly Summary Cards (Clean Unit-Separated Totals) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
             <p class="text-xs text-mutedGrey">This Week by Unit</p>
@@ -2304,7 +2438,6 @@
           </div>
         </div>
 
-        <!-- Daily Activity Bar Chart -->
         <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs mb-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
@@ -2349,7 +2482,6 @@
           </div>
         </section>
 
-        <!-- Bottom Grid: Calendar Heatmap & Subject-Wise Daily Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
             <div class="flex items-center justify-between mb-4">
@@ -2384,7 +2516,6 @@
             </div>
           </section>
 
-          <!-- Subject-Wise Daily Breakdown -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -2437,7 +2568,6 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Study Targets & Examination Date -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs">
             <h3 class="font-serif-editorial text-xl text-charcoal mb-4">Global Targets & Target Date</h3>
             <form onsubmit="handleSaveSettings(event)" class="space-y-4">
@@ -2463,12 +2593,11 @@
             </form>
           </section>
 
-          <!-- Data Export & Backup -->
           <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
             <div>
               <h3 class="font-serif-editorial text-xl text-charcoal mb-2">Backup & Portability</h3>
               <p class="text-xs text-mutedGrey leading-relaxed mb-6">
-                Your categories, items, measurement units, deadlines, and logs are stored locally in your browser. Export a JSON backup regularly to safeguard your records.
+                Your categories, items, measurement units, deadlines, and logs sync to your cloud database and are cached locally. You can also export or restore a JSON file anytime.
               </p>
 
               <div class="space-y-3">
@@ -2500,7 +2629,7 @@
             </div>
 
             <div class="mt-8 pt-4 border-t border-borderSubtle flex items-center justify-between">
-              <span class="text-xs text-mutedGrey">Clear all local records</span>
+              <span class="text-xs text-mutedGrey">Clear all user records</span>
               <button onclick="confirmFactoryReset()" class="text-xs font-medium text-red-600 hover:underline">Reset Application</button>
             </div>
           </section>
@@ -2681,7 +2810,7 @@
 
     function handleSubjectCategoryChange() {
       const editId = document.getElementById('sub-edit-id').value;
-      if (editId) return; // Keep existing unit when editing an item unless changed explicitly
+      if (editId) return;
       const catId = document.getElementById('sub-category').value;
       const cat = getCategoryById(catId);
       if (cat) {
@@ -3093,12 +3222,12 @@
           }
           openConfirmModal(
             'Restore Backup',
-            'Restoring this backup will replace your current categories, subjects, and study logs. Do you wish to continue?',
+            'Restoring this backup will replace your current categories, subjects, and study logs across all synced devices. Do you wish to continue?',
             () => {
               state = migrateUserData(imported);
               saveState();
               navigateTo('dashboard');
-              showToast('Backup restored successfully.');
+              showToast('Backup restored & synced to cloud.');
             }
           );
         } catch (err) {
@@ -3112,7 +3241,7 @@
     function confirmFactoryReset() {
       openConfirmModal(
         'Reset All Application Data',
-        'This will permanently erase all custom categories, subjects, study logs, and targets from this browser. Have you exported a backup?',
+        'This will permanently erase all custom categories, subjects, study logs, and targets for your account. Have you exported a backup?',
         () => {
           state = {
             categories: getDefaultCategories(),
@@ -3154,7 +3283,7 @@
     // --- INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
       const savedSession = localStorage.getItem(SESSION_KEY);
-      const registry = getAccountsRegistry();
+      const registry = getLocalAccountsRegistry();
 
       if (savedSession && registry[savedSession] && !registry[savedSession].mustChangePassword) {
         completeLogin(savedSession);
