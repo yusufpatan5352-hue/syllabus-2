@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Syllabus — Your Academic & Reading Progress Tracker</title>
+  <title>Syllabus — Your Academic & Reading Summit</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Newsreader (Serif headings) & Inter (Clean UI) -->
+  <!-- Google Fonts: Arvo (Bold Slab-Serif), Newsreader (Editorial Serif), Inter (Clean UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
@@ -17,20 +17,25 @@
       theme: {
         extend: {
           colors: {
-            bgBase: '#F7F6F2',
+            bgBase: '#F5F3EE',
             surface: '#FFFFFF',
-            surfaceWarm: '#FCFBF8',
-            charcoal: '#292B2B',
-            mutedGrey: '#858783',
+            surfaceWarm: '#FAF9F5',
+            charcoal: '#2B2B29',
+            mutedGrey: '#787A76',
             sage: '#899889',
-            sageDark: '#6E7D6E',
+            sageDark: '#5E6F5E',
+            alpineTeal: '#3E92A3',
+            terracotta: '#CE7A32',
+            summitGold: '#C4BE46',
+            warmStone: '#C8C9C7',
             dustyBlue: '#8797A3',
             beige: '#C5B8A5',
-            borderSubtle: '#E6E4DD'
+            borderSubtle: '#E4E1D8'
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
             serif: ['Newsreader', 'serif'],
+            slab: ['Arvo', 'serif'],
           }
         }
       }
@@ -38,30 +43,91 @@
   </script>
   <style>
     body {
-      background-color: #F7F6F2;
-      color: #292B2B;
+      background-color: #F5F3EE;
+      color: #2B2B29;
       font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     .font-serif-editorial {
       font-family: 'Newsreader', serif;
     }
+    .font-slab-display {
+      font-family: 'Arvo', serif;
+    }
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #F7F6F2;
+      background: #F5F3EE;
     }
     ::-webkit-scrollbar-thumb {
-      background: #D5D2C8;
+      background: #D0CCC0;
       border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #858783;
+      background: #787A76;
     }
     .progress-fill {
-      transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Atmospheric Mountain Hero Backdrop (Inspired by Climber aesthetic) */
+    .mountain-hero {
+      position: relative;
+      background-color: #35373C;
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 255, 255, 0.03) 0px,
+          rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px,
+          transparent 26px
+        ),
+        linear-gradient(180deg, rgba(43, 45, 52, 0.55) 0%, rgba(45, 42, 40, 0.86) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 420' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%236B7280'/%3E%3Cstop offset='60%25' stop-color='%234B4E57'/%3E%3Cstop offset='100%25' stop-color='%2333302E'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='420' fill='url(%23sky)'/%3E%3Cpath d='M0 320 L180 180 L340 245 L560 70 L780 210 L960 135 L1200 280 L1200 420 L0 420 Z' fill='%23555863' opacity='0.75'/%3E%3Cpath d='M560 70 L610 128 L578 136 L552 108 L525 142 L495 126 Z' fill='%23E5E7EB' opacity='0.35'/%3E%3Cpath d='M0 240 L120 290 L260 350 L440 265 L640 365 L860 245 L1060 320 L1200 240 L1200 420 L0 420 Z' fill='%23333133' opacity='0.88'/%3E%3Cpath d='M0 120 L95 215 L190 340 L260 420 L0 420 Z' fill='%23232122' opacity='0.95'/%3E%3Cpath d='M1200 95 L1080 210 L940 360 L880 420 L1200 420 Z' fill='%23232122' opacity='0.95'/%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Interactive Scalloped Badge Medallions */
+    .scallop-badge {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+      cursor: pointer;
+    }
+    .scallop-badge:hover {
+      transform: translateY(-6px) scale(1.09);
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.32));
+      z-index: 20;
+    }
+    .scallop-badge.is-active {
+      transform: translateY(-4px) scale(1.08);
+      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.28));
+      z-index: 15;
+    }
+    .scallop-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .scallop-badge:hover .scallop-bg {
+      transform: rotate(15deg);
+    }
+
+    /* Interactive Card Hover Lift */
+    .interactive-card {
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .interactive-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -10px rgba(43, 43, 41, 0.12);
     }
   </style>
 
@@ -76,7 +142,7 @@
       projectId: "syllabus-sync-485f3",
       storageBucket: "syllabus-sync-485f3.firebasestorage.app",
       messagingSenderId: "84363336364",
-      appId: "1:84363336364:web:812b359e1465891ba91d09"
+      appId: "1:84363336364:web:812b359e1465891ba91d0D"
     };
 
     const isConfigured = firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE_");
@@ -92,21 +158,22 @@
     }
   </script>
 </head>
-<body class="min-h-screen flex flex-col md:flex-row selection:bg-[#899889]/20">
+<body class="min-h-screen flex flex-col md:flex-row selection:bg-[#3E92A3]/20">
 
   <!-- Toast / Notification Banner -->
   <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- AUTHENTICATION & ONBOARDING OVERLAY -->
-  <div id="auth-screen" class="fixed inset-0 z-50 bg-bgBase flex items-center justify-center p-4 overflow-y-auto">
-    <div class="w-full max-w-md bg-surface rounded-2xl border border-borderSubtle shadow-lg overflow-hidden my-auto">
+  <!-- AUTHENTICATION & ONBOARDING OVERLAY (Climber Mountain Aesthetic) -->
+  <div id="auth-screen" class="fixed inset-0 z-50 mountain-hero flex items-center justify-center p-4 overflow-y-auto">
+    <div class="w-full max-w-md bg-surface/95 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl overflow-hidden my-auto">
       <!-- Brand Header -->
-      <div class="px-8 pt-8 pb-6 bg-surfaceWarm border-b border-borderSubtle text-center">
-        <div class="w-11 h-11 rounded-xl bg-sage/20 border border-sage/40 flex items-center justify-center mx-auto mb-3 text-sageDark">
-          <i data-lucide="book-open" class="w-5 h-5"></i>
+      <div class="px-8 pt-8 pb-6 mountain-hero text-center text-white border-b border-white/10">
+        <div class="w-12 h-12 rounded-full bg-summitGold/20 border border-summitGold/60 flex items-center justify-center mx-auto mb-3 text-summitGold">
+          <i data-lucide="mountain" class="w-6 h-6"></i>
         </div>
-        <h1 class="font-serif-editorial text-2xl font-medium text-charcoal">Syllabus</h1>
-        <p class="text-xs text-mutedGrey mt-1">Personal Academic & Reading Progress Tracker</p>
+        <h1 class="font-slab-display text-3xl tracking-tight text-white">Syllabus</h1>
+        <div class="w-6 h-0.5 bg-white/80 mx-auto my-2.5"></div>
+        <p class="font-serif-editorial text-sm text-white/85">Personal Academic & Reading Summit</p>
       </div>
 
       <!-- STEP 1: Sign In / Create Account -->
@@ -120,22 +187,22 @@
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Username</label>
-          <input type="text" id="auth-username" required autocomplete="username" placeholder="e.g. aarav_sharma" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="text" id="auth-username" required autocomplete="username" placeholder="e.g. aarav_sharma" class="w-full px-3.5 py-2.5 bg-bgBase/70 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Password</label>
-          <input type="password" id="auth-password" required autocomplete="current-password" placeholder="Initial password = your username" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="password" id="auth-password" required autocomplete="current-password" placeholder="Initial password = your username" class="w-full px-3.5 py-2.5 bg-bgBase/70 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
 
         <p id="auth-login-error" class="text-xs text-red-600 hidden"></p>
 
-        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 px-4 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
           Continue to Workspace
         </button>
 
         <div class="pt-3 border-t border-borderSubtle/70 text-[11px] text-mutedGrey flex items-start gap-2">
-          <i data-lucide="cloud" class="w-4 h-4 text-sageDark shrink-0 mt-0.5"></i>
+          <i data-lucide="cloud" class="w-4 h-4 text-alpineTeal shrink-0 mt-0.5"></i>
           <span>Your account and study logs sync automatically across all devices signed in with your username.</span>
         </div>
       </form>
@@ -154,12 +221,12 @@
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">New Private Password *</label>
-          <input type="password" id="new-private-pw" required minlength="6" placeholder="Minimum 6 characters (different from username)" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="password" id="new-private-pw" required minlength="6" placeholder="Minimum 6 characters (different from username)" class="w-full px-3.5 py-2.5 bg-bgBase/70 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Confirm New Password *</label>
-          <input type="password" id="confirm-private-pw" required minlength="6" placeholder="Re-enter your new password" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="password" id="confirm-private-pw" required minlength="6" placeholder="Re-enter your new password" class="w-full px-3.5 py-2.5 bg-bgBase/70 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
 
         <p id="auth-change-error" class="text-xs text-red-600 hidden"></p>
@@ -168,7 +235,7 @@
           <button type="button" onclick="cancelOnboarding()" class="px-4 py-2.5 text-xs font-medium text-mutedGrey hover:text-charcoal rounded-xl border border-borderSubtle">
             Back
           </button>
-          <button type="submit" id="onboarding-submit-btn" class="flex-1 py-2.5 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+          <button type="submit" id="onboarding-submit-btn" class="flex-1 py-2.5 px-4 bg-alpineTeal hover:bg-charcoal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
             Save Password & Unlock
           </button>
         </div>
@@ -177,65 +244,65 @@
   </div>
 
   <!-- Desktop Sidebar -->
-  <aside class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-surface border-r border-borderSubtle z-30">
-    <div class="p-6 pb-4 flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-sage/20 border border-sage/40 flex items-center justify-center text-charcoal">
-        <i data-lucide="book-open" class="w-4 h-4 text-sageDark"></i>
+  <aside class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-charcoal text-white z-30 shadow-xl">
+    <div class="p-6 pb-4 flex items-center gap-3 border-b border-white/10">
+      <div class="w-9 h-9 rounded-xl bg-alpineTeal/20 border border-alpineTeal/50 flex items-center justify-center text-alpineTeal">
+        <i data-lucide="mountain" class="w-4 h-4"></i>
       </div>
       <div>
-        <h1 class="font-serif-editorial text-xl font-medium tracking-tight text-charcoal leading-none">Syllabus</h1>
-        <p class="text-[11px] text-mutedGrey mt-1 tracking-wide uppercase">Study & Reading Tracker</p>
+        <h1 class="font-slab-display text-xl tracking-tight text-white leading-none">Syllabus</h1>
+        <p class="text-[10px] text-white/55 mt-1 tracking-widest uppercase">Daily Climb Tracker</p>
       </div>
     </div>
 
-    <div class="px-4 py-3">
-      <button onclick="openLogModal()" class="w-full py-2.5 px-4 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+    <div class="px-4 py-4">
+      <button onclick="openLogModal()" class="w-full py-2.5 px-4 bg-terracotta hover:bg-[#DF883D] text-white text-sm font-semibold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
         <i data-lucide="plus" class="w-4 h-4"></i>
         <span>Log Progress</span>
       </button>
     </div>
 
-    <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto" id="desktop-nav">
-      <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase">
-        <i data-lucide="layout-dashboard" class="w-4 h-4 text-mutedGrey"></i>
+    <nav class="flex-1 px-3 py-1 space-y-1 overflow-y-auto" id="desktop-nav">
+      <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white bg-white/15">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 text-summitGold"></i>
         Dashboard
       </button>
-      <button data-nav="subjects" onclick="navigateTo('subjects')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+      <button data-nav="subjects" onclick="navigateTo('subjects')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10">
         <i data-lucide="library" class="w-4 h-4"></i>
         My Subjects
       </button>
-      <button data-nav="categories" onclick="navigateTo('categories')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+      <button data-nav="categories" onclick="navigateTo('categories')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10">
         <i data-lucide="folder-kanban" class="w-4 h-4"></i>
         Categories
       </button>
-      <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+      <button data-nav="daily-log" onclick="navigateTo('daily-log')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10">
         <i data-lucide="calendar-check" class="w-4 h-4"></i>
         Daily Log
       </button>
-      <button data-nav="statistics" onclick="navigateTo('statistics')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+      <button data-nav="statistics" onclick="navigateTo('statistics')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10">
         <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
         Statistics
       </button>
-      <button data-nav="settings" onclick="navigateTo('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60">
+      <button data-nav="settings" onclick="navigateTo('settings')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10">
         <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
         Goals & Settings
       </button>
     </nav>
 
-    <div class="p-4 m-3 rounded-xl bg-bgBase/80 border border-borderSubtle text-xs text-mutedGrey space-y-3">
+    <div class="p-4 m-3 rounded-2xl bg-white/[0.06] border border-white/10 text-xs text-white/70 space-y-3">
       <div>
         <div class="flex items-center justify-between mb-1">
-          <span class="font-medium text-charcoal">Study Consistency</span>
-          <span id="sidebar-streak" class="font-semibold text-sageDark">0 days</span>
+          <span class="font-medium text-white">Climb Streak</span>
+          <span id="sidebar-streak" class="font-semibold text-summitGold">0 days</span>
         </div>
-        <p id="cloud-sync-status" class="text-[11px] text-sageDark flex items-center gap-1.5 mt-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-sageDark"></span>
+        <p id="cloud-sync-status" class="text-[11px] text-emerald-300/90 flex items-center gap-1.5 mt-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>Local storage active</span>
         </p>
       </div>
-      <div class="pt-2.5 border-t border-borderSubtle flex items-center justify-between">
-        <span class="text-charcoal font-medium truncate max-w-[120px]" id="sidebar-username">@student</span>
-        <button onclick="logoutUser()" class="text-xs text-mutedGrey hover:text-charcoal flex items-center gap-1 transition-colors cursor-pointer" title="Sign Out">
+      <div class="pt-2.5 border-t border-white/10 flex items-center justify-between">
+        <span class="text-white font-medium truncate max-w-[120px]" id="sidebar-username">@student</span>
+        <button onclick="logoutUser()" class="text-xs text-white/60 hover:text-white flex items-center gap-1 transition-colors cursor-pointer" title="Sign Out">
           <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
           <span>Sign out</span>
         </button>
@@ -244,19 +311,19 @@
   </aside>
 
   <!-- Mobile Top Header -->
-  <header class="md:hidden sticky top-0 z-30 bg-surface/95 backdrop-blur border-b border-borderSubtle px-4 py-3 flex items-center justify-between">
+  <header class="md:hidden sticky top-0 z-30 bg-charcoal text-white border-b border-white/10 px-4 py-3 flex items-center justify-between shadow-sm">
     <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateTo('dashboard')">
-      <div class="w-7 h-7 rounded-lg bg-sage/20 border border-sage/40 flex items-center justify-center">
-        <i data-lucide="book-open" class="w-3.5 h-3.5 text-sageDark"></i>
+      <div class="w-7 h-7 rounded-lg bg-alpineTeal/25 border border-alpineTeal/50 flex items-center justify-center text-alpineTeal">
+        <i data-lucide="mountain" class="w-3.5 h-3.5"></i>
       </div>
-      <span class="font-serif-editorial text-lg font-medium text-charcoal">Syllabus</span>
+      <span class="font-slab-display text-lg text-white">Syllabus</span>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="openLogModal()" class="py-1.5 px-3 bg-charcoal text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow-sm">
+      <button onclick="openLogModal()" class="py-1.5 px-3 bg-terracotta text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-sm">
         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
         <span>Log</span>
       </button>
-      <button onclick="logoutUser()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg border border-borderSubtle" title="Sign Out">
+      <button onclick="logoutUser()" class="p-1.5 text-white/70 hover:text-white rounded-lg border border-white/15" title="Sign Out">
         <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
       </button>
     </div>
@@ -264,13 +331,13 @@
 
   <!-- Main Content Area -->
   <main class="flex-1 md:pl-64 pb-24 md:pb-12">
-    <div id="app-content" class="max-w-5xl mx-auto px-4 sm:px-8 pt-6 md:pt-10">
+    <div id="app-content" class="max-w-5xl mx-auto px-4 sm:px-8 pt-6 md:pt-8">
       <!-- Views are dynamically rendered here -->
     </div>
   </main>
 
   <!-- Mobile Bottom Navigation -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-borderSubtle z-30 flex justify-around items-center py-2 px-1" id="mobile-nav">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface/95 backdrop-blur border-t border-borderSubtle z-30 flex justify-around items-center py-2 px-1 shadow-lg" id="mobile-nav">
     <button data-nav="dashboard" onclick="navigateTo('dashboard')" class="mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-charcoal">
       <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
       <span>Home</span>
@@ -298,8 +365,8 @@
   </nav>
 
   <!-- MODAL: Log Study Progress (Create / Edit) -->
-  <div id="log-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
-    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden animate-fade-in">
+  <div id="log-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/50 backdrop-blur-[3px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-2xl w-full max-w-md overflow-hidden">
       <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
         <h3 id="log-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Log Study Progress</h3>
         <button onclick="closeLogModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
@@ -310,35 +377,35 @@
         <input type="hidden" id="log-edit-id" value="" />
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Subject / Collection *</label>
-          <select id="log-subject" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></select>
+          <select id="log-subject" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal"></select>
           <p id="log-subject-hint" class="text-[11px] text-mutedGrey mt-1"></p>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-medium text-charcoal mb-1.5">Date *</label>
-            <input type="date" id="log-date" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+            <input type="date" id="log-date" required class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
           </div>
           <div>
             <label id="log-amount-label" class="block text-xs font-medium text-charcoal mb-1.5">Pages Completed *</label>
-            <input type="number" id="log-pages" min="1" step="1" required placeholder="e.g. 15" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+            <input type="number" id="log-pages" min="1" step="1" required placeholder="e.g. 15" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
           </div>
         </div>
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Session Note (Optional)</label>
-          <input type="text" id="log-note" placeholder="e.g. Chapter 4, Stanzas 1-20, or Sermon #3" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="text" id="log-note" placeholder="e.g. Chapter 4, Stanzas 1-20, or Sermon #3" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
         <p id="log-error" class="text-xs text-red-600 hidden"></p>
         <div class="pt-2 flex items-center justify-end gap-2">
           <button type="button" onclick="closeLogModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Entry</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Entry</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL: Add / Edit Subject -->
-  <div id="subject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4 overflow-y-auto">
-    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden my-auto">
+  <div id="subject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/50 backdrop-blur-[3px] p-4 overflow-y-auto">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-2xl w-full max-w-md overflow-hidden my-auto">
       <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
         <h3 id="subject-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Add Subject / Item</h3>
         <button onclick="closeSubjectModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
@@ -349,17 +416,17 @@
         <input type="hidden" id="sub-edit-id" value="" />
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Name / Title *</label>
-          <input type="text" id="sub-name" required placeholder="e.g. Mathematics, Selected Poems, Sunday Sermons" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="text" id="sub-name" required placeholder="e.g. Mathematics, Selected Poems, Sunday Sermons" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-medium text-charcoal mb-1.5">Category *</label>
-            <select id="sub-category" onchange="handleSubjectCategoryChange()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></select>
+            <select id="sub-category" onchange="handleSubjectCategoryChange()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal"></select>
           </div>
           <div>
             <label class="block text-xs font-medium text-charcoal mb-1.5">Measurement Unit *</label>
-            <select id="sub-unit" onchange="updateSubjectModalUnitLabels()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+            <select id="sub-unit" onchange="updateSubjectModalUnitLabels()" required class="w-full px-3 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal">
               <option value="pages">Pages</option>
               <option value="chapters">Chapters</option>
               <option value="verses">Verses</option>
@@ -372,43 +439,43 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label id="sub-total-label" class="block text-xs font-medium text-charcoal mb-1.5">Total Pages *</label>
-            <input type="number" id="sub-total" min="1" step="1" required placeholder="e.g. 320" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+            <input type="number" id="sub-total" min="1" step="1" required placeholder="e.g. 320" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
           </div>
           <div id="sub-initial-wrapper">
             <label id="sub-initial-label" class="block text-xs font-medium text-charcoal mb-1.5">Initial Completed</label>
-            <input type="number" id="sub-initial" min="0" step="1" value="0" placeholder="0" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+            <input type="number" id="sub-initial" min="0" step="1" value="0" placeholder="0" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Personalized Goal End Date (Optional)</label>
-          <input type="date" id="sub-target-date" class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
-          <p class="text-[11px] text-mutedGrey mt-1">Dynamically calculates daily target pace until this deadline.</p>
+          <input type="date" id="sub-target-date" class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
+          <p class="text-[11px] text-mutedGrey mt-1">Automatically sets your daily target on the Dashboard until this deadline.</p>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-charcoal mb-1.5">Muted Accent Colour</label>
+          <label class="block text-xs font-medium text-charcoal mb-1.5">Accent Colour</label>
           <div id="color-picker-grid" class="flex flex-wrap gap-2.5 pt-1"></div>
-          <input type="hidden" id="sub-color" value="#899889" />
+          <input type="hidden" id="sub-color" value="#3E92A3" />
         </div>
 
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Notes / Description (Optional)</label>
-          <textarea id="sub-notes" rows="2" placeholder="Textbooks, anthology details, or key milestones..." class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark"></textarea>
+          <textarea id="sub-notes" rows="2" placeholder="Textbooks, anthology details, or key milestones..." class="w-full px-3.5 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal"></textarea>
         </div>
 
         <p id="sub-error" class="text-xs text-red-600 hidden"></p>
         <div class="pt-2 flex items-center justify-end gap-2">
           <button type="button" onclick="closeSubjectModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Item</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Item</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL: Add / Edit Custom Category -->
-  <div id="category-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
-    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-md overflow-hidden">
+  <div id="category-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/50 backdrop-blur-[3px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-2xl w-full max-w-md overflow-hidden">
       <div class="px-6 py-4 border-b border-borderSubtle flex items-center justify-between bg-surfaceWarm">
         <h3 id="category-modal-title" class="font-serif-editorial text-xl font-medium text-charcoal">Create Category</h3>
         <button onclick="closeCategoryModal()" class="p-1.5 text-mutedGrey hover:text-charcoal rounded-lg transition-colors">
@@ -419,11 +486,11 @@
         <input type="hidden" id="cat-edit-id" value="" />
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Category Name *</label>
-          <input type="text" id="cat-name" required placeholder="e.g. Textbooks, Literature, Reference, Devotionals" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="text" id="cat-name" required placeholder="e.g. Textbooks, Literature, Reference, Devotionals" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
         </div>
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Default Unit for New Items</label>
-          <select id="cat-default-unit" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+          <select id="cat-default-unit" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal">
             <option value="pages">Pages</option>
             <option value="chapters">Chapters</option>
             <option value="verses">Verses</option>
@@ -433,26 +500,26 @@
         </div>
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Category Goal End Date (Optional)</label>
-          <input type="date" id="cat-target-date" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+          <input type="date" id="cat-target-date" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
           <p class="text-[11px] text-mutedGrey mt-1">Applies as fallback pacing deadline for items in this category without their own date.</p>
         </div>
         <div>
           <label class="block text-xs font-medium text-charcoal mb-1.5">Category Colour</label>
           <div id="cat-color-picker-grid" class="flex flex-wrap gap-2.5 pt-1"></div>
-          <input type="hidden" id="cat-color" value="#899889" />
+          <input type="hidden" id="cat-color" value="#3E92A3" />
         </div>
         <p id="cat-error" class="text-xs text-red-600 hidden"></p>
         <div class="pt-2 flex items-center justify-end gap-2">
           <button type="button" onclick="closeCategoryModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Category</button>
+          <button type="submit" class="px-5 py-2 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Save Category</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL: Custom Confirmation Dialog -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/40 backdrop-blur-[2px] p-4">
-    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-xl w-full max-w-sm overflow-hidden p-6">
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal/50 backdrop-blur-[3px] p-4">
+    <div class="bg-surface rounded-2xl border border-borderSubtle shadow-2xl w-full max-w-sm overflow-hidden p-6">
       <div class="flex items-start gap-3.5">
         <div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0 text-amber-700">
           <i data-lucide="alert-circle" class="w-5 h-5"></i>
@@ -464,7 +531,7 @@
       </div>
       <div class="mt-6 flex items-center justify-end gap-2">
         <button onclick="closeConfirmModal()" class="px-4 py-2 text-sm font-medium text-mutedGrey hover:text-charcoal rounded-xl transition-colors">Cancel</button>
-        <button id="confirm-action-btn" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Confirm</button>
+        <button id="confirm-action-btn" class="px-4 py-2 bg-charcoal hover:bg-red-700 text-white text-sm font-medium rounded-xl shadow-sm transition-colors">Confirm</button>
       </div>
     </div>
   </div>
@@ -472,7 +539,7 @@
   <script>
     /**
      * SYLLABUS — ACADEMIC & READING PROGRESS TRACKER
-     * Includes Firebase Firestore Real-Time Cloud Sync + Local Offline Fallback
+     * Preserves 100% backward compatibility with existing localStorage & Firebase Firestore keys.
      */
 
     const ACCOUNTS_KEY = 'syllabus_accounts_v1';
@@ -480,14 +547,14 @@
     const DATA_PREFIX = 'syllabus_user_data_v1_';
 
     const MUTED_PALETTE = [
+      { name: 'Alpine Teal', hex: '#3E92A3' },
+      { name: 'Terracotta', hex: '#CE7A32' },
+      { name: 'Summit Gold', hex: '#B5AE39' },
       { name: 'Sage Green', hex: '#899889' },
       { name: 'Dusty Blue', hex: '#8797A3' },
-      { name: 'Warm Sand', hex: '#C5B8A5' },
-      { name: 'Muted Terracotta', hex: '#B88B7D' },
-      { name: 'Slate Olive', hex: '#7A8471' },
-      { name: 'Soft Lavender Grey', hex: '#9A94A6' },
-      { name: 'Ochre Clay', hex: '#B59E7A' },
-      { name: 'Charcoal Mist', hex: '#687076' }
+      { name: 'Slate Olive', hex: '#6E7D6E' },
+      { name: 'Soft Lavender', hex: '#9A94A6' },
+      { name: 'Charcoal', hex: '#4B4E53' }
     ];
 
     const UNIT_CONFIG = {
@@ -498,12 +565,21 @@
       sermons: { singular: 'sermon', plural: 'sermons', label: 'Sermons', short: 'ser' }
     };
 
+    // Scalloped 12-lobe SVG Path Generator (Climber-inspired badge shape)
+    function scallopSVG(fillColor) {
+      return `
+        <svg class="scallop-bg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="${fillColor}" d="M60 4 C66 4, 70 9, 75 11 C81 13, 87 10, 92 14 C97 18, 97 24, 101 29 C105 34, 111 35, 113 41 C115 47, 112 53, 114 59 C116 65, 116 71, 112 77 C108 82, 103 85, 100 90 C97 95, 97 102, 92 106 C87 110, 81 107, 75 109 C70 111, 66 116, 60 116 C54 116, 50 111, 45 109 C39 107, 33 110, 28 106 C23 102, 23 95, 20 90 C17 85, 12 82, 8 77 C4 71, 4 65, 6 59 C8 53, 5 47, 7 41 C9 35, 15 34, 19 29 C23 24, 23 18, 28 14 C33 10, 39 13, 45 11 C50 9, 54 4, 60 4 Z"/>
+        </svg>
+      `;
+    }
+
     function getDefaultCategories() {
       return [
         { id: 'cat_general', name: 'General', color: '#899889', defaultUnit: 'pages', targetDate: '', isDefault: true, createdAt: 1 },
-        { id: 'cat_textbooks', name: 'Textbooks', color: '#8797A3', defaultUnit: 'pages', targetDate: '', isDefault: false, createdAt: 2 },
+        { id: 'cat_textbooks', name: 'Textbooks', color: '#3E92A3', defaultUnit: 'pages', targetDate: '', isDefault: false, createdAt: 2 },
         { id: 'cat_poems', name: 'Poems', color: '#9A94A6', defaultUnit: 'verses', targetDate: '', isDefault: false, createdAt: 3 },
-        { id: 'cat_sermons', name: 'Sermons', color: '#B59E7A', defaultUnit: 'sermons', targetDate: '', isDefault: false, createdAt: 4 }
+        { id: 'cat_sermons', name: 'Sermons', color: '#CE7A32', defaultUnit: 'sermons', targetDate: '', isDefault: false, createdAt: 4 }
       ];
     }
 
@@ -513,7 +589,7 @@
     let unsubscribeCloudSync = null;
     let isApplyingRemoteUpdate = false;
 
-    // Application State (Scoped per logged-in user)
+    // Application State (Exact same schema — zero data loss)
     let state = {
       categories: [],
       subjects: [],
@@ -527,6 +603,7 @@
 
     // UI View State
     let currentView = 'dashboard';
+    let dashboardTodayTab = 'subjects'; // 'subjects' | 'categories'
     let selectedSubjectId = null;
     let selectedCategoryId = null;
     let subjectSearchQuery = '';
@@ -545,7 +622,7 @@
       const el = document.getElementById('cloud-sync-status');
       if (!el) return;
       el.innerHTML = `
-        <span class="w-1.5 h-1.5 rounded-full ${isSynced ? 'bg-sageDark' : 'bg-amber-500'}"></span>
+        <span class="w-1.5 h-1.5 rounded-full ${isSynced ? 'bg-emerald-400' : 'bg-amber-400'}"></span>
         <span>${escapeHTML(statusText)}</span>
       `;
     }
@@ -563,10 +640,6 @@
 
     function getUnitLabel(unit) {
       return UNIT_CONFIG[normalizeUnit(unit)].label;
-    }
-
-    function getUnitShort(unit) {
-      return UNIT_CONFIG[normalizeUnit(unit)].short;
     }
 
     // --- DATE HELPERS ---
@@ -642,7 +715,6 @@
             saveLocalAccountsRegistry(localReg);
             return cloudAcc;
           } else if (localReg[usernameKey]) {
-            // Migrate existing local account to cloud automatically
             await setDoc(accRef, localReg[usernameKey]);
             return localReg[usernameKey];
           }
@@ -909,7 +981,6 @@
             isApplyingRemoteUpdate = false;
           }
         } else if (state.subjects.length > 0 || state.logs.length > 0) {
-          // Upload existing local progress to cloud on first sync
           saveState();
         }
       }, (err) => {
@@ -975,20 +1046,49 @@
       }
     }
 
-    // --- CORE CALCULATION & PACING ENGINE ---
-    function calculateDynamicPacing(remainingUnits, targetDateStr, unit = 'pages') {
+    // --- CORE CALCULATION & TODAY'S QUOTA ENGINE ---
+    /**
+     * Calculates stable Today Target using start-of-day remaining units (remainingUnits + todayUnits),
+     * so logging progress today fills the Today Progress Bar smoothly toward 100%!
+     */
+    function calculateDynamicPacing(remainingUnits, targetDateStr, unit = 'pages', todayUnits = 0) {
       if (!targetDateStr) return null;
       const today = parseLocalDate(getLocalTodayStr());
       const deadline = parseLocalDate(targetDateStr);
       const diffTime = deadline.getTime() - today.getTime();
       const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+      const startOfDayRemaining = remainingUnits + todayUnits;
+
+      if (startOfDayRemaining <= 0) {
+        return {
+          status: 'completed',
+          daysRemaining: Math.max(0, daysRemaining),
+          requiredDaily: 0,
+          todayTarget: 0,
+          todayDone: todayUnits,
+          todayRemaining: 0,
+          todayPercent: 100,
+          targetDate: targetDateStr,
+          unit
+        };
+      }
+
+      const effectiveDays = Math.max(1, daysRemaining);
+      const todayTarget = daysRemaining < 0 ? startOfDayRemaining : Math.ceil(startOfDayRemaining / effectiveDays);
+      const exactDaily = remainingUnits > 0 ? Math.ceil((remainingUnits / effectiveDays) * 10) / 10 : 0;
+      const todayRemaining = Math.max(0, todayTarget - todayUnits);
+      const todayPercent = todayTarget > 0 ? Math.min(100, Math.round((todayUnits / todayTarget) * 100)) : 100;
+
       if (remainingUnits <= 0) {
         return {
           status: 'completed',
           daysRemaining: Math.max(0, daysRemaining),
           requiredDaily: 0,
-          requiredDailyCeil: 0,
+          todayTarget,
+          todayDone: todayUnits,
+          todayRemaining: 0,
+          todayPercent: 100,
           targetDate: targetDateStr,
           unit
         };
@@ -1000,22 +1100,23 @@
           daysOverdue: Math.abs(daysRemaining),
           daysRemaining: 0,
           requiredDaily: remainingUnits,
-          requiredDailyCeil: remainingUnits,
+          todayTarget,
+          todayDone: todayUnits,
+          todayRemaining,
+          todayPercent,
           targetDate: targetDateStr,
           unit
         };
       }
 
-      const effectiveDays = Math.max(1, daysRemaining);
-      const exactDaily = remainingUnits / effectiveDays;
-      const requiredDaily = Math.ceil(exactDaily * 10) / 10;
-      const requiredDailyCeil = Math.ceil(exactDaily);
-
       return {
         status: daysRemaining === 0 ? 'due-today' : 'active',
         daysRemaining,
-        requiredDaily,
-        requiredDailyCeil,
+        requiredDaily: exactDaily,
+        todayTarget,
+        todayDone: todayUnits,
+        todayRemaining,
+        todayPercent,
         targetDate: targetDateStr,
         unit
       };
@@ -1040,13 +1141,18 @@
       const regularLogs = subjectLogs.filter(l => !l.isInitial).sort((a, b) => b.date.localeCompare(a.date));
       const lastStudiedDate = regularLogs.length > 0 ? regularLogs[0].date : null;
 
-      const effectiveTargetDate = subject.targetDate || (category && category.targetDate) || '';
-      const pacing = calculateDynamicPacing(remainingUnits, effectiveTargetDate, unit);
-
       const todayStr = getLocalTodayStr();
       const todayUnits = subjectLogs
         .filter(l => l.date === todayStr && !l.isInitial)
         .reduce((sum, l) => sum + Number(l.pages), 0);
+
+      // Fallback chain: Subject deadline -> Category deadline -> Global Exam Date
+      const effectiveTargetDate = subject.targetDate || (category && category.targetDate) || state.settings.examDate || '';
+      const pacing = calculateDynamicPacing(remainingUnits, effectiveTargetDate, unit, todayUnits);
+
+      const todayTarget = pacing ? pacing.todayTarget : 0;
+      const todayRemaining = pacing ? pacing.todayRemaining : 0;
+      const todayPercent = pacing ? pacing.todayPercent : (todayUnits > 0 ? 100 : 0);
 
       return {
         ...subject,
@@ -1062,6 +1168,9 @@
         effectiveTargetDate,
         pacing,
         todayUnits,
+        todayTarget,
+        todayRemaining,
+        todayPercent,
         logs: subjectLogs
       };
     }
@@ -1077,6 +1186,7 @@
       let totalUnits = 0;
       let completedUnits = 0;
       const unitBreakdown = {};
+      const todayByUnit = {};
 
       items.forEach(item => {
         totalUnits += item.totalUnits;
@@ -1087,6 +1197,13 @@
         unitBreakdown[item.unit].total += item.totalUnits;
         unitBreakdown[item.unit].completed += item.completedUnits;
         unitBreakdown[item.unit].remaining += item.remainingUnits;
+
+        if (!todayByUnit[item.unit]) {
+          todayByUnit[item.unit] = { target: 0, done: 0, remaining: 0 };
+        }
+        todayByUnit[item.unit].target += item.todayTarget;
+        todayByUnit[item.unit].done += item.todayUnits;
+        todayByUnit[item.unit].remaining += item.todayRemaining;
       });
 
       const remainingUnits = Math.max(0, totalUnits - completedUnits);
@@ -1101,10 +1218,29 @@
         }
       }
 
+      // Collective Today Progress % for this Category
+      const itemsWithTodayTarget = items.filter(i => i.todayTarget > 0);
+      let todayPercent = 0;
+      if (itemsWithTodayTarget.length > 0) {
+        if (distinctUnits.length <= 1) {
+          const u = distinctUnits[0];
+          const t = todayByUnit[u]?.target || 0;
+          const d = todayByUnit[u]?.done || 0;
+          todayPercent = t > 0 ? Math.min(100, Math.round((d / t) * 100)) : 0;
+        } else {
+          todayPercent = Math.round(
+            itemsWithTodayTarget.reduce((s, i) => s + i.todayPercent, 0) / itemsWithTodayTarget.length
+          );
+        }
+      } else if (items.some(i => i.todayUnits > 0)) {
+        todayPercent = 100;
+      }
+
       const primaryUnit = distinctUnits.length === 1 ? distinctUnits[0] : (category.defaultUnit || 'pages');
       const isMixedUnits = distinctUnits.length > 1;
+      const totalTodayUnitsDone = items.reduce((s, i) => s + i.todayUnits, 0);
       const pacing = category.targetDate && !isMixedUnits
-        ? calculateDynamicPacing(remainingUnits, category.targetDate, primaryUnit)
+        ? calculateDynamicPacing(remainingUnits, category.targetDate, primaryUnit, totalTodayUnitsDone)
         : null;
 
       return {
@@ -1116,10 +1252,69 @@
         remainingUnits,
         percentage,
         unitBreakdown,
+        todayByUnit,
+        todayPercent,
+        hasTodayTargets: itemsWithTodayTarget.length > 0,
         distinctUnits,
         primaryUnit,
         isMixedUnits,
         pacing
+      };
+    }
+
+    function getCollectiveTodayPlan() {
+      const allStats = state.subjects.map(s => getSubjectStats(s.id));
+      const byUnit = {};
+      let subjectsWithTargets = 0;
+      let sumTodayPct = 0;
+      let subjectsCompletedToday = 0;
+
+      allStats.forEach(st => {
+        if (!byUnit[st.unit]) {
+          byUnit[st.unit] = { target: 0, done: 0, remaining: 0 };
+        }
+        byUnit[st.unit].target += st.todayTarget;
+        byUnit[st.unit].done += st.todayUnits;
+        byUnit[st.unit].remaining += st.todayRemaining;
+
+        if (st.todayTarget > 0) {
+          subjectsWithTargets++;
+          sumTodayPct += st.todayPercent;
+          if (st.todayRemaining === 0) subjectsCompletedToday++;
+        }
+      });
+
+      // If no subjects have deadlines set yet, fall back to global daily page target if configured
+      if (subjectsWithTargets === 0 && state.settings.dailyTarget > 0) {
+        const pagesDone = byUnit.pages ? byUnit.pages.done : 0;
+        byUnit.pages = {
+          target: state.settings.dailyTarget,
+          done: pagesDone,
+          remaining: Math.max(0, state.settings.dailyTarget - pagesDone)
+        };
+      }
+
+      const activeUnitKeys = Object.keys(byUnit).filter(u => byUnit[u].target > 0 || byUnit[u].done > 0);
+      let collectivePercent = 0;
+
+      if (activeUnitKeys.length === 1) {
+        const u = activeUnitKeys[0];
+        const t = byUnit[u].target;
+        const d = byUnit[u].done;
+        collectivePercent = t > 0 ? Math.min(100, Math.round((d / t) * 100)) : (d > 0 ? 100 : 0);
+      } else if (subjectsWithTargets > 0) {
+        collectivePercent = Math.round(sumTodayPct / subjectsWithTargets);
+      } else if (activeUnitKeys.length > 0) {
+        collectivePercent = 100;
+      }
+
+      return {
+        allStats,
+        byUnit,
+        activeUnitKeys,
+        subjectsWithTargets,
+        subjectsCompletedToday,
+        collectivePercent
       };
     }
 
@@ -1168,32 +1363,6 @@
       };
     }
 
-    function getTodayStats() {
-      const todayStr = getLocalTodayStr();
-      const todayLogs = state.logs.filter(l => l.date === todayStr && !l.isInitial);
-      const subjectsStudied = new Set(todayLogs.map(l => l.subjectId)).size;
-
-      const todayByUnit = {};
-      todayLogs.forEach(l => {
-        const sub = state.subjects.find(s => s.id === l.subjectId);
-        const unit = sub ? normalizeUnit(sub.unit) : 'pages';
-        todayByUnit[unit] = (todayByUnit[unit] || 0) + Number(l.pages);
-      });
-
-      const pagesToday = todayByUnit.pages || 0;
-      const dailyTarget = Number(state.settings.dailyTarget) || 0;
-      const targetPercent = dailyTarget > 0 ? Math.min(100, Math.round((pagesToday / dailyTarget) * 100)) : 0;
-
-      return {
-        pagesToday,
-        todayByUnit,
-        subjectsStudied,
-        dailyTarget,
-        targetPercent,
-        logs: todayLogs
-      };
-    }
-
     function getStudyStreak() {
       const activeDates = new Set(
         state.logs.filter(l => !l.isInitial && l.pages > 0).map(l => l.date)
@@ -1218,28 +1387,6 @@
       return streak;
     }
 
-    function getExamCountdownStats(remainingPages) {
-      if (!state.settings.examDate) return null;
-      const today = parseLocalDate(getLocalTodayStr());
-      const exam = parseLocalDate(state.settings.examDate);
-      const diffTime = exam.getTime() - today.getTime();
-      const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      if (daysRemaining < 0) {
-        return { status: 'past', daysRemaining: 0, requiredDaily: 0 };
-      }
-      if (remainingPages <= 0) {
-        return { status: 'completed', daysRemaining, requiredDaily: 0 };
-      }
-      const effectiveDays = Math.max(1, daysRemaining);
-      const requiredDaily = Math.ceil((remainingPages / effectiveDays) * 10) / 10;
-      return {
-        status: 'active',
-        daysRemaining,
-        requiredDaily
-      };
-    }
-
     function updateSidebarStreak() {
       const streak = getStudyStreak();
       const el = document.getElementById('sidebar-streak');
@@ -1250,10 +1397,10 @@
     function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      const borderClass = type === 'error' ? 'border-red-300 bg-red-50 text-red-900' : 'border-borderSubtle bg-surface text-charcoal';
-      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-md text-xs font-medium flex items-center gap-2.5 transition-all duration-300 ${borderClass}`;
+      const borderClass = type === 'error' ? 'border-red-300 bg-red-50 text-red-900' : 'border-borderSubtle bg-charcoal text-white';
+      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-lg text-xs font-medium flex items-center gap-2.5 transition-all duration-300 ${borderClass}`;
       toast.innerHTML = `
-        <span class="w-2 h-2 rounded-full ${type === 'error' ? 'bg-red-500' : 'bg-sageDark'}"></span>
+        <span class="w-2 h-2 rounded-full ${type === 'error' ? 'bg-red-500' : 'bg-summitGold'}"></span>
         <span>${escapeHTML(message)}</span>
       `;
       container.appendChild(toast);
@@ -1285,8 +1432,8 @@
           (view === 'subject-detail' && btn.dataset.nav === 'subjects') ||
           (view === 'category-detail' && btn.dataset.nav === 'categories');
         btn.className = isMatch
-          ? 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-charcoal bg-bgBase'
-          : 'nav-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-mutedGrey hover:text-charcoal hover:bg-bgBase/60';
+          ? 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white bg-white/15 shadow-xs'
+          : 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all text-white/70 hover:text-white hover:bg-white/10';
       });
 
       document.querySelectorAll('.mob-nav-btn').forEach(btn => {
@@ -1295,7 +1442,7 @@
           (view === 'subject-detail' && btn.dataset.nav === 'subjects') ||
           (view === 'category-detail' && btn.dataset.nav === 'categories');
         btn.className = isMatch
-          ? 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-semibold text-charcoal'
+          ? 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-semibold text-alpineTeal'
           : 'mob-nav-btn flex flex-col items-center gap-1 p-1.5 text-[10px] font-medium text-mutedGrey';
       });
 
@@ -1338,50 +1485,95 @@
     function renderPacingBadge(pacing, compact = false) {
       if (!pacing) return '';
       const unitInfo = UNIT_CONFIG[normalizeUnit(pacing.unit)];
-      const unitWord = pacing.requiredDaily === 1 ? unitInfo.singular : unitInfo.plural;
+      const unitWord = pacing.todayTarget === 1 ? unitInfo.singular : unitInfo.plural;
 
       if (pacing.status === 'completed') {
-        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-sageDark bg-sage/15 px-2 py-0.5 rounded-md">Goal completed</span>`;
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-sageDark bg-sage/20 px-2 py-0.5 rounded-md">Goal completed</span>`;
       }
       if (pacing.status === 'overdue') {
-        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-red-700 bg-red-50 border border-red-200/70 px-2 py-0.5 rounded-md">Deadline passed (${formatShortDate(pacing.targetDate)})</span>`;
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-red-700 bg-red-50 border border-red-200/70 px-2 py-0.5 rounded-md">Overdue (${formatShortDate(pacing.targetDate)})</span>`;
       }
       if (pacing.status === 'due-today') {
-        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-800 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md">Target: ${pacing.requiredDaily} ${unitWord} due today</span>`;
+        return `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-800 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md">Due today: ${pacing.todayTarget} ${unitWord}</span>`;
       }
       return compact
-        ? `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-sageDark"><i data-lucide="calendar-clock" class="w-3 h-3"></i> ${pacing.requiredDaily} ${unitWord}/day by ${formatShortDate(pacing.targetDate)}</span>`
-        : `<span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-sageDark bg-sage/15 px-2.5 py-0.5 rounded-md"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Target: ${pacing.requiredDaily} ${unitWord}/day by ${formatShortDate(pacing.targetDate)} (${pacing.daysRemaining}d left)</span>`;
+        ? `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-alpineTeal"><i data-lucide="calendar-clock" class="w-3 h-3"></i> ${pacing.todayTarget} ${unitWord}/day by ${formatShortDate(pacing.targetDate)}</span>`
+        : `<span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-alpineTeal bg-alpineTeal/10 px-2.5 py-0.5 rounded-md"><i data-lucide="calendar-clock" class="w-3 h-3"></i> Target: ${pacing.todayTarget} ${unitWord}/day by ${formatShortDate(pacing.targetDate)} (${pacing.daysRemaining}d left)</span>`;
+    }
+
+    // --- INTERACTIVE CLIMBER-STYLE MOUNTAIN HERO BANNER ---
+    function renderMountainHeroBanner(overall, streak) {
+      const todayDateFormatted = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', month: 'long', day: 'numeric'
+      });
+
+      return `
+        <section class="mountain-hero rounded-3xl overflow-hidden shadow-lg mb-7 px-5 py-8 sm:px-10 sm:py-10 text-center text-white border border-charcoal/20">
+          <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75 mb-2">${todayDateFormatted}</p>
+          <h2 class="font-slab-display text-3xl sm:text-5xl tracking-tight text-white drop-shadow-sm">Syllabus</h2>
+
+          <!-- Interactive Scalloped Medallion Hub (Inspired by Climber) -->
+          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-6">
+            <button onclick="navigateTo('subjects')" class="scallop-badge w-20 h-20 sm:w-24 sm:h-24 text-white" title="Browse Subjects">
+              ${scallopSVG('#2B2B29')}
+              <span class="relative z-10 text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase">Subjects</span>
+              <span class="relative z-10 text-[10px] text-white/65 mt-0.5">${overall.totalSubjects}</span>
+            </button>
+
+            <button onclick="navigateTo('categories')" class="scallop-badge w-20 h-20 sm:w-24 sm:h-24 text-white" title="View Categories">
+              ${scallopSVG('#3E92A3')}
+              <span class="relative z-10 text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase">Groups</span>
+              <span class="relative z-10 text-[10px] text-white/80 mt-0.5">${state.categories.length}</span>
+            </button>
+
+            <button onclick="navigateTo('statistics')" class="scallop-badge w-22 h-22 sm:w-26 sm:h-26 text-charcoal" style="width: 96px; height: 96px;" title="Overall Completion & Stats">
+              ${scallopSVG('#C8C9C7')}
+              <i data-lucide="trees" class="relative z-10 w-5 h-5 text-white drop-shadow-xs mb-0.5"></i>
+              <span class="relative z-10 text-xs font-bold text-charcoal">${overall.overallPercentage}%</span>
+            </button>
+
+            <button onclick="navigateTo('daily-log')" class="scallop-badge w-20 h-20 sm:w-24 sm:h-24 text-white" title="Daily Log">
+              ${scallopSVG('#CE7A32')}
+              <span class="relative z-10 text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase">Streak</span>
+              <span class="relative z-10 text-[10px] text-white/90 mt-0.5">${streak}d</span>
+            </button>
+
+            <button onclick="openLogModal()" class="scallop-badge is-active w-24 h-24 sm:w-28 sm:h-28 text-white" title="Log Study Progress Now">
+              ${scallopSVG('#C4BE46')}
+              <i data-lucide="plus" class="relative z-10 w-4 h-4 text-charcoal mb-0.5"></i>
+              <span class="relative z-10 text-[11px] font-bold tracking-[0.14em] uppercase text-charcoal">Log Now</span>
+            </button>
+          </div>
+
+          <div class="w-7 h-0.5 bg-white/80 mx-auto mb-3"></div>
+          <p class="font-serif-editorial text-sm sm:text-base text-white/90">${getGreeting()} Every daily step brings the summit closer.</p>
+        </section>
+      `;
     }
 
     // --- VIEW 1: MAIN DASHBOARD ---
     function renderDashboardView() {
-      const todayDateFormatted = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-      });
+      const overall = getOverallStats();
+      const streak = getStudyStreak();
 
       if (state.subjects.length === 0) {
         return `
-          <div class="mb-8">
-            <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
-            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-normal text-charcoal">${getGreeting()} Here's your progress.</h2>
-          </div>
-
-          <div class="bg-surface rounded-2xl border border-borderSubtle p-8 sm:p-14 text-center shadow-xs">
-            <div class="w-14 h-14 rounded-2xl bg-sage/15 border border-sage/30 flex items-center justify-center mx-auto mb-5 text-sageDark">
+          ${renderMountainHeroBanner(overall, streak)}
+          <div class="bg-surface rounded-3xl border border-borderSubtle p-8 sm:p-14 text-center shadow-xs">
+            <div class="w-14 h-14 rounded-2xl bg-alpineTeal/15 border border-alpineTeal/30 flex items-center justify-center mx-auto mb-5 text-alpineTeal">
               <i data-lucide="book-open-check" class="w-7 h-7"></i>
             </div>
-            <h3 class="font-serif-editorial text-2xl text-charcoal mb-2">Begin Your Structured Study & Reading</h3>
+            <h3 class="font-serif-editorial text-2xl text-charcoal mb-2">Start Your First Ascent</h3>
             <p class="text-sm text-mutedGrey max-w-md mx-auto leading-relaxed mb-7">
-              Add subjects, textbooks, poem collections, or sermon series with custom measurement units (Pages, Chapters, Verses, Sections, or Sermons) and target deadlines.
+              Add subjects, textbooks, poem collections, or sermon series with a deadline. Syllabus will automatically calculate how many pages, verses, chapters, or sermons to read each day.
             </p>
             <div class="flex flex-wrap items-center justify-center gap-3">
-              <button onclick="openSubjectModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-all cursor-pointer">
+              <button onclick="openSubjectModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-all cursor-pointer">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span>Add Your First Item</span>
               </button>
               <button onclick="navigateTo('categories')" class="inline-flex items-center gap-2 px-5 py-3 bg-bgBase hover:bg-borderSubtle/60 text-charcoal text-sm font-medium rounded-xl border border-borderSubtle transition-all cursor-pointer">
-                <i data-lucide="folder-kanban" class="w-4 h-4 text-sageDark"></i>
+                <i data-lucide="folder-kanban" class="w-4 h-4 text-alpineTeal"></i>
                 <span>Manage Categories</span>
               </button>
             </div>
@@ -1389,159 +1581,237 @@
         `;
       }
 
-      const overall = getOverallStats();
-      const today = getTodayStats();
-      const examStats = overall.totalRemainingPages > 0 ? getExamCountdownStats(overall.totalRemainingPages) : null;
+      const todayPlan = getCollectiveTodayPlan();
+      const activeCategories = state.categories
+        .map(c => getCategoryStats(c.id))
+        .filter(c => c.itemCount > 0);
+
       const recentLogs = [...state.logs]
         .filter(l => !l.isInitial)
         .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
         .slice(0, 5);
 
-      const activePacingItems = state.subjects
-        .map(s => getSubjectStats(s.id))
-        .filter(st => st.pacing && st.remainingUnits > 0)
-        .sort((a, b) => a.effectiveTargetDate.localeCompare(b.effectiveTargetDate));
-
-      const todayUnitBadges = Object.entries(today.todayByUnit);
-
       return `
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div>
-            <p class="text-xs font-medium uppercase tracking-wider text-mutedGrey mb-1">${todayDateFormatted}</p>
-            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-normal text-charcoal">${getGreeting()} Here's your progress.</h2>
-            <p class="text-sm text-mutedGrey mt-1.5">Consistency over intensity — every unit brings clarity.</p>
-          </div>
-          ${examStats ? renderExamPill(examStats) : ''}
-        </div>
+        <!-- 1. Climber-Inspired Interactive Hero Banner -->
+        ${renderMountainHeroBanner(overall, streak)}
 
-        <!-- Overall Progress Overview -->
-        <section class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+        <!-- 2. COLLECTIVE TODAY'S PROGRESS BAR & DAILY QUOTA SUMMARY -->
+        <section class="bg-surface rounded-3xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
             <div>
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Overall Completion</h3>
-              <p class="text-sm text-charcoal mt-0.5">
-                Across ${overall.totalSubjects} ${overall.totalSubjects === 1 ? 'item' : 'items'} in ${state.categories.filter(c => state.subjects.some(s => s.categoryId === c.id)).length} active categories
-                ${overall.isMixedUnits ? '· Equal-weighted across measurement units' : ''}
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-terracotta"></span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-charcoal">Collective Today's Progress</h3>
+              </div>
+              <p class="text-xs text-mutedGrey mt-1">
+                ${todayPlan.subjectsWithTargets > 0
+                  ? `${todayPlan.subjectsCompletedToday} of ${todayPlan.subjectsWithTargets} daily goals reached today · ${formatReadableDate(getLocalTodayStr())}`
+                  : `Today's reading & study summary · ${formatReadableDate(getLocalTodayStr())}`}
               </p>
             </div>
-            <div class="text-left sm:text-right">
-              <span class="font-serif-editorial text-4xl font-medium text-charcoal">${overall.overallPercentage}%</span>
+            <div class="flex items-center gap-3">
+              <span class="font-slab-display text-3xl sm:text-4xl text-charcoal">${todayPlan.collectivePercent}%</span>
+              <button onclick="openLogModal()" class="px-3.5 py-2 bg-terracotta hover:bg-[#DF883D] text-white text-xs font-semibold rounded-xl shadow-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Log Today</span>
+              </button>
             </div>
           </div>
 
-          <div class="w-full h-3.5 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/70 mb-6">
-            <div class="h-full bg-sage rounded-full progress-fill" style="width: ${overall.overallPercentage}%"></div>
+          <!-- Large Collective Daily Progress Bar -->
+          <div class="w-full h-4 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/80 mb-6 p-0.5">
+            <div class="h-full rounded-full progress-fill ${todayPlan.collectivePercent >= 100 ? 'bg-sageDark' : 'bg-gradient-to-r from-alpineTeal via-terracotta to-summitGold'}" style="width: ${todayPlan.collectivePercent}%"></div>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-${Math.min(5, overall.distinctUnits.length + 1)} gap-4 pt-4 border-t border-borderSubtle/80">
-            <div>
-              <p class="text-xs text-mutedGrey">Active Items</p>
-              <p class="text-lg font-semibold text-charcoal mt-0.5">${overall.totalSubjects}</p>
-              <p class="text-[11px] text-mutedGrey mt-0.5">${state.categories.length} categories</p>
+          <!-- Collective Today Numbers Broken Down Cleanly by Unit -->
+          ${todayPlan.activeUnitKeys.length === 0 ? `
+            <div class="p-4 rounded-2xl bg-bgBase/70 border border-dashed border-borderSubtle flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p class="text-xs text-mutedGrey">Set a target end date on your subjects, categories, or in <strong>Goals & Settings</strong> to automatically calculate how many pages/verses/chapters to complete each day.</p>
+              <button onclick="navigateTo('settings')" class="text-xs font-semibold text-alpineTeal hover:underline shrink-0">Set Target Date →</button>
             </div>
-            ${overall.distinctUnits.map(unitKey => {
-              const uData = overall.unitTotals[unitKey];
-              const uCfg = UNIT_CONFIG[unitKey];
-              const uPct = uData.total > 0 ? Math.round((uData.completed / uData.total) * 100) : 0;
-              return `
-                <div>
-                  <p class="text-xs text-mutedGrey">${uCfg.label} Completed</p>
-                  <p class="text-lg font-semibold text-sageDark mt-0.5">${uData.completed.toLocaleString()} <span class="text-xs font-normal text-mutedGrey">/ ${uData.total.toLocaleString()}</span></p>
-                  <p class="text-[11px] text-mutedGrey mt-0.5">${uData.remaining.toLocaleString()} ${uCfg.plural} left (${uPct}%)</p>
-                </div>
-              `;
-            }).join('')}
-          </div>
+          ` : `
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${Math.min(3, todayPlan.activeUnitKeys.length)} gap-3.5">
+              ${todayPlan.activeUnitKeys.map(uKey => {
+                const u = todayPlan.byUnit[uKey];
+                const cfg = UNIT_CONFIG[uKey];
+                const pct = u.target > 0 ? Math.min(100, Math.round((u.done / u.target) * 100)) : 100;
+                return `
+                  <div class="p-4 rounded-2xl bg-surfaceWarm border border-borderSubtle/90">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs font-semibold uppercase tracking-wider text-charcoal">${cfg.label} Today</span>
+                      <span class="text-xs font-bold ${u.remaining === 0 && u.target > 0 ? 'text-sageDark' : 'text-alpineTeal'}">${pct}%</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center py-2 bg-white rounded-xl border border-borderSubtle/60 mb-2.5">
+                      <div>
+                        <span class="block text-[10px] text-mutedGrey uppercase">To Read</span>
+                        <span class="text-sm font-bold text-charcoal">${u.target}</span>
+                      </div>
+                      <div class="border-x border-borderSubtle/60">
+                        <span class="block text-[10px] text-mutedGrey uppercase">Done</span>
+                        <span class="text-sm font-bold text-sageDark">${u.done}</span>
+                      </div>
+                      <div>
+                        <span class="block text-[10px] text-mutedGrey uppercase">Left</span>
+                        <span class="text-sm font-bold ${u.remaining > 0 ? 'text-terracotta' : 'text-sageDark'}">${u.remaining}</span>
+                      </div>
+                    </div>
+                    <div class="w-full h-1.5 bg-bgBase rounded-full overflow-hidden">
+                      <div class="h-full rounded-full progress-fill ${u.remaining === 0 && u.target > 0 ? 'bg-sageDark' : 'bg-alpineTeal'}" style="width: ${pct}%"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
         </section>
 
-        <!-- Today's Progress, Daily Subject Pacing & Recent Activity -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <section class="lg:col-span-2 bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
+        <!-- 3. PER-SUBJECT & PER-CATEGORY TODAY'S PROGRESS BREAKDOWN -->
+        <section class="bg-surface rounded-3xl border border-borderSubtle p-6 shadow-xs mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
             <div>
-              <div class="flex items-center justify-between mb-4">
-                <div>
-                  <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Today's Progress & Daily Pacing</h3>
-                  <p class="text-xs text-mutedGrey mt-0.5">${formatReadableDate(getLocalTodayStr())}</p>
-                </div>
-                <button onclick="openLogModal()" class="text-xs font-medium text-sageDark hover:text-charcoal flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-bgBase hover:bg-borderSubtle/50 transition-colors cursor-pointer">
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                  <span>Record Today</span>
-                </button>
-              </div>
+              <h3 class="font-serif-editorial text-2xl text-charcoal">Today's Breakdown</h3>
+              <p class="text-xs text-mutedGrey mt-0.5">Individual daily target, progress done so far, and remaining units for every subject & category.</p>
+            </div>
+            <div class="inline-flex p-1 bg-bgBase rounded-xl border border-borderSubtle self-start">
+              <button onclick="dashboardTodayTab='subjects'; renderCurrentView();" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${dashboardTodayTab === 'subjects' ? 'bg-charcoal text-white shadow-xs' : 'text-mutedGrey hover:text-charcoal'}">
+                By Subject (${todayPlan.allStats.length})
+              </button>
+              <button onclick="dashboardTodayTab='categories'; renderCurrentView();" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${dashboardTodayTab === 'categories' ? 'bg-charcoal text-white shadow-xs' : 'text-mutedGrey hover:text-charcoal'}">
+                By Category (${activeCategories.length})
+              </button>
+            </div>
+          </div>
 
-              ${todayUnitBadges.length === 0 ? `
-                <div class="py-4 px-4 rounded-xl bg-bgBase/70 border border-dashed border-borderSubtle text-center mb-4">
-                  <p class="text-sm text-charcoal font-medium">No progress logged yet today</p>
-                  <p class="text-xs text-mutedGrey mt-1">Record a session whenever you complete pages, chapters, verses, sections, or sermons.</p>
-                </div>
-              ` : `
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                  ${todayUnitBadges.map(([uKey, val]) => `
-                    <div class="px-3.5 py-2.5 rounded-xl bg-bgBase border border-borderSubtle/80">
-                      <p class="text-[11px] text-mutedGrey">${UNIT_CONFIG[uKey].label} Today</p>
-                      <p class="text-xl font-semibold text-charcoal mt-0.5">${val.toLocaleString()} <span class="text-xs font-normal text-mutedGrey">${val === 1 ? UNIT_CONFIG[uKey].singular : UNIT_CONFIG[uKey].plural}</span></p>
-                    </div>
-                  `).join('')}
-                  <div class="px-3.5 py-2.5 rounded-xl bg-bgBase border border-borderSubtle/80">
-                    <p class="text-[11px] text-mutedGrey">Items Studied</p>
-                    <p class="text-xl font-semibold text-charcoal mt-0.5">${today.subjectsStudied}</p>
-                  </div>
-                </div>
-              `}
-
-              ${activePacingItems.length > 0 ? `
-                <div class="mt-3 pt-3 border-t border-borderSubtle/70">
-                  <p class="text-[11px] font-semibold uppercase tracking-wider text-mutedGrey mb-2.5">Today's Required Pacing for Active Goals</p>
-                  <div class="space-y-2">
-                    ${activePacingItems.slice(0, 4).map(st => {
-                      const p = st.pacing;
-                      const unitInfo = UNIT_CONFIG[st.unit];
-                      const targetToday = p.requiredDailyCeil;
-                      const doneToday = st.todayUnits;
-                      const metToday = doneToday >= targetToday;
-                      return `
-                        <div onclick="navigateTo('subject-detail', '${st.id}')" class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-bgBase/70 hover:bg-bgBase border border-borderSubtle/60 cursor-pointer transition-colors">
-                          <div class="flex items-center gap-2.5 min-w-0">
-                            <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-                            <div class="min-w-0">
-                              <p class="text-xs font-medium text-charcoal truncate">${escapeHTML(st.name)}</p>
-                              <p class="text-[11px] text-mutedGrey">Due ${formatShortDate(st.effectiveTargetDate)} · ${st.remainingUnits} ${unitInfo.plural} left</p>
-                            </div>
-                          </div>
-                          <div class="text-right shrink-0">
-                            <span class="text-xs font-semibold ${metToday ? 'text-sageDark' : 'text-charcoal'}">
-                              ${doneToday} / ${targetToday} ${targetToday === 1 ? unitInfo.singular : unitInfo.plural}
-                            </span>
-                            <span class="block text-[10px] ${metToday ? 'text-sageDark font-medium' : 'text-mutedGrey'}">
-                              ${metToday ? 'On track today' : `${p.requiredDaily}/day needed`}
-                            </span>
-                          </div>
+          ${dashboardTodayTab === 'subjects' ? `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              ${todayPlan.allStats.map(st => {
+                const cfg = UNIT_CONFIG[st.unit];
+                const hasTarget = st.todayTarget > 0;
+                const isMetToday = hasTarget && st.todayRemaining === 0;
+                return `
+                  <div class="interactive-card p-4 rounded-2xl bg-surfaceWarm border border-borderSubtle/90 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-2 mb-2.5">
+                      <div onclick="navigateTo('subject-detail', '${st.id}')" class="min-w-0 cursor-pointer">
+                        <div class="flex items-center gap-2">
+                          <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
+                          <h4 class="text-sm font-semibold text-charcoal truncate hover:text-alpineTeal">${escapeHTML(st.name)}</h4>
                         </div>
-                      `;
-                    }).join('')}
+                        <p class="text-[11px] text-mutedGrey pl-4.5 mt-0.5">${escapeHTML(st.category.name)} · Overall: ${st.completedUnits}/${st.totalUnits} ${cfg.plural} (${st.percentage}%)</p>
+                      </div>
+                      <button onclick="openLogModal(null, '${st.id}')" class="px-2.5 py-1 bg-white hover:bg-charcoal hover:text-white text-charcoal border border-borderSubtle text-[11px] font-semibold rounded-lg transition-colors shrink-0 cursor-pointer">
+                        + Log
+                      </button>
+                    </div>
+
+                    ${hasTarget ? `
+                      <div>
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                          <span class="text-mutedGrey">
+                            Done today: <strong class="text-charcoal">${st.todayUnits} / ${st.todayTarget} ${cfg.plural}</strong>
+                          </span>
+                          <span class="font-semibold ${isMetToday ? 'text-sageDark' : 'text-terracotta'}">
+                            ${isMetToday ? '✓ Done for today' : `${st.todayRemaining} left today`}
+                          </span>
+                        </div>
+                        <div class="w-full h-2.5 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/60">
+                          <div class="h-full rounded-full progress-fill" style="width: ${st.todayPercent}%; background-color: ${isMetToday ? '#5E6F5E' : st.color}"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[10px] text-mutedGrey mt-1.5">
+                          <span>Today's progress: <strong class="text-charcoal">${st.todayPercent}%</strong></span>
+                          <span>Due ${formatShortDate(st.effectiveTargetDate)}</span>
+                        </div>
+                      </div>
+                    ` : `
+                      <div>
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                          <span class="text-mutedGrey">Done today: <strong class="text-charcoal">${formatUnitCount(st.todayUnits, st.unit)}</strong></span>
+                          <button onclick="openSubjectModal('${st.id}')" class="text-[11px] font-medium text-alpineTeal hover:underline cursor-pointer">Set deadline</button>
+                        </div>
+                        <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
+                          <div class="h-full rounded-full progress-fill" style="width: ${st.todayUnits > 0 ? 100 : 0}%; background-color: ${st.color}"></div>
+                        </div>
+                      </div>
+                    `}
                   </div>
+                `;
+              }).join('')}
+            </div>
+          ` : `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              ${activeCategories.map(cat => {
+                const todayUnitsEntries = Object.entries(cat.todayByUnit);
+                return `
+                  <div onclick="navigateTo('category-detail', '${cat.id}')" class="interactive-card p-4 rounded-2xl bg-surfaceWarm border border-borderSubtle/90 cursor-pointer">
+                    <div class="flex items-center justify-between gap-2 mb-2.5">
+                      <div class="flex items-center gap-2 min-w-0">
+                        <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${cat.color}"></span>
+                        <h4 class="text-sm font-semibold text-charcoal truncate">${escapeHTML(cat.name)}</h4>
+                        <span class="text-[11px] text-mutedGrey">(${cat.itemCount} ${cat.itemCount === 1 ? 'item' : 'items'})</span>
+                      </div>
+                      <span class="text-xs font-bold text-charcoal bg-white px-2.5 py-0.5 rounded-full border border-borderSubtle">${cat.todayPercent}% today</span>
+                    </div>
+
+                    <div class="w-full h-2.5 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/60 mb-3">
+                      <div class="h-full rounded-full progress-fill" style="width: ${cat.todayPercent}%; background-color: ${cat.color}"></div>
+                    </div>
+
+                    <div class="space-y-1">
+                      ${todayUnitsEntries.map(([uKey, data]) => {
+                        const cfg = UNIT_CONFIG[uKey];
+                        return `
+                          <div class="flex items-center justify-between text-xs">
+                            <span class="text-mutedGrey">${cfg.label}: <strong class="text-charcoal">${data.done}</strong>${data.target > 0 ? ` / ${data.target} to do` : ' done today'}</span>
+                            <span class="font-medium ${data.remaining === 0 && data.target > 0 ? 'text-sageDark' : 'text-terracotta'}">
+                              ${data.target > 0 ? (data.remaining === 0 ? '✓ Complete' : `${data.remaining} left`) : 'No deadline'}
+                            </span>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </section>
+
+        <!-- 4. OVERALL SYLLABUS COMPLETION & RECENT ACTIVITY ROW -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <section class="lg:col-span-2 bg-surface rounded-3xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-mutedGrey">Overall Syllabus Progress</h3>
+                  <p class="text-xs text-mutedGrey mt-0.5">Cumulative progress across all ${overall.totalSubjects} ${overall.totalSubjects === 1 ? 'item' : 'items'}</p>
                 </div>
-              ` : ''}
+                <span class="font-slab-display text-3xl text-charcoal">${overall.overallPercentage}%</span>
+              </div>
+              <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden border border-borderSubtle/70 mb-5">
+                <div class="h-full bg-sageDark rounded-full progress-fill" style="width: ${overall.overallPercentage}%"></div>
+              </div>
             </div>
 
-            ${today.dailyTarget > 0 && overall.totalSyllabusPages > 0 ? `
-              <div class="mt-4 pt-3 border-t border-borderSubtle/70">
-                <div class="flex justify-between text-xs mb-1.5">
-                  <span class="text-mutedGrey">Global Daily Page Target: <strong class="text-charcoal font-medium">${today.pagesToday} / ${today.dailyTarget} pages</strong></span>
-                  <span class="font-medium text-sageDark">${today.targetPercent}%</span>
-                </div>
-                <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
-                  <div class="h-full bg-dustyBlue rounded-full progress-fill" style="width: ${today.targetPercent}%"></div>
-                </div>
-              </div>
-            ` : ''}
+            <div class="grid grid-cols-2 sm:grid-cols-${Math.min(4, overall.distinctUnits.length)} gap-3 pt-4 border-t border-borderSubtle/80">
+              ${overall.distinctUnits.map(unitKey => {
+                const uData = overall.unitTotals[unitKey];
+                const uCfg = UNIT_CONFIG[unitKey];
+                const uPct = uData.total > 0 ? Math.round((uData.completed / uData.total) * 100) : 0;
+                return `
+                  <div>
+                    <p class="text-[11px] text-mutedGrey">${uCfg.label} Overall</p>
+                    <p class="text-base font-bold text-charcoal mt-0.5">${uData.completed.toLocaleString()} <span class="text-xs font-normal text-mutedGrey">/ ${uData.total.toLocaleString()}</span></p>
+                    <p class="text-[11px] text-sageDark">${uData.remaining.toLocaleString()} left (${uPct}%)</p>
+                  </div>
+                `;
+              }).join('')}
+            </div>
           </section>
 
           <!-- Recent Activity Card -->
-          <section class="bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col">
+          <section class="bg-surface rounded-3xl border border-borderSubtle p-6 shadow-xs flex flex-col">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Recent Activity</h3>
-              <button onclick="navigateTo('daily-log')" class="text-xs text-mutedGrey hover:text-charcoal">View all</button>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-mutedGrey">Recent Activity</h3>
+              <button onclick="navigateTo('daily-log')" class="text-xs font-medium text-alpineTeal hover:underline">View all</button>
             </div>
             ${recentLogs.length === 0 ? `
               <div class="my-auto text-center py-6">
@@ -1570,21 +1840,14 @@
           </section>
         </div>
 
-        <!-- Individual Subject / Item Progress Cards -->
+        <!-- 5. ALL SUBJECTS & COLLECTIONS GRID -->
         <section>
           <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-serif-editorial text-2xl text-charcoal">Your Subjects & Collections</h3>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="navigateTo('categories')" class="text-xs font-medium text-mutedGrey hover:text-charcoal px-3 py-1.5 rounded-xl border border-borderSubtle bg-surface transition-colors cursor-pointer">
-                Categories
-              </button>
-              <button onclick="openSubjectModal()" class="text-xs font-medium text-charcoal hover:bg-surface px-3 py-1.5 rounded-xl border border-borderSubtle transition-colors flex items-center gap-1.5 cursor-pointer">
-                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>Add Item</span>
-              </button>
-            </div>
+            <h3 class="font-serif-editorial text-2xl text-charcoal">All Subjects & Collections</h3>
+            <button onclick="openSubjectModal()" class="text-xs font-semibold text-white bg-charcoal hover:bg-alpineTeal px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Add Item</span>
+            </button>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1592,21 +1855,22 @@
               const st = getSubjectStats(sub.id);
               const uCfg = UNIT_CONFIG[st.unit];
               return `
-                <div onclick="navigateTo('subject-detail', '${sub.id}')" class="group bg-surface hover:bg-surfaceWarm rounded-2xl border border-borderSubtle hover:border-charcoal/25 p-5 shadow-xs transition-all cursor-pointer flex flex-col justify-between">
+                <div onclick="navigateTo('subject-detail', '${sub.id}')" class="interactive-card group bg-surface rounded-2xl border border-borderSubtle hover:border-alpineTeal/50 p-5 shadow-xs cursor-pointer flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between gap-2 mb-2">
-                      <span class="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md bg-bgBase text-mutedGrey">
+                      <span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-bgBase text-mutedGrey">
                         <span class="w-1.5 h-1.5 rounded-full" style="background-color: ${st.category.color}"></span>
                         ${escapeHTML(st.category.name)}
                       </span>
-                      <span class="text-sm font-semibold text-charcoal shrink-0">${st.percentage}%</span>
+                      <span class="text-sm font-bold text-charcoal shrink-0">${st.percentage}%</span>
                     </div>
 
                     <div class="flex items-center gap-2.5 min-w-0 mb-3">
                       <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-                      <h4 class="font-medium text-base text-charcoal truncate group-hover:text-black">${escapeHTML(st.name)}</h4>
+                      <h4 class="font-semibold text-base text-charcoal truncate group-hover:text-alpineTeal transition-colors">${escapeHTML(st.name)}</h4>
                     </div>
 
+                    <!-- Overall Progress Bar -->
                     <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden mb-3">
                       <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
                     </div>
@@ -1620,9 +1884,9 @@
                       <span>${st.remainingUnits} left</span>
                     </div>
                     <div class="pt-2.5 flex items-center justify-between text-[11px] text-mutedGrey">
-                      <span>${st.lastStudiedDate ? `Last studied ${formatShortDate(st.lastStudiedDate)}` : 'No recent sessions'}</span>
-                      <span class="text-charcoal font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
-                        Details <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                      <span>${st.todayUnits > 0 ? `<strong class="text-sageDark">+${st.todayUnits} today</strong>` : (st.lastStudiedDate ? `Last: ${formatShortDate(st.lastStudiedDate)}` : 'Not started yet')}</span>
+                      <span class="text-alpineTeal font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
+                        Open <i data-lucide="arrow-right" class="w-3 h-3"></i>
                       </span>
                     </div>
                   </div>
@@ -1631,37 +1895,6 @@
             }).join('')}
           </div>
         </section>
-      `;
-    }
-
-    function renderExamPill(examStats) {
-      if (examStats.status === 'past') {
-        return `
-          <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 text-xs">
-            <span class="text-mutedGrey">Global Target Date:</span>
-            <span class="font-medium text-charcoal ml-1">${formatReadableDate(state.settings.examDate)} (Passed)</span>
-          </div>
-        `;
-      }
-      if (examStats.status === 'completed') {
-        return `
-          <div class="bg-sage/15 border border-sage/30 rounded-xl px-4 py-2.5 text-xs text-charcoal">
-            <span class="font-medium">All Pages Complete</span> · ${examStats.daysRemaining} days until target date
-          </div>
-        `;
-      }
-      return `
-        <div class="bg-surface border border-borderSubtle rounded-xl px-4 py-2.5 flex items-center gap-4 text-xs shadow-2xs">
-          <div>
-            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Global Target</span>
-            <span class="font-semibold text-charcoal">${examStats.daysRemaining} ${examStats.daysRemaining === 1 ? 'day' : 'days'} left</span>
-          </div>
-          <div class="h-6 w-px bg-borderSubtle"></div>
-          <div>
-            <span class="text-mutedGrey block text-[10px] uppercase tracking-wider">Required Page Pace</span>
-            <span class="font-semibold text-sageDark">${examStats.requiredDaily} pages/day</span>
-          </div>
-        </div>
       `;
     }
 
@@ -1679,7 +1912,7 @@
             <h2 class="font-serif-editorial text-3xl text-charcoal">My Subjects & Collections</h2>
             <p class="text-sm text-mutedGrey mt-1">Organise your books, poems, sermons, and study materials across categories.</p>
           </div>
-          <button onclick="openSubjectModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+          <button onclick="openSubjectModal()" class="px-4 py-2.5 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add New Item</span>
           </button>
@@ -1689,9 +1922,9 @@
           <div class="flex flex-wrap items-center gap-3 mb-6">
             <div class="relative flex-1 min-w-[220px] max-w-sm">
               <i data-lucide="search" class="w-4 h-4 text-mutedGrey absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-              <input type="text" value="${escapeHTML(subjectSearchQuery)}" oninput="subjectSearchQuery = this.value; renderCurrentView();" placeholder="Search subjects, poems, sermons..." class="w-full pl-10 pr-4 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+              <input type="text" value="${escapeHTML(subjectSearchQuery)}" oninput="subjectSearchQuery = this.value; renderCurrentView();" placeholder="Search subjects, poems, sermons..." class="w-full pl-10 pr-4 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
             </div>
-            <select onchange="subjectCategoryFilter = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+            <select onchange="subjectCategoryFilter = this.value; renderCurrentView();" class="px-3.5 py-2 bg-surface border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal">
               <option value="all" ${subjectCategoryFilter === 'all' ? 'selected' : ''}>All Categories</option>
               ${state.categories.map(c => `<option value="${c.id}" ${subjectCategoryFilter === c.id ? 'selected' : ''}>${escapeHTML(c.name)}</option>`).join('')}
             </select>
@@ -1714,13 +1947,13 @@
               const st = getSubjectStats(sub.id);
               const uCfg = UNIT_CONFIG[st.unit];
               return `
-                <div class="bg-surface rounded-2xl border border-borderSubtle p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-charcoal/20 transition-colors">
+                <div class="interactive-card bg-surface rounded-2xl border border-borderSubtle p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div class="flex-1 min-w-0 cursor-pointer" onclick="navigateTo('subject-detail', '${sub.id}')">
                     <div class="flex flex-wrap items-center gap-2.5 mb-1.5">
                       <span class="w-3.5 h-3.5 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-                      <h3 class="font-medium text-base text-charcoal truncate">${escapeHTML(st.name)}</h3>
+                      <h3 class="font-semibold text-base text-charcoal truncate">${escapeHTML(st.name)}</h3>
                       <span class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-bgBase text-mutedGrey border border-borderSubtle/70">${escapeHTML(st.category.name)}</span>
-                      <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-bgBase text-charcoal">${st.percentage}%</span>
+                      <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-bgBase text-charcoal">${st.percentage}%</span>
                     </div>
                     ${st.notes ? `<p class="text-xs text-mutedGrey pl-6 mb-2 line-clamp-1">${escapeHTML(st.notes)}</p>` : ''}
                     <div class="pl-6 max-w-md">
@@ -1735,6 +1968,9 @@
                   </div>
 
                   <div class="flex items-center gap-2 pl-6 sm:pl-0 shrink-0">
+                    <button onclick="openLogModal(null, '${sub.id}')" class="px-3 py-1.5 text-xs font-semibold text-white bg-terracotta hover:bg-[#DF883D] rounded-lg transition-colors cursor-pointer">
+                      + Log
+                    </button>
                     <button onclick="navigateTo('subject-detail', '${sub.id}')" class="px-3 py-1.5 text-xs font-medium text-charcoal bg-bgBase hover:bg-borderSubtle/60 rounded-lg transition-colors">
                       Open
                     </button>
@@ -1766,7 +2002,7 @@
             <h2 class="font-serif-editorial text-3xl text-charcoal">Book & Study Categories</h2>
             <p class="text-sm text-mutedGrey mt-1">Group your textbooks, literature, poems, and sermons with dedicated category goals.</p>
           </div>
-          <button onclick="openCategoryModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+          <button onclick="openCategoryModal()" class="px-4 py-2.5 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
             <i data-lucide="folder-plus" class="w-4 h-4"></i>
             <span>New Category</span>
           </button>
@@ -1783,14 +2019,14 @@
                 }).join(' · ');
 
             return `
-              <div class="group bg-surface hover:bg-surfaceWarm rounded-2xl border border-borderSubtle hover:border-charcoal/25 p-6 shadow-xs transition-all flex flex-col justify-between">
+              <div class="interactive-card group bg-surface rounded-2xl border border-borderSubtle p-6 shadow-xs flex flex-col justify-between">
                 <div onclick="navigateTo('category-detail', '${cat.id}')" class="cursor-pointer">
                   <div class="flex items-start justify-between gap-2 mb-3">
                     <div class="flex items-center gap-2.5 min-w-0">
                       <span class="w-3.5 h-3.5 rounded-full shrink-0" style="background-color: ${cat.color}"></span>
-                      <h3 class="font-serif-editorial text-xl text-charcoal truncate">${escapeHTML(cat.name)}</h3>
+                      <h3 class="font-serif-editorial text-xl text-charcoal truncate group-hover:text-alpineTeal transition-colors">${escapeHTML(cat.name)}</h3>
                     </div>
-                    <span class="text-sm font-semibold text-charcoal bg-bgBase px-2.5 py-0.5 rounded-full shrink-0">${cat.percentage}%</span>
+                    <span class="text-sm font-bold text-charcoal bg-bgBase px-2.5 py-0.5 rounded-full shrink-0">${cat.percentage}%</span>
                   </div>
 
                   <p class="text-xs text-mutedGrey mb-4">
@@ -1803,11 +2039,11 @@
 
                   <p class="text-xs text-mutedGrey mb-3">${breakdownSummary}</p>
 
-                  ${cat.pacing ? `<div class="mb-3">${renderPacingBadge(cat.pacing, true)}</div>` : (cat.targetDate ? `<p class="text-[11px] text-sageDark mb-3">Deadline: ${formatShortDate(cat.targetDate)}</p>` : '')}
+                  ${cat.pacing ? `<div class="mb-3">${renderPacingBadge(cat.pacing, true)}</div>` : (cat.targetDate ? `<p class="text-[11px] text-alpineTeal mb-3">Deadline: ${formatShortDate(cat.targetDate)}</p>` : '')}
                 </div>
 
                 <div class="pt-3 border-t border-borderSubtle/70 flex items-center justify-between">
-                  <button onclick="navigateTo('category-detail', '${cat.id}')" class="text-xs font-medium text-charcoal hover:text-sageDark inline-flex items-center gap-1 cursor-pointer">
+                  <button onclick="navigateTo('category-detail', '${cat.id}')" class="text-xs font-semibold text-charcoal hover:text-alpineTeal inline-flex items-center gap-1 cursor-pointer">
                     <span>Open Category</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                   </button>
@@ -1870,7 +2106,7 @@
               <button onclick="openCategoryModal('${cat.id}')" class="px-3.5 py-2 text-xs font-medium text-charcoal bg-surface border border-borderSubtle hover:bg-bgBase rounded-xl transition-colors">
                 Edit Category
               </button>
-              <button onclick="openSubjectModal(null, '${cat.id}')" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
+              <button onclick="openSubjectModal(null, '${cat.id}')" class="px-4 py-2 bg-charcoal hover:bg-alpineTeal text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                 <span>Add to ${escapeHTML(cat.name)}</span>
               </button>
@@ -1884,7 +2120,7 @@
               <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Category Completion</span>
               ${cat.pacing ? `<div class="mt-1.5">${renderPacingBadge(cat.pacing)}</div>` : ''}
             </div>
-            <span class="font-serif-editorial text-3xl font-medium text-charcoal">${cat.percentage}%</span>
+            <span class="font-slab-display text-3xl text-charcoal">${cat.percentage}%</span>
           </div>
           <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden mb-5">
             <div class="h-full rounded-full progress-fill" style="width: ${cat.percentage}%; background-color: ${cat.color}"></div>
@@ -1893,8 +2129,8 @@
           ${cat.distinctUnits.length > 0 ? `
             <div class="grid grid-cols-2 sm:grid-cols-${Math.min(4, cat.distinctUnits.length + 1)} gap-4 pt-4 border-t border-borderSubtle/80">
               <div>
-                <p class="text-xs text-mutedGrey">Items in Category</p>
-                <p class="text-lg font-semibold text-charcoal mt-0.5">${cat.itemCount}</p>
+                <p class="text-xs text-mutedGrey">Today's Category Goal</p>
+                <p class="text-lg font-bold text-alpineTeal mt-0.5">${cat.todayPercent}%</p>
               </div>
               ${cat.distinctUnits.map(uKey => {
                 const b = cat.unitBreakdown[uKey];
@@ -1923,15 +2159,15 @@
             ` : cat.items.map(st => {
               const uCfg = UNIT_CONFIG[st.unit];
               return `
-                <div class="bg-surface rounded-2xl border border-borderSubtle p-5 hover:border-charcoal/25 transition-colors">
+                <div class="interactive-card bg-surface rounded-2xl border border-borderSubtle p-5">
                   <div class="flex items-start justify-between gap-3 mb-2">
                     <div onclick="navigateTo('subject-detail', '${st.id}')" class="flex items-center gap-2.5 min-w-0 cursor-pointer">
                       <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${st.color}"></span>
-                      <h4 class="font-medium text-base text-charcoal truncate hover:underline">${escapeHTML(st.name)}</h4>
+                      <h4 class="font-semibold text-base text-charcoal truncate hover:text-alpineTeal">${escapeHTML(st.name)}</h4>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
-                      <span class="text-xs font-semibold text-charcoal">${st.percentage}%</span>
-                      <button onclick="openLogModal(null, '${st.id}')" class="px-2.5 py-1 bg-bgBase hover:bg-charcoal hover:text-white text-charcoal text-xs font-medium rounded-lg transition-colors cursor-pointer">
+                      <span class="text-xs font-bold text-charcoal">${st.percentage}%</span>
+                      <button onclick="openLogModal(null, '${st.id}')" class="px-2.5 py-1 bg-bgBase hover:bg-terracotta hover:text-white text-charcoal text-xs font-semibold rounded-lg transition-colors cursor-pointer">
                         + Log
                       </button>
                     </div>
@@ -1941,7 +2177,7 @@
                   </div>
                   <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-mutedGrey">
                     <span><strong class="text-charcoal">${st.completedUnits}</strong> / ${st.totalUnits} ${uCfg.plural} (${st.remainingUnits} left)</span>
-                    ${st.pacing ? renderPacingBadge(st.pacing, true) : ''}
+                    ${st.todayTarget > 0 ? `<span class="text-alpineTeal font-medium">Today: ${st.todayUnits}/${st.todayTarget} ${uCfg.plural}</span>` : ''}
                   </div>
                 </div>
               `;
@@ -1953,7 +2189,7 @@
             <div class="bg-surface rounded-2xl border border-borderSubtle p-5 shadow-xs">
               <div class="flex items-center justify-between pb-3 mb-3 border-b border-borderSubtle/70">
                 <span class="text-xs text-mutedGrey">Today's sessions in ${escapeHTML(cat.name)}</span>
-                <span class="text-xs font-semibold text-sageDark">${todayCatLogs.length} ${todayCatLogs.length === 1 ? 'session' : 'sessions'}</span>
+                <span class="text-xs font-semibold text-alpineTeal">${todayCatLogs.length} ${todayCatLogs.length === 1 ? 'session' : 'sessions'}</span>
               </div>
 
               ${categoryLogs.length === 0 ? `
@@ -2044,7 +2280,7 @@
               <button onclick="openSubjectModal('${st.id}')" class="px-3.5 py-2 text-xs font-medium text-charcoal bg-surface border border-borderSubtle hover:bg-bgBase rounded-xl transition-colors">
                 Edit Item
               </button>
-              <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-charcoal hover:bg-charcoal/90 text-white text-xs font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
+              <button onclick="openLogModal(null, '${st.id}')" class="px-4 py-2 bg-terracotta hover:bg-[#DF883D] text-white text-xs font-semibold rounded-xl shadow-sm transition-colors inline-flex items-center gap-1.5">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                 <span>Log ${uCfg.label}</span>
               </button>
@@ -2054,12 +2290,26 @@
 
         <div class="bg-surface rounded-2xl border border-borderSubtle p-6 sm:p-8 shadow-xs mb-6">
           <div class="flex items-baseline justify-between mb-3">
-            <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Completion Progress</span>
-            <span class="font-serif-editorial text-3xl font-medium text-charcoal">${st.percentage}%</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-mutedGrey">Overall Completion</span>
+            <span class="font-slab-display text-3xl text-charcoal">${st.percentage}%</span>
           </div>
           <div class="w-full h-3 bg-bgBase rounded-full overflow-hidden mb-6">
             <div class="h-full rounded-full progress-fill" style="width: ${st.percentage}%; background-color: ${st.color}"></div>
           </div>
+
+          ${st.todayTarget > 0 ? `
+            <div class="p-4 rounded-xl bg-surfaceWarm border border-borderSubtle/80 mb-5">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-semibold text-charcoal">Today's Goal: ${st.todayUnits} / ${st.todayTarget} ${uCfg.plural}</span>
+                <span class="font-semibold ${st.todayRemaining === 0 ? 'text-sageDark' : 'text-terracotta'}">
+                  ${st.todayRemaining === 0 ? '✓ Completed for today' : `${st.todayRemaining} ${uCfg.plural} left today`}
+                </span>
+              </div>
+              <div class="w-full h-2 bg-bgBase rounded-full overflow-hidden">
+                <div class="h-full rounded-full progress-fill" style="width: ${st.todayPercent}%; background-color: ${st.todayRemaining === 0 ? '#5E6F5E' : '#3E92A3'}"></div>
+              </div>
+            </div>
+          ` : ''}
 
           <div class="grid grid-cols-3 gap-4 pt-4 border-t border-borderSubtle/80">
             <div>
@@ -2166,7 +2416,7 @@
             <h2 class="font-serif-editorial text-3xl text-charcoal">Daily Progress Log</h2>
             <p class="text-sm text-mutedGrey mt-1">Record and review your daily completions across all subjects, poems, and sermons.</p>
           </div>
-          <button onclick="openLogModal()" class="px-4 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
+          <button onclick="openLogModal()" class="px-4 py-2.5 bg-terracotta hover:bg-[#DF883D] text-white text-sm font-semibold rounded-xl shadow-sm transition-colors inline-flex items-center gap-2 self-start cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Log Study Session</span>
           </button>
@@ -2178,20 +2428,20 @@
             <form onsubmit="handleInlineQuickLog(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
               <div class="sm:col-span-4">
                 <label class="block text-xs font-medium text-charcoal mb-1">Subject / Collection</label>
-                <select id="inline-log-subject" onchange="updateInlineQuickLogUnit()" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark">
+                <select id="inline-log-subject" onchange="updateInlineQuickLogUnit()" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal">
                   ${state.subjects.map(s => `<option value="${s.id}">${escapeHTML(s.name)} (${UNIT_CONFIG[normalizeUnit(s.unit)].label})</option>`).join('')}
                 </select>
               </div>
               <div class="sm:col-span-3">
                 <label class="block text-xs font-medium text-charcoal mb-1">Date</label>
-                <input type="date" id="inline-log-date" value="${getLocalTodayStr()}" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+                <input type="date" id="inline-log-date" value="${getLocalTodayStr()}" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
               </div>
               <div class="sm:col-span-2">
                 <label id="inline-log-unit-label" class="block text-xs font-medium text-charcoal mb-1">${UNIT_CONFIG[firstSubjectUnit].label}</label>
-                <input type="number" id="inline-log-pages" min="1" step="1" placeholder="15" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+                <input type="number" id="inline-log-pages" min="1" step="1" placeholder="15" required class="w-full px-3 py-2 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
               </div>
               <div class="sm:col-span-3">
-                <button type="submit" class="w-full py-2 px-4 bg-sageDark hover:bg-charcoal text-white text-sm font-medium rounded-xl transition-colors cursor-pointer">
+                <button type="submit" class="w-full py-2 px-4 bg-alpineTeal hover:bg-charcoal text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer">
                   Save Entry
                 </button>
               </div>
@@ -2397,12 +2647,12 @@
             <p class="text-sm text-mutedGrey mt-1">Insights into your daily consistency across pages, chapters, verses, sections, and sermons.</p>
           </div>
           <div class="bg-surface border border-borderSubtle rounded-2xl px-4 py-3 flex items-center gap-3 self-start">
-            <div class="w-8 h-8 rounded-xl bg-sage/15 flex items-center justify-center text-sageDark">
+            <div class="w-8 h-8 rounded-xl bg-terracotta/15 flex items-center justify-center text-terracotta">
               <i data-lucide="flame" class="w-4 h-4"></i>
             </div>
             <div>
               <p class="text-xs font-semibold text-charcoal">${streak} ${streak === 1 ? 'Day' : 'Days'} Active Streak</p>
-              <p class="text-[11px] text-mutedGrey">${streak > 0 ? 'Wonderful rhythm. Keep going at your pace.' : 'Ready whenever you start your next session.'}</p>
+              <p class="text-[11px] text-mutedGrey">${streak > 0 ? 'Wonderful rhythm. Keep climbing.' : 'Ready whenever you start your next session.'}</p>
             </div>
           </div>
         </div>
@@ -2424,7 +2674,7 @@
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
             <p class="text-xs text-mutedGrey">Active Study Days (7d)</p>
             <p class="text-2xl font-semibold text-charcoal mt-1">${activeDaysThisWeek} <span class="text-xs font-normal text-mutedGrey">/ 7 days</span></p>
-            <p class="text-[11px] text-sageDark mt-1">${thisWeekSessions} sessions (${thisWeekSessions - prevWeekSessions >= 0 ? '+' : ''}${thisWeekSessions - prevWeekSessions} vs last wk)</p>
+            <p class="text-[11px] text-alpineTeal mt-1">${thisWeekSessions} sessions (${thisWeekSessions - prevWeekSessions >= 0 ? '+' : ''}${thisWeekSessions - prevWeekSessions} vs last wk)</p>
           </div>
           <div class="bg-surface rounded-2xl border border-borderSubtle p-5">
             <p class="text-xs text-mutedGrey">Most Active Day</p>
@@ -2473,7 +2723,7 @@
                 <div onclick="statsSelectedDate='${item.dateStr}'; renderCurrentView();" title="${item.label}: ${tooltipStr}" class="flex-1 min-w-[24px] flex flex-col items-center gap-1.5 h-full justify-end cursor-pointer group">
                   <span class="text-[10px] font-medium text-charcoal opacity-80 group-hover:opacity-100">${item.totalUnits > 0 ? item.totalUnits : ''}</span>
                   <div class="w-full max-w-[34px] bg-bgBase rounded-t-md h-36 flex items-end overflow-hidden border ${isSelected ? 'border-charcoal' : 'border-transparent'}">
-                    <div class="w-full rounded-t-md transition-all duration-500 ${isSelected ? 'bg-charcoal' : 'bg-sage group-hover:bg-sageDark'}" style="height: ${heightPct}%"></div>
+                    <div class="w-full rounded-t-md transition-all duration-500 ${isSelected ? 'bg-terracotta' : 'bg-alpineTeal group-hover:bg-charcoal'}" style="height: ${heightPct}%"></div>
                   </div>
                   <span class="text-[10px] ${isSelected ? 'font-semibold text-charcoal' : 'text-mutedGrey'} whitespace-nowrap">${chartData.length <= 10 ? item.label : item.dateStr.slice(8)}</span>
                 </div>
@@ -2492,9 +2742,9 @@
               <div class="flex items-center gap-1 text-[10px] text-mutedGrey">
                 <span>Less</span>
                 <span class="w-2.5 h-2.5 rounded-xs bg-bgBase border border-borderSubtle"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-sage/35"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-sage/70"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-sageDark"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-alpineTeal/30"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-alpineTeal/65"></span>
+                <span class="w-2.5 h-2.5 rounded-xs bg-alpineTeal"></span>
                 <span>More</span>
               </div>
             </div>
@@ -2502,13 +2752,13 @@
             <div class="grid grid-cols-7 gap-2">
               ${heatmapDays.map(day => {
                 let bgClass = 'bg-bgBase text-mutedGrey border-borderSubtle/60';
-                if (day.sessionCount === 1 && day.unitVol < 15) bgClass = 'bg-sage/30 text-charcoal border-sage/40';
-                else if (day.sessionCount >= 1 && day.unitVol < 30) bgClass = 'bg-sage/65 text-charcoal border-sage';
-                else if (day.unitVol >= 30 || day.sessionCount >= 3) bgClass = 'bg-sageDark text-white border-sageDark';
+                if (day.sessionCount === 1 && day.unitVol < 15) bgClass = 'bg-alpineTeal/25 text-charcoal border-alpineTeal/35';
+                else if (day.sessionCount >= 1 && day.unitVol < 30) bgClass = 'bg-alpineTeal/60 text-white border-alpineTeal/70';
+                else if (day.unitVol >= 30 || day.sessionCount >= 3) bgClass = 'bg-alpineTeal text-white border-alpineTeal';
 
                 const isSelected = day.dateStr === statsSelectedDate;
                 return `
-                  <button onclick="statsSelectedDate='${day.dateStr}'; renderCurrentView();" title="${formatReadableDate(day.dateStr)}: ${day.sessionCount} sessions" class="aspect-square rounded-lg border text-xs font-medium flex flex-col items-center justify-center transition-transform hover:scale-105 ${bgClass} ${isSelected ? 'ring-2 ring-charcoal ring-offset-1' : ''}">
+                  <button onclick="statsSelectedDate='${day.dateStr}'; renderCurrentView();" title="${formatReadableDate(day.dateStr)}: ${day.sessionCount} sessions" class="aspect-square rounded-lg border text-xs font-medium flex flex-col items-center justify-center transition-transform hover:scale-105 ${bgClass} ${isSelected ? 'ring-2 ring-terracotta ring-offset-1' : ''}">
                     <span>${day.dayNum}</span>
                   </button>
                 `;
@@ -2572,21 +2822,21 @@
             <h3 class="font-serif-editorial text-xl text-charcoal mb-4">Global Targets & Target Date</h3>
             <form onsubmit="handleSaveSettings(event)" class="space-y-4">
               <div>
-                <label class="block text-xs font-medium text-charcoal mb-1.5">Daily Page Target (for Page-based books)</label>
-                <input type="number" id="set-daily-target" min="0" step="1" value="${state.settings.dailyTarget}" placeholder="e.g. 20" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
-                <p class="text-[11px] text-mutedGrey mt-1">Set to 0 to hide the global daily page bar on the dashboard.</p>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Fallback Daily Page Target</label>
+                <input type="number" id="set-daily-target" min="0" step="1" value="${state.settings.dailyTarget}" placeholder="e.g. 20" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
+                <p class="text-[11px] text-mutedGrey mt-1">Used when no subject or global target end date is set.</p>
               </div>
               <div>
                 <label class="block text-xs font-medium text-charcoal mb-1.5">Weekly Page Target</label>
-                <input type="number" id="set-weekly-target" min="0" step="1" value="${state.settings.weeklyTarget}" placeholder="e.g. 120" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
+                <input type="number" id="set-weekly-target" min="0" step="1" value="${state.settings.weeklyTarget}" placeholder="e.g. 120" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
               </div>
               <div>
-                <label class="block text-xs font-medium text-charcoal mb-1.5">Global Examination / Goal Date (Optional)</label>
-                <input type="date" id="set-exam-date" value="${state.settings.examDate}" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-sageDark" />
-                <p class="text-[11px] text-mutedGrey mt-1">You can also set personalized deadlines per individual item or category.</p>
+                <label class="block text-xs font-medium text-charcoal mb-1.5">Global Examination / Goal End Date (Optional)</label>
+                <input type="date" id="set-exam-date" value="${state.settings.examDate}" class="w-full px-3.5 py-2.5 bg-bgBase/60 border border-borderSubtle rounded-xl text-sm text-charcoal focus:outline-none focus:border-alpineTeal" />
+                <p class="text-[11px] text-mutedGrey mt-1">Automatically calculates daily targets for any subject without its own custom deadline.</p>
               </div>
               <div class="pt-2">
-                <button type="submit" class="px-5 py-2.5 bg-charcoal hover:bg-charcoal/90 text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
+                <button type="submit" class="px-5 py-2.5 bg-charcoal hover:bg-alpineTeal text-white text-sm font-medium rounded-xl shadow-sm transition-colors cursor-pointer">
                   Save Preferences
                 </button>
               </div>
@@ -2603,7 +2853,7 @@
               <div class="space-y-3">
                 <button onclick="exportJSON()" class="w-full py-2.5 px-4 bg-bgBase hover:bg-borderSubtle/60 border border-borderSubtle text-charcoal text-sm font-medium rounded-xl flex items-center justify-between transition-colors cursor-pointer">
                   <span class="flex items-center gap-2.5">
-                    <i data-lucide="download" class="w-4 h-4 text-sageDark"></i>
+                    <i data-lucide="download" class="w-4 h-4 text-alpineTeal"></i>
                     <span>Export Full Backup (JSON)</span>
                   </span>
                   <span class="text-xs text-mutedGrey">.json</span>
@@ -2611,7 +2861,7 @@
 
                 <button onclick="exportCSV()" class="w-full py-2.5 px-4 bg-bgBase hover:bg-borderSubtle/60 border border-borderSubtle text-charcoal text-sm font-medium rounded-xl flex items-center justify-between transition-colors cursor-pointer">
                   <span class="flex items-center gap-2.5">
-                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-dustyBlue"></i>
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-terracotta"></i>
                     <span>Export Study Logs (CSV)</span>
                   </span>
                   <span class="text-xs text-mutedGrey">.csv</span>
@@ -3035,7 +3285,8 @@
           available += Number(existing.pages);
         }
       }
-      document.getElementById('log-subject-hint').textContent = `${available} ${uCfg.plural} remaining in ${st.name}`;
+      const todayHint = st.todayTarget > 0 ? ` · ${st.todayRemaining} left for today's goal` : '';
+      document.getElementById('log-subject-hint').textContent = `${available} ${uCfg.plural} remaining overall${todayHint}`;
     }
 
     function closeLogModal() {
