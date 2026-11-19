@@ -72,6 +72,47 @@
       transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+    /* Nature palette is limited to secondary views; dashboard, sidebar, and progress bars retain their original colors. */
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-bgBase"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-bgBase/60"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-bgBase/70"] {
+      background-color: #eaf2ed !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-surfaceWarm"] {
+      background-color: #edf4f7 !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-surface"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-white"] {
+      background-color: #f8fbf9 !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="text-charcoal"] {
+      color: #29483c !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="text-mutedGrey"] {
+      color: #627b70 !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="text-alpineTeal"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="text-sageDark"] {
+      color: #39745d !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-alpineTeal"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-terracotta"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="bg-charcoal"] {
+      background-color: #39745d !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="border-borderSubtle"],
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="border-borderSubtle/70"] {
+      border-color: #cadbd0 !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="hover:bg-charcoal"]:hover,
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="hover:bg-alpineTeal"]:hover,
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="hover:bg-[#DF883D]"]:hover {
+      background-color: #285b48 !important;
+    }
+    #app-content[data-view]:not([data-view="dashboard"]) [class~="focus:border-alpineTeal"]:focus {
+      border-color: #39745d !important;
+    }
+
     /* Atmospheric Mountain Hero Backdrop (Inspired by Climber aesthetic) */
     .mountain-hero {
       position: relative;
@@ -1452,6 +1493,7 @@
 
     function renderCurrentView() {
       const container = document.getElementById('app-content');
+      container.dataset.view = currentView;
       switch (currentView) {
         case 'dashboard':
           container.innerHTML = renderDashboardView();
